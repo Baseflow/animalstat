@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "791912638598",
+    "firebase_url": "https://animal-statistics.firebaseio.com",
+    "project_id": "animal-statistics",
+    "storage_bucket": "animal-statistics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791912638598:android:313915b7faf71d0f1c4907",
+        "android_client_info": {
+          "package_name": "com.baseflow.animal_stat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791912638598-br6r5h7hu7ccg7rmm3vv99m6tbnlsvvc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC82_oRngZNVTgW3Mh58LfQcIbjms866_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791912638598-br6r5h7hu7ccg7rmm3vv99m6tbnlsvvc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "791912638598-ekj8joft0o2b9068gr5car2f6u2n96n6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.baseflow.animalStat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

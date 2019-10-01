@@ -29,6 +29,11 @@ void main() {
   });
 
   group('when \'AuthenticationBloc\' is constructed', () {
+
+    test('should assert when no intance of the UserRespository is supplied', () {
+      expect(() => AuthenticationBloc(userRepository: null), throwsAssertionError);
+    });
+
     test('initialState should be `Uninitialized`', () {
       expect(authenticationBloc.initialState, Uninitialized());
     });

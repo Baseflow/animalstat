@@ -39,7 +39,7 @@ void main() {
     });
   });
 
-  group('when receiving \'AppStarted\' event', () {
+  group('when receiving an \'AppStarted\' event', () {
     test('should call \'isSignedIn\' method on UserRepository exactly once.', () {
       final event = AppStarted();
       final user = User('Mr. Example', 'test@example.com');
@@ -121,7 +121,7 @@ void main() {
     });
   });
 
-  group('when receiving \'LoggedIn\' event', () {
+  group('when receiving a \'LoggedIn\' event', () {
     test('should emit [Uninitialized, Authenticated] when logging in', () {
       final event = LoggedIn();
       final user = User('Mr. Example', 'test@example.com');
@@ -150,7 +150,7 @@ void main() {
     });
   });
 
-  group('when receiving \'LoggedOut\' event', () {
+  group('when receiving a \'LoggedOut\' event', () {
     test('should emit [Uninitialized, Unauthenticated].', () {
       final event = LoggedOut();
       final expected = [

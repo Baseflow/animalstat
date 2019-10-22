@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:animal_stat/app/user/user_repository.dart';
-import 'package:animal_stat/common/validators.dart';
+import 'package:animal_stat/src/utilities/utilities.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
@@ -8,12 +8,16 @@ import 'package:rxdart/rxdart.dart';
 import './bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  UserRepository _userRepository;
+  final UserRepository _userRepository;
+  final Validators _validators;
 
   LoginBloc({
     @required UserRepository userRepository,
+    @required Validators validators,
   })  : assert(userRepository != null),
-        _userRepository = userRepository;
+        assert(validators != null),
+        _userRepository = userRepository,
+        _validators = validators;
 
   @override
   LoginState get initialState => LoginState.empty();
@@ -50,13 +54,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Stream<LoginState> _mapEmailChangedToState(String email) async* {
     yield currentState.update(
-      isEmailValid: Validators.isValidEmail(email),
+      isEmailValid: _validators.isValidEmail(email),
     );
   }
 
   Stream<LoginState> _mapPasswordChangedToState(String password) async* {
     yield currentState.update(
-      isPasswordValid: Validators.isValidPassword(password),
+      isPasswordValid: _validators.isValidPassword(password),
     );
   }
 

@@ -2,7 +2,9 @@ import 'package:animal_stat/app/login/login_screen.dart';
 import 'package:animal_stat/app/search_animal/search_animal_screen.dart';
 import 'package:animal_stat/app/splash/splash_screen.dart';
 import 'package:animal_stat/src/bloc_providers.dart';
+import 'package:animal_stat/src/providers/multi_utility_provider.dart';
 import 'package:animal_stat/src/repository_providers.dart';
+import 'package:animal_stat/src/utility_providers.dart';
 import 'package:bloc/bloc.dart';
 import 'package:animal_stat/app/authentication/bloc/bloc.dart';
 import 'package:animal_stat/app/user/user_repository.dart';
@@ -25,11 +27,14 @@ void main() {
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
 
   runApp(
-    MultiRepositoryProvider(
-      providers: RepositoryProviders.providers,
-      child: MultiBlocProvider(
-        providers: BlocProviders.providers,
-        child: App(),
+    MultiUtilityProvider(
+      providers: UtilityProviders.providers,
+      child: MultiRepositoryProvider(
+        providers: RepositoryProviders.providers,
+        child: MultiBlocProvider(
+          providers: BlocProviders.providers,
+          child: App(),
+        ),
       ),
     ),
   );

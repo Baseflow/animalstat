@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 @immutable
-class LoginState {
+class LoginState extends Equatable {
   final bool isEmailValid;
   final bool isPasswordValid;
   final bool isSubmitting;
@@ -87,6 +88,9 @@ class LoginState {
       isFailure: isFailure ?? this.isFailure,
     );
   }
+
+  @override
+  List<Object> get props => [isEmailValid, isPasswordValid, isSubmitting, isSuccess, isFailure];
 
   @override
   String toString() {

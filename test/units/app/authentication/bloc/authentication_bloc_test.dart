@@ -47,7 +47,7 @@ void main() {
       expectLater(authenticationBloc.state, mayEmit(Authenticated(user.name)))
           .then((_) => verify(mockUserRepository.isSignedIn()).called(1));
 
-      authenticationBloc.dispatch(event);
+      authenticationBloc.add(event);
     });
 
     test('should emit [Uninitialized, Authenticated] if user is already logged in.', () {
@@ -63,7 +63,7 @@ void main() {
 
       expectLater(authenticationBloc.state, emitsInOrder(expected));
 
-      authenticationBloc.dispatch(event);
+      authenticationBloc.add(event);
     });
 
     test('should call \'getUser\' method on UserRepository if user is already logged in.', () {
@@ -76,7 +76,7 @@ void main() {
       expectLater(authenticationBloc.state, mayEmit(Authenticated(user.name)))
           .then((_) => verify(mockUserRepository.getUser()).called(1));
 
-      authenticationBloc.dispatch(event);
+      authenticationBloc.add(event);
     });
 
     test('should emit [Uninitialized, Unauthenticated] when user is not logged in.', () {
@@ -90,7 +90,7 @@ void main() {
 
       expectLater(authenticationBloc.state, emitsInOrder(expected));
 
-      authenticationBloc.dispatch(event);
+      authenticationBloc.add(event);
     });
 
     test('should not call \'getUser\' method on UserRepository if user is not logged in.', () {
@@ -103,7 +103,7 @@ void main() {
       expectLater(authenticationBloc.state, mayEmit(Authenticated(user.name)))
           .then((_) => verifyNever(mockUserRepository.getUser()));
 
-      authenticationBloc.dispatch(event);
+      authenticationBloc.add(event);
     });
 
     test('should emit [Uninitialized, Unauthenticated] if an exception is thrown.', () {
@@ -117,7 +117,7 @@ void main() {
       
       expectLater(authenticationBloc.state, emitsInOrder(expected));
 
-      authenticationBloc.dispatch(event);
+      authenticationBloc.add(event);
     });
   });
 
@@ -134,7 +134,7 @@ void main() {
 
       expectLater(authenticationBloc.state, emitsInOrder(expected));
 
-      authenticationBloc.dispatch(event);
+      authenticationBloc.add(event);
     });
 
     test('should call \'getUser\' method on the supplied UserRepository exactly once', () {
@@ -146,7 +146,7 @@ void main() {
       expectLater(authenticationBloc.state, mayEmit(Authenticated(user.name)))
           .then((_) => verify(mockUserRepository.getUser()).called(1));
 
-      authenticationBloc.dispatch(event);
+      authenticationBloc.add(event);
     });
   });
 
@@ -160,7 +160,7 @@ void main() {
 
       expectLater(authenticationBloc.state, emitsInOrder(expected));
 
-      authenticationBloc.dispatch(event);
+      authenticationBloc.add(event);
     });
 
     test('should call \'signOut\' method on the supplied UserRepository exactly once.', () {
@@ -169,7 +169,7 @@ void main() {
       expectLater(authenticationBloc.state, mayEmit(Unauthenticated()))
           .then((_) => verify(mockUserRepository.signOut()).called(1));
 
-      authenticationBloc.dispatch(event);
+      authenticationBloc.add(event);
     });
   });
 }

@@ -80,7 +80,7 @@ void main() {
 
       expectLater(loginBloc.state, emitsInOrder(expected));
 
-      loginBloc.dispatch(event);
+      loginBloc.add(event);
     });
 
     test('should emit an empty LoginState and updated state where isValidEmail is false.', () {
@@ -96,7 +96,7 @@ void main() {
 
       expectLater(loginBloc.state, emitsInOrder(expected));
 
-      loginBloc.dispatch(event);
+      loginBloc.add(event);
     });
   });
 
@@ -113,7 +113,7 @@ void main() {
 
       expectLater(loginBloc.state, emitsInOrder(expected));
 
-      loginBloc.dispatch(event);
+      loginBloc.add(event);
     });
 
     test('should emit an empty LoginState and updated state where isValidPassword is false.', () {
@@ -129,7 +129,7 @@ void main() {
 
       expectLater(loginBloc.state, emitsInOrder(expected));
 
-      loginBloc.dispatch(event);
+      loginBloc.add(event);
     });
   });
 
@@ -143,7 +143,7 @@ void main() {
 
       expectLater(loginBloc.state, emitsInOrder(expected));
 
-      loginBloc.dispatch(event);
+      loginBloc.add(event);
     });
 
     test('should emit \'LoginState.loading()\' state and call \'UserRepository.signInWithCredentials\' exactly once.', () {
@@ -160,7 +160,7 @@ void main() {
       expectLater(loginBloc.state, emitsInOrder(expected))
         .then((_) => verify(mockUserRepository.signInWithCredentials(email, password)).called(1));
 
-      loginBloc.dispatch(event);
+      loginBloc.add(event);
     });
 
     test('with valid credentials, should emit an [LoginState.empty(), LoginState.loading(), LoginState.success()].', () {
@@ -177,7 +177,7 @@ void main() {
 
       expectLater(loginBloc.state, emitsInOrder(expected));
 
-      loginBloc.dispatch(event);
+      loginBloc.add(event);
     });
 
     test('with invalid credentials, should emit an [LoginState.empty(), LoginState.loading(), LoginState.failure()].', () {
@@ -194,7 +194,7 @@ void main() {
 
       expectLater(loginBloc.state, emitsInOrder(expected));
 
-      loginBloc.dispatch(event);
+      loginBloc.add(event);
     });
   });
 }

@@ -20,7 +20,7 @@ class SearchAnimalScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () => BlocProvider.of<AuthenticationBloc>(context)
-                .dispatch(LoggedOut()),
+                .add(LoggedOut()),
           ),
         ],
       ),

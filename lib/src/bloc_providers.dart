@@ -12,7 +12,7 @@ class BlocProviders {
         BlocProvider<AuthenticationBloc>(
           builder: (BuildContext context) => AuthenticationBloc(
             userRepository: RepositoryProvider.of<UserRepository>(context),
-          )..dispatch(AppStarted()),
+          )..add(AppStarted()),
         ),
         BlocProvider<LoginBloc>(
           builder: (BuildContext context) => LoginBloc(

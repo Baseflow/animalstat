@@ -1,5 +1,5 @@
-import 'package:animal_stat/app/user/user_repository.dart';
-import 'package:animal_stat/models/user.dart';
+import 'package:livestock/app/user/user_repository.dart';
+import 'package:livestock/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseUserRepository implements UserRepository{

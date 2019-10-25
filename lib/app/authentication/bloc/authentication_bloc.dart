@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:animal_stat/app/user/user_repository.dart';
+import 'package:livestock/app/user/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import './bloc.dart';

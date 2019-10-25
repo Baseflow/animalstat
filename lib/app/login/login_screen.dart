@@ -1,5 +1,5 @@
-import 'package:animal_stat/app/login/bloc/login_bloc.dart';
-import 'package:animal_stat/app/user/user_repository.dart';
+import 'package:livestock/app/login/bloc/login_bloc.dart';
+import 'package:livestock/app/user/user_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 

@@ -1,8 +1,8 @@
-import 'package:animal_stat/app/login/bloc/bloc.dart';
-import 'package:animal_stat/app/login/bloc/login_event.dart';
-import 'package:animal_stat/app/login/bloc/login_state.dart';
-import 'package:animal_stat/app/user/user_repository.dart';
-import 'package:animal_stat/src/utilities/validators.dart';
+import 'package:livestock/app/login/bloc/bloc.dart';
+import 'package:livestock/app/login/bloc/login_event.dart';
+import 'package:livestock/app/login/bloc/login_state.dart';
+import 'package:livestock/app/user/user_repository.dart';
+import 'package:livestock/src/utilities/validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

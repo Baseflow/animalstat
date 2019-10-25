@@ -1,6 +1,6 @@
-import 'package:animal_stat/app/authentication/bloc/bloc.dart';
-import 'package:animal_stat/app/user/user_repository.dart';
-import 'package:animal_stat/models/user.dart';
+import 'package:livestock/app/authentication/bloc/bloc.dart';
+import 'package:livestock/app/user/user_repository.dart';
+import 'package:livestock/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

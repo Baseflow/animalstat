@@ -1,9 +1,9 @@
-import 'package:animal_stat/app/authentication/bloc/bloc.dart';
-import 'package:animal_stat/app/login/bloc/bloc.dart';
-import 'package:animal_stat/app/login/bloc/login_bloc.dart';
-import 'package:animal_stat/app/user/user_repository.dart';
-import 'package:animal_stat/src/providers/utility_provider.dart';
-import 'package:animal_stat/src/utilities/utilities.dart';
+import 'package:livestock/app/authentication/bloc/bloc.dart';
+import 'package:livestock/app/login/bloc/bloc.dart';
+import 'package:livestock/app/login/bloc/login_bloc.dart';
+import 'package:livestock/app/user/user_repository.dart';
+import 'package:livestock/src/providers/utility_provider.dart';
+import 'package:livestock/src/utilities/utilities.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

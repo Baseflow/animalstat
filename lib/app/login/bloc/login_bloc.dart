@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:animal_stat/app/user/user_repository.dart';
-import 'package:animal_stat/src/utilities/utilities.dart';
+import 'package:livestock/app/user/user_repository.dart';
+import 'package:livestock/src/utilities/utilities.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';

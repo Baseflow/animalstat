@@ -1,4 +1,4 @@
-import 'package:animal_stat/src/providers/utility_provider.dart';
+import 'package:livestock/src/providers/utility_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 

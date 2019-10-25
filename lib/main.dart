@@ -1,6 +1,8 @@
+import 'package:flutter/services.dart';
 import 'package:livestock/app/login/login_screen.dart';
-import 'package:livestock/app/search_animal/search_animal_screen.dart';
+import 'package:livestock/app/home/home_screen.dart';
 import 'package:livestock/app/splash/splash_screen.dart';
+import 'package:livestock/common/theming.dart';
 import 'package:livestock/src/bloc_providers.dart';
 import 'package:livestock/src/providers/multi_utility_provider.dart';
 import 'package:livestock/src/repository_providers.dart';
@@ -47,8 +49,12 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,
-        disabledColor: Colors.green[200],
-        primarySwatch: Colors.green,
+        primaryColor: kPrimaryColor,
+        accentColor: kAccentColor,
+        primaryTextTheme: TextTheme(title: TextStyle(color: Colors.white)),
+        primaryIconTheme: const IconThemeData.fallback().copyWith(
+          color: Colors.white,
+        ),
       ),
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (BuildContext context, AuthenticationState state) {

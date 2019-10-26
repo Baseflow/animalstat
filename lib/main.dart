@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:livestock/app/login/login_screen.dart';
 import 'package:livestock/app/home/home_screen.dart';
 import 'package:livestock/app/splash/splash_screen.dart';
-import 'package:livestock/common/theming.dart';
+import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/bloc_providers.dart';
 import 'package:livestock/src/providers/multi_utility_provider.dart';
 import 'package:livestock/src/repository_providers.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:livestock/src/ui/theming.dart';
 
 class PrimaryButton extends StatelessWidget {
   final Icon _icon;
@@ -17,7 +18,6 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).primaryColor;
     final label = Text(
       _text.toUpperCase(),
       style: Theme.of(context).textTheme.button.copyWith(color: Colors.white),
@@ -27,18 +27,23 @@ class PrimaryButton extends StatelessWidget {
     );
 
 
-    return (_icon != null)
+    final button = (_icon != null)
         ? RaisedButton.icon(
             icon: _icon,
             shape: shape,
             onPressed: _onPressed,
             label: label,
-            color: color)
+            color: kPrimaryColor)
         : RaisedButton(
             shape: shape,
             onPressed: _onPressed,
             child: label,
-            color: color,
+            color: kPrimaryColor,
           );
+    
+    return SizedBox(
+      child: button,
+      height: 52,
+    );
   }
 }

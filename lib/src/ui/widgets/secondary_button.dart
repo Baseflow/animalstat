@@ -29,7 +29,7 @@ class SecondaryButton extends StatelessWidget {
     );
 
 
-    return (_icon != null)
+    final button = (_icon != null)
         ? OutlineButton.icon(
             borderSide: borderSide,
             icon: _icon,
@@ -44,5 +44,10 @@ class SecondaryButton extends StatelessWidget {
             child: label,
             color: color,
           );
+  
+    return SizedBox(
+      child: button,
+      height: 52,
+    );
   }
 }

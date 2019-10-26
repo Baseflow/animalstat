@@ -1,6 +1,4 @@
-import 'package:livestock/app/login/bloc/login_bloc.dart';
 import 'package:livestock/app/user/user_repository.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'login_form.dart';
@@ -19,6 +17,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        brightness: Brightness.dark,
         title: Text('Login'),
       ),
       body: LoginForm(

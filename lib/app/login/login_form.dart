@@ -1,5 +1,6 @@
-import 'package:livestock/common/widgets/primary_button.dart';
-import 'package:livestock/common/widgets/secondary_button.dart';
+import 'package:livestock/src/ui/widgets/livestock_text_form_field.dart';
+import 'package:livestock/src/ui/widgets/primary_button.dart';
+import 'package:livestock/src/ui/widgets/secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livestock/app/user/user_repository.dart';
@@ -90,30 +91,29 @@ class _LoginFormState extends State<LoginForm> {
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: FlutterLogo(size: 200),
                   ),
-                  TextFormField(
+                  LivestockTextFormField(
                     controller: _emailController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      labelText: 'Email',
-                    ),
+                    prefixIcon: Icon(Icons.email),
+                    labelText: 'Email',
                     autovalidate: true,
                     autocorrect: false,
                     validator: (_) {
                       return !state.isEmailValid ? 'Invalid Email' : null;
                     },
                   ),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: LivestockTextFormField(
+                      controller: _passwordController,
+                      prefixIcon: Icon(Icons.lock),
                       labelText: 'Password',
+                      obscureText: true,
+                      autovalidate: true,
+                      autocorrect: false,
+                      validator: (_) {
+                        return !state.isPasswordValid ? 'Invalid Password' : null;
+                      },
                     ),
-                    obscureText: true,
-                    autovalidate: true,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
-                    },
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
@@ -125,9 +125,12 @@ class _LoginFormState extends State<LoginForm> {
                                 ? _onFormSubmitted
                                 : null,
                             text: 'Login'),
-                        SecondaryButton(
-                          onPressed: () {},
-                          text: 'Forgot password',
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: SecondaryButton(
+                            onPressed: () {},
+                            text: 'Forgot password',
+                          ),
                         ),
                       ],
                     ),

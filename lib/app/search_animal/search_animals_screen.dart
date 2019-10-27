@@ -4,6 +4,7 @@ import 'package:livestock/app/search_animal/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/search_animal_state.dart';
 import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_search_text_field.dart';
+import 'package:animal_repository/animal_repository.dart';
 
 import 'bloc/search_animal_bloc.dart';
 
@@ -35,17 +36,63 @@ class SearchAnimalScreen extends StatelessWidget {
       ),
       body: BlocBuilder(
         bloc: bloc,
-        builder: (BuildContext context, SearchAnimalState state)
-        {
+        builder: (BuildContext context, SearchAnimalState state) {
           if (state is ResultsUpdatedState) {
             return ListView.builder(
-              itemBuilder: (context, index) => Text(state.searchResults[index].animalNumber.toString()),
-              itemCount: state.searchResults.length,);
+              itemBuilder: (context, index) =>
+                  _buildResultRow(context, state.searchResults[index]),
+              itemCount: state.searchResults.length,
+            );
           }
 
           return Container();
         },
       ),
+    );
+  }
+
+  Widget _buildResultRow(
+      BuildContext context, AnimalSearchResult searchResult) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 20.0,
+            top: 10.0,
+            right: 15.0,
+            bottom: 10.0,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(7.0)),
+                    color: kAnimalNumberBackgroundColor,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10.0,
+                      right: 10.0,
+                      top: 5.0,
+                      bottom: 5.0,
+                    ),
+                    child: Text(
+                      searchResult.animalNumber.toString(),
+                      style: TextStyle(
+                        color: kWhite,
+                        fontSize: 22.0,
+                        fontFamily: 'Courier'
+                      ),
+                    ),
+                  )),
+            ],
+          ),
+        ),
+        Divider(),
+      ],
     );
   }
 }

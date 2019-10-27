@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:livestock/src/ui/decoration_factory.dart';
 import 'package:livestock/src/ui/theming.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class LivestockSearchTextField extends StatelessWidget {
     this.obscureText = false,
     this.onChanged,
     this.prefixIcon,
+    this.style,
     this.textInputAction,
   });
 
@@ -53,6 +55,8 @@ class LivestockSearchTextField extends StatelessWidget {
 
   /// Called when the user initiates a change to the TextField's value: when they have inserted or deleted text.
   final ValueChanged<String> onChanged;
+
+  final TextStyle style;
 
   /// An icon that appears before the prefix or prefixText and before the editable part of the text field, within the decoration's container.
   final Widget prefixIcon;
@@ -92,6 +96,11 @@ class LivestockSearchTextField extends StatelessWidget {
         maxLengthEnforced: maxLengthEnforced,
         obscureText: obscureText,
         onChanged: onChanged,
+        style: style ?? TextStyle(
+          color: kWhite,
+          fontFamily: 'Courier',
+          fontSize: 27.0,
+        ),
         textInputAction: textInputAction,
       ),
     );

@@ -1,5 +1,4 @@
-import 'package:livestock/app/user/user_repository.dart';
-import 'package:livestock/models/user.dart';
+import 'package:user_repository/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseUserRepository implements UserRepository{

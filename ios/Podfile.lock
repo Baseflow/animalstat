@@ -165,7 +165,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
-  cloud_firestore: 0ac494d23db743f104b95d3291946afec187b74c
+  cloud_firestore: c9493dd01ad88934d926e18cc5a92a0129bf2c32
   Crashlytics: 5aa8e90dcbf2f34898b4f5a0037787531246cca0
   Fabric: f6f21452846788bb44595d73e9909d79d328e617
   Firebase: 5965bac23e7fcb5fa6d926ed429c9ecef8a2014e

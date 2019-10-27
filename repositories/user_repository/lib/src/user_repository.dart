@@ -1,4 +1,4 @@
-import 'package:livestock/models/user.dart';
+import 'package:user_repository/user_repository.dart';
 
 abstract class UserRepository {
   Future<void> signInWithCredentials(String email, String password);

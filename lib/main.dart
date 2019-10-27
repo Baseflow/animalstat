@@ -7,9 +7,9 @@ import 'package:livestock/src/bloc_providers.dart';
 import 'package:livestock/src/providers/multi_utility_provider.dart';
 import 'package:livestock/src/repository_providers.dart';
 import 'package:livestock/src/utility_providers.dart';
-import 'package:bloc/bloc.dart';
 import 'package:livestock/app/authentication/bloc/bloc.dart';
-import 'package:livestock/app/user/user_repository.dart';
+import 'package:user_repository/user_repository.dart';
+import 'package:bloc/bloc.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,7 +69,7 @@ class App extends StatelessWidget {
         }
 
         if (state is Authenticated) {
-          return SearchAnimalScreen(
+          return HomeScreen(
             name: state.displayName,
           );
         }

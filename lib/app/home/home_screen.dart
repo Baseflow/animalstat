@@ -1,14 +1,13 @@
+import 'package:livestock/app/search_animal/search_animals_screen.dart';
 import 'package:livestock/app/authentication/bloc/authentication_bloc.dart';
 import 'package:livestock/app/authentication/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:livestock/src/ui/theming.dart';
-import 'package:livestock/src/ui/widgets/livestock_text_field.dart';
 
-class SearchAnimalScreen extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   final String name;
 
-  SearchAnimalScreen({
+  HomeScreen({
     Key key,
     @required this.name,
   }) : super(key: key);
@@ -16,7 +15,21 @@ class SearchAnimalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: _buildAppBar(context),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Center(
+            child: Text('Welcome $name'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAppBar(BuildContext context)
+  {
+    return AppBar(
         brightness: Brightness.dark,
         elevation: 0.0,
         titleSpacing: 0.0,
@@ -47,17 +60,13 @@ class SearchAnimalScreen extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.add), onPressed: () {}),
-          IconButton(icon: Icon(Icons.search), onPressed: () {}),
+          IconButton(icon: Icon(Icons.search), onPressed: () {
+            Navigator.of(context).push(PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (BuildContext context, _, __) =>
+                  SearchAnimalScreen()));
+          }),
         ],
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Center(
-            child: Text('Welcome $name'),
-          ),
-        ],
-      ),
-    );
+      );
   }
 }

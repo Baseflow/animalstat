@@ -15,7 +15,14 @@ class SearchAnimalScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
         brightness: Brightness.dark,
+        leading: Container(),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(79.0),
           child: Center(
@@ -68,26 +75,30 @@ class SearchAnimalScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(7.0)),
-                    color: kAnimalNumberBackgroundColor,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(7.0)),
+                  color: kAnimalNumberBackgroundColor,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10.0,
+                    right: 10.0,
+                    top: 5.0,
+                    bottom: 5.0,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 10.0,
-                      right: 10.0,
-                      top: 5.0,
-                      bottom: 5.0,
-                    ),
-                    child: Text(
-                      searchResult.animalNumber.toString(),
-                      style: TextStyle(
-                        color: kWhite,
-                        fontSize: 22.0,
-                        fontFamily: 'Courier'
-                      ),
-                    ),
-                  )),
+                  child: Text(
+                    searchResult.animalNumber.toString(),
+                    style: TextStyle(
+                        color: kWhite, fontSize: 22.0, fontFamily: 'Courier'),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(),
+              ),
+              Icon(
+                Icons.chevron_right,
+              )
             ],
           ),
         ),

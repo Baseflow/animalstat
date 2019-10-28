@@ -71,3 +71,7 @@
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+# Make sure Google Service configuration is not committed to source control
+**/ios/**/GoogleService-Info.plist
+**/android/**/google-services.json

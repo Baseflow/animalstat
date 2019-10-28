@@ -8,24 +8,24 @@ import 'package:equatable/equatable.dart';
 class AnimalSearchResultEntity extends Equatable {
   final int animalNumber;
   final DateTime dateOfBirth;
-  final int cage;
+  final int currentCageNumber;
 
-  const AnimalSearchResultEntity(this.animalNumber, this.dateOfBirth, this.cage,);
+  const AnimalSearchResultEntity(this.animalNumber, this.dateOfBirth, this.currentCageNumber,);
 
   Map<String, Object> toJson() {
     return {
       "animal_number": animalNumber,
       "date_of_birth": dateOfBirth.toIso8601String(),
-      "cage": cage,
+      "current_cage_number": currentCageNumber,
     };
   }
 
   @override
-  List<Object> get props => [animalNumber, dateOfBirth, cage];
+  List<Object> get props => [animalNumber, dateOfBirth, currentCageNumber];
 
   @override
   String toString() {
-    return 'AnimalSearchResultEntity { animalNumber: $animalNumber, dateOfBirth: $dateOfBirth, cage: $cage }';
+    return 'AnimalSearchResultEntity { animalNumber: $animalNumber, dateOfBirth: $dateOfBirth, currentCageNumber: $currentCageNumber }';
   }
 
   static AnimalSearchResultEntity fromJson(Map<String, Object> json) {
@@ -34,7 +34,7 @@ class AnimalSearchResultEntity extends Equatable {
     return AnimalSearchResultEntity(
       json["animal_number"] as int,
       dateOfBirth,
-      json["cage"] as int,
+      json["current_cage_number"] as int,
     );
   }
 
@@ -45,7 +45,7 @@ class AnimalSearchResultEntity extends Equatable {
     return AnimalSearchResultEntity(
       animalNumber,
       dateOfBirth.toDate(),
-      snap.data['cage'],
+      snap.data['current_cage_number'],
     );
   }
 }

@@ -23,7 +23,7 @@ dependencies:
   pedantic: ^1.8.0
   meta: ^1.1.7
   flutter_bloc: ^1.0.0
-  equatable: ^0.6.0
+  equatable: ^0.6.1
   font_awesome_flutter: ^8.5.0
   
   # Add dependencies to repository packages

@@ -5,13 +5,13 @@ import '../entities/entities.dart';
 class AnimalSearchResult {
   final int animalNumber;
   final DateTime dateOfBirth;
-  final int cage;
+  final int currentCageNumber;
 
-  AnimalSearchResult(this.animalNumber, this.dateOfBirth, this.cage);
+  AnimalSearchResult(this.animalNumber, this.dateOfBirth, this.currentCageNumber);
 
   @override
   int get hashCode =>
-      animalNumber.hashCode ^ dateOfBirth.hashCode ^ cage.hashCode;
+      animalNumber.hashCode ^ dateOfBirth.hashCode ^ currentCageNumber.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -20,22 +20,22 @@ class AnimalSearchResult {
           runtimeType == other.runtimeType &&
           animalNumber == other.animalNumber &&
           dateOfBirth == other.dateOfBirth &&
-          cage == other.cage;
+          currentCageNumber == other.currentCageNumber;
 
   @override
   String toString() {
-    return 'AnimalSearchResult{animalNumber: $animalNumber, dateOfBirth: $dateOfBirth, cage: $cage}';
+    return 'AnimalSearchResult{animalNumber: $animalNumber, dateOfBirth: $dateOfBirth, currentCageNumber: $currentCageNumber}';
   }
 
   AnimalSearchResultEntity toEntity() {
-    return AnimalSearchResultEntity(animalNumber, dateOfBirth, cage);
+    return AnimalSearchResultEntity(animalNumber, dateOfBirth, currentCageNumber);
   }
 
   static AnimalSearchResult fromEntity(AnimalSearchResultEntity entity) {
     return AnimalSearchResult(
       entity.animalNumber,
       entity.dateOfBirth,
-      entity.cage,
+      entity.currentCageNumber,
     );
   }
 }

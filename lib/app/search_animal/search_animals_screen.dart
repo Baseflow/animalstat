@@ -6,19 +6,19 @@ import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_search_text_field.dart';
 import 'package:animal_repository/animal_repository.dart';
 
-import 'bloc/search_animal_bloc.dart';
-
 class SearchAnimalScreen extends StatelessWidget {
+ 
   @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<SearchAnimalBloc>(context);
-
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.close),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () { 
+              Navigator.pop(context); 
+              BlocProvider.of<SearchAnimalBloc>(context).add(QueryChanged(query: ''));
+            },
           ),
         ],
         brightness: Brightness.dark,
@@ -31,7 +31,7 @@ class SearchAnimalScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(9.0),
                 child: LivestockSearchTextField(
-                  onChanged: (value) => bloc.add(QueryChanged(query: value)),
+                  onChanged: (value) => BlocProvider.of<SearchAnimalBloc>(context).add(QueryChanged(query: value)),
                 ),
               ),
             ),
@@ -41,8 +41,7 @@ class SearchAnimalScreen extends StatelessWidget {
         titleSpacing: 0.0,
         title: Text('Livestock'),
       ),
-      body: BlocBuilder(
-        bloc: bloc,
+      body: BlocBuilder<SearchAnimalBloc, SearchAnimalState>(
         builder: (BuildContext context, SearchAnimalState state) {
           if (state is ResultsUpdatedState) {
             return ListView.builder(

@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  	match /diagnoses/{diagnosis} {
+    	allow read: if request.auth != null;
+      allow write: if false;
+    }
+    match /treatments/{treatment} {
+    	allow read: if request.auth != null;
+      allow write: if false;
+    }
+    match /animals/{animal_id} {
+      function isValidAnimal(data) {
+        return data.animal_number != null && data.animal_number is number
+        			 && data.created_on != null && data.created_on is timestamp
+							 && data.created_by != null && data.created_by is string
+               && data.date_of_birth != null && data.date_of_birth is timestamp
+               && data.current_cage_number != null && data.current_cage_number is number;       
+      }
+    
+      allow read: if request.auth != null; 
+      allow delete: if request.auth != null;
+      allow create, update: if request.auth != null
+      	&& isValidAnimal(request.resource.data);
+    }
+    
+    match /animals/{animal_id}/history/{recorded_on} {
+    	function isValidRecord(data) {
+      	return data.cage != null && data.cage is number
+               && data.seen_on != null && data.seen_on is timestamp
+               && data.seen_by != null && data.seen_by is string
+      }
+      
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null
+      	&& isValidRecord(request.resource.data);
+    }
+  }
+}

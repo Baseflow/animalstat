@@ -1,8 +1,22 @@
+import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+admin.initializeApp(functions.config().firebase);
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+import * as atomicFunctions from './atomic-operations/index';
+import {REGION} from './constants';
+
+export const firestoreInstance = admin.firestore();
+
+export const updateCurrentDiagnosis = functions
+    .region(REGION)
+    .firestore
+    .document('animals/{animalId}/history/{timestamp}')
+    .onWrite((change, context) => {
+        const animalId : string = context.params.animalId;
+        const newValue = change.after.data();
+        
+        if(!newValue) return;
+
+        const diagnosis = newValue.diagnosis;
+        return atomicFunctions.updateCurrentDiagnosis(animalId, diagnosis);
+    });

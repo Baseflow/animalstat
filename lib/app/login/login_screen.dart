@@ -1,4 +1,4 @@
-import 'package:livestock/app/user/user_repository.dart';
+import 'package:user_repository/user_repository.dart';
 import 'package:flutter/material.dart';
 
 import 'login_form.dart';

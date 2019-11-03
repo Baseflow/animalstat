@@ -1,6 +1,5 @@
 import 'package:livestock/app/authentication/bloc/bloc.dart';
-import 'package:livestock/app/user/user_repository.dart';
-import 'package:livestock/models/user.dart';
+import 'package:user_repository/user_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -23,6 +22,10 @@ void main() {
     clearInteractions(mockUserRepository);
 
     reset(mockUserRepository);
+
+    if(authenticationBloc != null) {
+      authenticationBloc.close();
+    }
 
     mockUserRepository = null;
     authenticationBloc = null;

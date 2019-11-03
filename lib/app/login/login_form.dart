@@ -1,11 +1,11 @@
 import 'package:livestock/src/ui/widgets/livestock_text_form_field.dart';
 import 'package:livestock/src/ui/widgets/primary_button.dart';
 import 'package:livestock/src/ui/widgets/secondary_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:livestock/app/user/user_repository.dart';
 import 'package:livestock/app/authentication/bloc/bloc.dart';
 import 'package:livestock/app/login/bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 class LoginForm extends StatefulWidget {
   final UserRepository _userRepository;

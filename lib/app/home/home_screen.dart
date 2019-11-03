@@ -1,3 +1,5 @@
+import 'package:animal_repository/animal_repository.dart';
+import 'package:livestock/app/search_animal/bloc/search_animal_bloc.dart';
 import 'package:livestock/app/search_animal/search_animals_screen.dart';
 import 'package:livestock/app/authentication/bloc/authentication_bloc.dart';
 import 'package:livestock/app/authentication/bloc/bloc.dart';
@@ -27,46 +29,54 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBar(BuildContext context)
-  {
+  Widget _buildAppBar(BuildContext context) {
     return AppBar(
-        brightness: Brightness.dark,
-        elevation: 0.0,
-        titleSpacing: 0.0,
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                FlatButton(
-                  child: Text(
-                    'Uitloggen',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+      brightness: Brightness.dark,
+      elevation: 0.0,
+      titleSpacing: 0.0,
+      title: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              FlatButton(
+                child: Text(
+                  'Uitloggen',
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
-                  onPressed: () => BlocProvider.of<AuthenticationBloc>(context)
-                      .add(LoggedOut()),
                 ),
-              ],
-            ),
-            Expanded(
-              child: Center(
-                child: Text('Livestock'),
+                onPressed: () => BlocProvider.of<AuthenticationBloc>(context)
+                    .add(LoggedOut()),
               ),
+            ],
+          ),
+          Expanded(
+            child: Center(
+              child: Text('Livestock'),
             ),
-          ],
-        ),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.add), onPressed: () {}),
-          IconButton(icon: Icon(Icons.search), onPressed: () {
-            Navigator.of(context).push(PageRouteBuilder(
-              opaque: false,
-              pageBuilder: (BuildContext context, _, __) =>
-                  SearchAnimalScreen()));
-          }),
+          ),
         ],
-      );
+      ),
+      actions: <Widget>[
+        IconButton(icon: Icon(Icons.add), onPressed: () {}),
+        IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => BlocProvider<SearchAnimalBloc>(
+                    builder: (context) => SearchAnimalBloc(
+                      animalRepository:
+                          RepositoryProvider.of<AnimalRepository>(context),
+                    ),
+                    child: SearchAnimalScreen(),
+                  ),
+                ),
+              );
+            }),
+      ],
+    );
   }
 }

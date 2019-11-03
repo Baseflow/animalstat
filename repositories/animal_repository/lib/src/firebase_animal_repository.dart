@@ -10,7 +10,7 @@ class FirebaseAnimalRepository implements AnimalRepository {
 
   @override
   Stream<List<AnimalSearchResult>> searchAnimals(int animalNumber) {
-    if(animalNumber == null) {
+    if (animalNumber == null) {
       return Stream.empty();
     }
 
@@ -24,8 +24,7 @@ class FirebaseAnimalRepository implements AnimalRepository {
         .where('animal_number', isLessThan: end)
         .snapshots()
         .map((snap) => snap.documents
-            .map((doc) => AnimalSearchResult.fromEntity(
-                AnimalSearchResultEntity.fromSnapshot(doc)))
+            .map((doc) => AnimalSearchResultEntity.fromSnapshot(doc).toModel())
             .toList());
   }
 }

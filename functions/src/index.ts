@@ -17,6 +17,6 @@ export const updateCurrentDiagnosis = functions
         
         if(!newValue) return;
 
-        const diagnosis = newValue.diagnosis;
-        return atomicFunctions.updateCurrentDiagnosis(animalId, diagnosis);
+        const healthStatus = newValue.health_status;
+        return atomicFunctions.updateCurrentDiagnosis(animalId, healthStatus);
     });

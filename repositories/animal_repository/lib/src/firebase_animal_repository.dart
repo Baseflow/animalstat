@@ -27,4 +27,16 @@ class FirebaseAnimalRepository implements AnimalRepository {
             .map((doc) => AnimalSearchResultEntity.fromSnapshot(doc).toModel())
             .toList());
   }
+
+  @override
+  Future<Animal> loadAnimalByNumber(int animalNumber) {
+    if (animalNumber == null) {
+      throw ArgumentError.notNull('animalNumber');
+    }
+
+    return _animalCollection
+        .document(animalNumber.toString())
+        .get()
+        .then((doc) => AnimalEntity.fromSnapshot(doc).toModel());
+  }
 }

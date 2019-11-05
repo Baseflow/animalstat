@@ -5,6 +5,7 @@ import 'package:livestock/app/animal/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/search_animal_state.dart';
 import 'package:livestock/src/ui/theming.dart';
+import 'package:livestock/src/ui/widgets/livestock_appbar_bottom.dart';
 import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
 import 'package:livestock/src/ui/widgets/livestock_number_box.dart';
 import 'package:livestock/src/ui/widgets/livestock_search_text_field.dart';
@@ -27,22 +28,7 @@ class SearchAnimalScreen extends StatelessWidget {
         ],
         brightness: Brightness.dark,
         leading: Container(),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(79.0),
-          child: Center(
-            child: Container(
-              color: kAccentColor,
-              child: Padding(
-                padding: const EdgeInsets.all(9.0),
-                child: LivestockSearchTextField(
-                  onChanged: (value) =>
-                      BlocProvider.of<SearchAnimalBloc>(context)
-                          .add(QueryChanged(query: value)),
-                ),
-              ),
-            ),
-          ),
-        ),
+        bottom: _buildAppBarBottom(context),
         elevation: 0.0,
         titleSpacing: 0.0,
         title: Text('Livestock'),
@@ -56,13 +42,25 @@ class SearchAnimalScreen extends StatelessWidget {
               itemCount: state.searchResults.length,
             );
           } else if (state is NotFound) {
-            return _buildMessage(context,
-                'Geen resultaten gevonden.');
+            return _buildMessage(context, 'Geen resultaten gevonden.');
           }
 
           return _buildMessage(
               context, 'Vul een diernummer in om een dier te zoeken.');
         },
+      ),
+    );
+  }
+
+  Widget _buildAppBarBottom(BuildContext context) {
+    return LivestockAppBarBottom(
+      child: Padding(
+        padding: const EdgeInsets.all(9.0),
+        child: LivestockSearchTextField(
+          keyboardType: TextInputType.number,
+          onChanged: (value) => BlocProvider.of<SearchAnimalBloc>(context)
+              .add(QueryChanged(query: value)),
+        ),
       ),
     );
   }
@@ -92,8 +90,10 @@ class SearchAnimalScreen extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => BlocProvider<AnimalBloc>(
-            builder: (_) => AnimalBloc()
-              ..add(AnimalSelected(animalId: searchResult.animalNumber)),
+            builder: (_) => AnimalBloc(
+                animalRepository:
+                    RepositoryProvider.of<AnimalRepository>(context))
+              ..add(SelectAnimal(animalId: searchResult.animalNumber)),
             child: AnimalDetailsScreen(),
           ),
         ));

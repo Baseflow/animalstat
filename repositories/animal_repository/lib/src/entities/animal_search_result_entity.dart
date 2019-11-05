@@ -3,7 +3,6 @@
 // in the LICENSE file.
 
 import 'package:animal_repository/animal_repository.dart';
-import 'package:animal_repository/src/models/animal_health_states.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 

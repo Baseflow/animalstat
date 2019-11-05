@@ -5,6 +5,7 @@ import 'package:livestock/app/authentication/bloc/authentication_bloc.dart';
 import 'package:livestock/app/authentication/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:livestock/src/ui/widgets/livestock_appbar_bottom.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -79,6 +80,13 @@ class HomeScreen extends StatelessWidget {
               );
             }),
       ],
+      bottom: _buildAppBarBottom(),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBarBottom() {
+    return LivestockAppBarBottom(
+      child: Container(),
     );
   }
 }

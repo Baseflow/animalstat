@@ -1,6 +1,5 @@
 import 'package:animal_repository/src/models/animal_health_states.dart';
 import 'package:meta/meta.dart';
-import '../entities/entities.dart';
 
 @immutable
 class AnimalSearchResult {

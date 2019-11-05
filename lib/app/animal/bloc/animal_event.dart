@@ -5,10 +5,10 @@ abstract class AnimalEvent extends Equatable {
   const AnimalEvent();
 }
 
-class AnimalSelected extends AnimalEvent {
+class SelectAnimal extends AnimalEvent {
   final int animalId;
 
-  const AnimalSelected({@required this.animalId});
+  const SelectAnimal({@required this.animalId});
 
   @override
   List<Object> get props => [animalId];

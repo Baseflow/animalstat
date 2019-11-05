@@ -25,7 +25,8 @@ dependencies:
   flutter_bloc: ^1.0.0
   equatable: ^0.6.1
   font_awesome_flutter: ^8.5.0
-  
+  intl: ^0.16.0
+
   # Add dependencies to repository packages
   animal_repository:
     path: repositories/animal_repository

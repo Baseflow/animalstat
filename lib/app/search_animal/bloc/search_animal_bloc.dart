@@ -51,8 +51,8 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
   }
 
   @override
-  void close() {
+  Future<void> close() {
     _animalSearchResultSubscription?.cancel();
-    super.close();
+    return super.close();
   }
 }

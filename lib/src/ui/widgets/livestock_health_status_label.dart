@@ -31,7 +31,7 @@ class LivestockHealthStatusLabel extends StatelessWidget {
           EnumConverters.toDisplayValue(healthStatus),
           style: TextStyle(
             color: EnumConverters.toTextColor(healthStatus),
-            fontSize: 16.0,
+            fontSize: 15.0,
             fontWeight: FontWeight.bold
           ),
         ),

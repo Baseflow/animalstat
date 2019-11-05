@@ -49,6 +49,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,
+        fontFamily: 'SF Pro Text',
         primaryColor: kPrimaryColor,
         accentColor: kAccentColor,
         primaryTextTheme: TextTheme(title: TextStyle(color: Colors.white)),
@@ -69,9 +70,7 @@ class App extends StatelessWidget {
         }
 
         if (state is Authenticated) {
-          return HomeScreen(
-            name: state.displayName,
-          );
+          return HomeScreen();
         }
 
         return Container();

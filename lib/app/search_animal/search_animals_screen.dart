@@ -49,16 +49,38 @@ class SearchAnimalScreen extends StatelessWidget {
       ),
       body: BlocBuilder<SearchAnimalBloc, SearchAnimalState>(
         builder: (BuildContext context, SearchAnimalState state) {
-          if (state is ResultsUpdatedState) {
+          if (state is ResultsUpdated) {
             return ListView.builder(
               itemBuilder: (context, index) =>
                   _buildResultRow(context, state.searchResults[index]),
               itemCount: state.searchResults.length,
             );
+          } else if (state is NotFound) {
+            return _buildMessage(context,
+                'Geen resultaten gevonden.');
           }
 
-          return Container();
+          return _buildMessage(
+              context, 'Vul een diernummer in om een dier te zoeken.');
         },
+      ),
+    );
+  }
+
+  Widget _buildMessage(BuildContext context, String message) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Text(
+          message,
+          style: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 16.0,
+          ),
+          maxLines: 2,
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

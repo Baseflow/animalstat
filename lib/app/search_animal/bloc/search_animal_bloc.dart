@@ -23,7 +23,7 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
   ) async* {
     if (event is QueryChanged) {
       yield* _mapQueryChangedToState(event);
-    } else if (event is ResultsUpdated) {
+    } else if (event is ResultsChanged) {
       yield* _mapResultsUpdatedToState(event);
     }
   }
@@ -32,18 +32,22 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
     var animalNumber = int.tryParse(event.query);
 
     if (animalNumber == null) {
-      yield InvalidQueryState(query: event.query);
+      yield InvalidQuery(query: event.query);
     }
 
     _animalSearchResultSubscription?.cancel();
     _animalSearchResultSubscription = _animalRepository
         .searchAnimals(animalNumber)
-        .listen((searchResult) => add(ResultsUpdated(results: searchResult)));
+        .listen((searchResult) => add(ResultsChanged(results: searchResult)));
   }
 
   Stream<SearchAnimalState> _mapResultsUpdatedToState(
-      ResultsUpdated event) async* {
-    yield ResultsUpdatedState(searchResults: event.results);
+      ResultsChanged event) async* {
+    if (event.results == null || event.results.length == 0) {
+      yield NotFound();
+    } else {
+      yield ResultsUpdated(searchResults: event.results);
+    }
   }
 
   @override

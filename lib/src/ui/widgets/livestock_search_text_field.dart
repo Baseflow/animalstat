@@ -86,7 +86,7 @@ class LivestockSearchTextField extends StatelessWidget {
         autocorrect: autocorrect,
         autofocus: autofocus,
         controller: controller,
-        decoration: decoration ?? DecorationFactory.SearchTextFieldDecoration(
+        decoration: decoration ?? DecorationFactory.searchTextFieldDecoration(
           hintText: hintText,
           labelText: labelText,
           prefixIcon: prefixIcon,

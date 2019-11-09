@@ -4,7 +4,6 @@ import 'package:livestock/app/animal/animal_details_screen.dart';
 import 'package:livestock/app/animal/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/search_animal_state.dart';
-import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_appbar_bottom.dart';
 import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
 import 'package:livestock/src/ui/widgets/livestock_number_box.dart';

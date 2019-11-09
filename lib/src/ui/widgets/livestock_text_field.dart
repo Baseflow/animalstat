@@ -78,7 +78,7 @@ class LivestockTextField extends StatelessWidget {
         autocorrect: autocorrect,
         autofocus: autofocus,
         controller: controller,
-        decoration: decoration ?? DecorationFactory.DefaultTextFieldDecoration(
+        decoration: decoration ?? DecorationFactory.defaultTextFieldDecoration(
           hintText: hintText,
           labelText: labelText,
           prefixIcon: prefixIcon,

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:livestock/app/search_animal/bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:animal_repository/animal_repository.dart';
 

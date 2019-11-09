@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:animal_repository/animal_repository.dart';
 import 'package:livestock/src/utilities/enum_converters.dart';
 
-import '../theming.dart';
-
 class LivestockHealthStatusLabel extends StatelessWidget {
   final AnimalHealthStates healthStatus;
 

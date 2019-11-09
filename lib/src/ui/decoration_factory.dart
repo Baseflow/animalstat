@@ -2,7 +2,7 @@ import 'package:livestock/src/ui/theming.dart';
 import 'package:flutter/material.dart';
 
 class DecorationFactory {
-  static InputDecoration DefaultTextFieldDecoration({
+  static InputDecoration defaultTextFieldDecoration({
     String hintText,
     String labelText,
     Widget prefixIcon,
@@ -21,7 +21,7 @@ class DecorationFactory {
     );
   }
 
-  static InputDecoration SearchTextFieldDecoration({
+  static InputDecoration searchTextFieldDecoration({
     String hintText,
     String labelText,
     Widget prefixIcon,
@@ -40,7 +40,7 @@ class DecorationFactory {
     );
   }
 
-  static InputDecoration RectangleTextFieldDecoration({
+  static InputDecoration rectangleTextFieldDecoration({
     String hintText,
     String labelText,
     Widget prefixIcon,

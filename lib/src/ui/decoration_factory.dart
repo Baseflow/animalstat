@@ -9,7 +9,7 @@ class DecorationFactory {
   }) {
     return InputDecoration(
       border: const OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
         borderSide: BorderSide.none,
       ),
       counterText: '',

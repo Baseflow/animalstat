@@ -64,7 +64,7 @@ class LivestockTextField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(
-          Radius.circular(16.0),
+          Radius.circular(5.0),
         ),
         boxShadow: [
           BoxShadow(

@@ -13,21 +13,31 @@ class InitialAnimalState extends AnimalState {
 }
 
 class AnimalChanged extends AnimalState {
-  final int animalId;
+  final int animalNumber;
 
-  const AnimalChanged({@required this.animalId});
+  const AnimalChanged({@required this.animalNumber});
 
   @override
-  List<Object> get props => [animalId];
+  List<Object> get props => [animalNumber];
 }
 
-class AnimalLoaded extends AnimalState {
+class HistoryUpdated extends AnimalChanged {
+  final Animal animal;
+  final List<AnimalHistoryRecord> history;
+
+  HistoryUpdated({@required this.animal, @required this.history})
+      : super(animalNumber: animal.animalNumber);
+
+  @override
+  List<Object> get props => [animal, history,];
+}
+
+class NoHistory extends AnimalChanged {
   final Animal animal;
 
-  const AnimalLoaded({@required this.animal});
+  NoHistory({@required this.animal})
+      : super(animalNumber: animal.animalNumber);
 
   @override
   List<Object> get props => [animal];
-
-
 }

@@ -6,7 +6,7 @@ import 'package:animal_repository/animal_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-import 'converters/firebase_health_states_converter.dart';
+import 'converters/firestore_health_states_converter.dart';
 
 class AnimalSearchResultEntity extends Equatable {
   final int animalNumber;

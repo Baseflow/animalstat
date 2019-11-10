@@ -14,10 +14,10 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'simple_bloc_delegate.dart';
+import 'src/livestock_bloc_delegate.dart';
 
 void main() {
-  BlocSupervisor.delegate = SimpleBlocDelegate();
+  BlocSupervisor.delegate = LivestockBlocDelegate();
 
   // Set `enableInDevMode` to true to see reports while in debug mode
   // This is only to be used for confirming that reports are being
@@ -52,7 +52,17 @@ class App extends StatelessWidget {
         fontFamily: 'SF Pro Text',
         primaryColor: kPrimaryColor,
         accentColor: kAccentColor,
-        primaryTextTheme: TextTheme(title: TextStyle(color: Colors.white)),
+        backgroundColor: kBackgroundColor,
+        scaffoldBackgroundColor: kBackgroundColor,
+        dialogBackgroundColor: kWhite,
+        primaryTextTheme: TextTheme(
+          title: TextStyle(color: kWhite),
+        ),
+        textTheme: TextTheme(
+          body1: TextStyle(
+            color: kDefaultTextColor,
+          ),
+        ),
         primaryIconTheme: const IconThemeData.fallback().copyWith(
           color: Colors.white,
         ),

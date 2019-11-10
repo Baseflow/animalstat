@@ -5,7 +5,7 @@ import 'models/models.dart';
 import 'animal_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseAnimalRepository implements AnimalRepository {
+class FirestoreAnimalRepository implements AnimalRepository {
   final _animalCollection = Firestore.instance.collection('animals');
 
   @override
@@ -26,6 +26,22 @@ class FirebaseAnimalRepository implements AnimalRepository {
         .map((snap) => snap.documents
             .map((doc) => AnimalSearchResultEntity.fromSnapshot(doc).toModel())
             .toList());
+  }
+
+  @override
+  Stream<List<AnimalHistoryRecord>> animalHistory(int animalNumber) {
+    if (animalNumber == null) {
+      return Stream.empty();
+    }
+
+    return _animalCollection
+        .document(animalNumber.toString())
+        .collection('history')
+        .orderBy('seen_on', descending: true)
+        .snapshots()
+        .map((snap) => snap.documents
+          .map((doc) => AnimalHistoryRecordEntity.fromSnapshot(doc).toModel())
+          .toList());
   }
 
   @override

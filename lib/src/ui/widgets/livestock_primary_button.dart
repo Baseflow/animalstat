@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:livestock/src/ui/theming.dart';
 
-class PrimaryButton extends StatelessWidget {
+class LivestockPrimaryButton extends StatelessWidget {
   final Icon _icon;
   final VoidCallback _onPressed;
   final String _text;
 
-  PrimaryButton({
+  LivestockPrimaryButton({
     Key key,
     Icon icon,
     String text,
@@ -20,12 +20,14 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final label = Text(
       _text.toUpperCase(),
-      style: Theme.of(context).textTheme.button.copyWith(color: Colors.white),
+      style: Theme.of(context).textTheme.button.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
     );
     final shape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
+      borderRadius: BorderRadius.circular(5.0),
     );
-
 
     final button = (_icon != null)
         ? RaisedButton.icon(
@@ -40,7 +42,7 @@ class PrimaryButton extends StatelessWidget {
             child: label,
             color: kPrimaryColor,
           );
-    
+
     return SizedBox(
       child: button,
       height: 52,

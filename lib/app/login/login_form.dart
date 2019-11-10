@@ -1,6 +1,6 @@
 import 'package:livestock/src/ui/widgets/livestock_text_form_field.dart';
-import 'package:livestock/src/ui/widgets/primary_button.dart';
-import 'package:livestock/src/ui/widgets/secondary_button.dart';
+import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
+import 'package:livestock/src/ui/widgets/livestock_secondary_button.dart';
 import 'package:livestock/app/authentication/bloc/bloc.dart';
 import 'package:livestock/app/login/bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -120,14 +120,14 @@ class _LoginFormState extends State<LoginForm> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        PrimaryButton(
+                        LivestockPrimaryButton(
                             onPressed: isLoginButtonEnabled(state)
                                 ? _onFormSubmitted
                                 : null,
                             text: 'Login'),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: SecondaryButton(
+                          child: LivestockSecondaryButton(
                             onPressed: () {},
                             text: 'Forgot password',
                           ),

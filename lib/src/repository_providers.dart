@@ -8,7 +8,7 @@ class RepositoryProviders {
           builder: (context) => FirebaseUserRepository(),
         ),
         RepositoryProvider<AnimalRepository>(
-          builder: (context) => FirebaseAnimalRepository(),
+          builder: (context) => FirestoreAnimalRepository(),
         ),
       ];
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class SecondaryButton extends StatelessWidget {
+class LivestockSecondaryButton extends StatelessWidget {
   final Icon _icon;
   final VoidCallback _onPressed;
   final String _text;
 
-  SecondaryButton({
+  LivestockSecondaryButton({
     Key key,
     Icon icon,
     String text,
@@ -25,7 +25,7 @@ class SecondaryButton extends StatelessWidget {
       style: theme.textTheme.button.copyWith(color: theme.primaryColor),
     );
     final shape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
+      borderRadius: BorderRadius.circular(5.0),
     );
 
 

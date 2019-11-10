@@ -3,20 +3,20 @@ import 'package:animal_repository/animal_repository.dart';
 import 'package:livestock/src/utilities/enum_converters.dart';
 
 class LivestockHealthStatusLabel extends StatelessWidget {
-  final AnimalHealthStates healthStatus;
+  final HealthStates healthStatus;
 
   const LivestockHealthStatusLabel({this.healthStatus});
 
   @override
   Widget build(BuildContext context) {
-    if (healthStatus == AnimalHealthStates.unknown) {
+    if (healthStatus == HealthStates.unknown) {
       return Container();
     }
 
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(17.0)),
-        color: EnumConverters.toBackgroundColor(healthStatus),
+        color: EnumConverters.toHealthStatusBackgroundColor(healthStatus),
       ),
       child: Padding(
         padding: const EdgeInsets.only(
@@ -26,9 +26,9 @@ class LivestockHealthStatusLabel extends StatelessWidget {
           bottom: 7.0,
         ),
         child: Text(
-          EnumConverters.toDisplayValue(healthStatus),
+          EnumConverters.toHealthStatusDisplayValue(healthStatus),
           style: TextStyle(
-            color: EnumConverters.toTextColor(healthStatus),
+            color: EnumConverters.toHealthStatusTextColor(healthStatus),
             fontSize: 15.0,
             fontWeight: FontWeight.bold
           ),

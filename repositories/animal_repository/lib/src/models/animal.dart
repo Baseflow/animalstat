@@ -1,4 +1,4 @@
-import 'package:animal_repository/src/models/animal_health_states.dart';
+import 'package:animal_repository/src/models/health_states.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -6,7 +6,7 @@ class Animal {
   final int animalNumber;
   final DateTime dateOfBirth;
   final int currentCageNumber;
-  final AnimalHealthStates currentHealthStatus;
+  final HealthStates currentHealthStatus;
 
   Animal(
     this.animalNumber,

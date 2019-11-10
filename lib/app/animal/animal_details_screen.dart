@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:livestock/app/animal/bloc/bloc.dart';
+import 'package:livestock/app/animal/widgets/registration_card.dart';
+import 'package:livestock/app/animal/widgets/registration_header.dart';
 import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_appbar_bottom.dart';
 import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
@@ -12,7 +14,28 @@ class AnimalDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: Container(),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: RegistrationHeader(),
+          ),
+          BlocBuilder<AnimalBloc, AnimalState>(
+            builder: (BuildContext context, AnimalState state) {
+              if(state is HistoryUpdated) {
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                    return RegistrationCard(historyRecord: state.history[index],);
+                  },
+                    childCount: state.history.length,
+                  ),
+                );
+              } else {
+                return SliverToBoxAdapter(child: Container());
+              }
+            }
+          ),
+        ],
+      ),
     );
   }
 
@@ -30,7 +53,7 @@ class AnimalDetailsScreen extends StatelessWidget {
           builder: (BuildContext context, AnimalState state) {
         return (state is AnimalChanged)
             ? LivestockNumberBox(
-                animalNumber: state.animalId.toString(),
+                animalNumber: state.animalNumber.toString(),
               )
             : Text('Livestock');
       }),
@@ -41,7 +64,7 @@ class AnimalDetailsScreen extends StatelessWidget {
     return LivestockAppBarBottom(
       child: BlocBuilder<AnimalBloc, AnimalState>(
           builder: (BuildContext context, AnimalState state) {
-        if (state is AnimalLoaded) {
+        if (state is HistoryUpdated) {
           return Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: Row(

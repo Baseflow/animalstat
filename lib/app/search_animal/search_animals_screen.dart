@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livestock/app/animal/animal_details_screen.dart';
 import 'package:livestock/app/animal/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/search_animal_state.dart';
+import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_appbar_bottom.dart';
 import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
 import 'package:livestock/src/ui/widgets/livestock_number_box.dart';
@@ -92,45 +94,50 @@ class SearchAnimalScreen extends StatelessWidget {
             builder: (_) => AnimalBloc(
                 animalRepository:
                     RepositoryProvider.of<AnimalRepository>(context))
-              ..add(SelectAnimal(animalId: searchResult.animalNumber)),
+              ..add(SelectAnimal(animalNumber: searchResult.animalNumber)),
             child: AnimalDetailsScreen(),
           ),
         ));
       },
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 20.0,
-              top: 10.0,
-              right: 15.0,
-              bottom: 10.0,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                LivestockNumberBox(
-                  animalNumber: searchResult.animalNumber.toString(),
-                ),
-                Expanded(
-                  child: Container(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: LivestockHealthStatusLabel(
-                    healthStatus: searchResult.currentHealthStatus,
-                  ),
-                ),
-                Icon(
-                  Icons.chevron_right,
-                )
-              ],
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: kBorderColor,
             ),
           ),
-          Divider(),
-        ],
+          color: kWhite,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 20.0,
+            top: 15.0,
+            right: 15.0,
+            bottom: 15.0,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              LivestockNumberBox(
+                animalNumber: searchResult.animalNumber.toString(),
+              ),
+              Expanded(
+                child: Container(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: LivestockHealthStatusLabel(
+                  healthStatus: searchResult.currentHealthStatus,
+                ),
+              ),
+              Icon(
+                Icons.chevron_right,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

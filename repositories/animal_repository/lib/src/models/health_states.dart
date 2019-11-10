@@ -1,4 +1,4 @@
-enum AnimalHealthStates {
+enum HealthStates {
   unknown,
   healthy,
   ill,

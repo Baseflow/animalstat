@@ -1,31 +1,31 @@
 import 'package:animal_repository/animal_repository.dart';
 
 class FirestoreHealthStatesConverter {
-  static AnimalHealthStates toEnum(String firestorePath){
+  static HealthStates toEnum(String firestorePath){
     switch(firestorePath) {
       case 'health_states/Deceased':
-        return AnimalHealthStates.deceased;
+        return HealthStates.deceased;
       case 'health_states/Healthy':
-        return AnimalHealthStates.healthy;
+        return HealthStates.healthy;
       case 'health_states/Ill':
-        return AnimalHealthStates.ill;
+        return HealthStates.ill;
       case 'health_states/Suspicious':
-        return AnimalHealthStates.suspicious;
+        return HealthStates.suspicious;
       default:
-        return AnimalHealthStates.unknown;
+        return HealthStates.unknown;
     }
   }
 
-  static String fromEnum(AnimalHealthStates healthState)
+  static String fromEnum(HealthStates healthState)
   {
     switch(healthState) {
-      case AnimalHealthStates.deceased:
+      case HealthStates.deceased:
         return 'health_states/Deceased';
-      case AnimalHealthStates.healthy:
+      case HealthStates.healthy:
         return 'health_states/Healthy';
-      case AnimalHealthStates.ill:
+      case HealthStates.ill:
         return 'health_states/Ill';
-      case AnimalHealthStates.suspicious:
+      case HealthStates.suspicious:
         return 'health_states/Suspicious';
       default:
         return null;

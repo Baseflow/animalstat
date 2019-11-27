@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
 
-class RegistrationHeader extends StatelessWidget {
+class HistoryHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -1,8 +1,7 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:livestock/app/animal/animal_details_screen.dart';
-import 'package:livestock/app/animal/bloc/bloc.dart';
+import 'package:livestock/app/animal_details/animal_details_screen.dart';
+import 'package:livestock/app/animal_details/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/search_animal_state.dart';
 import 'package:livestock/src/ui/theming.dart';
@@ -90,11 +89,11 @@ class SearchAnimalScreen extends StatelessWidget {
       behavior: HitTestBehavior.translucent,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => BlocProvider<AnimalBloc>(
-            builder: (_) => AnimalBloc(
-                animalRepository:
-                    RepositoryProvider.of<AnimalRepository>(context))
-              ..add(SelectAnimal(animalNumber: searchResult.animalNumber)),
+          builder: (_) => MultiBlocProvider(
+            providers: getAnimalDetailProviders(
+              searchResult.animalNumber,
+              context,
+            ),
             child: AnimalDetailsScreen(),
           ),
         ));
@@ -141,4 +140,23 @@ class SearchAnimalScreen extends StatelessWidget {
       ),
     );
   }
+
+  List<BlocProvider> getAnimalDetailProviders(
+    int animalNumber,
+    BuildContext context,
+  ) =>
+      [
+        BlocProvider<AnimalHistoryBloc>(
+            builder: (_) => AnimalHistoryBloc(
+                  animalNumber: animalNumber,
+                  animalRepository:
+                      RepositoryProvider.of<AnimalRepository>(context),
+                )..add(LoadHistory(animalNumber: animalNumber))),
+        BlocProvider<AnimalDetailsBloc>(
+          builder: (_) => AnimalDetailsBloc(
+            animalNumber: animalNumber,
+            animalRepository: RepositoryProvider.of<AnimalRepository>(context),
+          )..add(LoadAnimalDetails(animalNumber: animalNumber)),
+        ),
+      ];
 }

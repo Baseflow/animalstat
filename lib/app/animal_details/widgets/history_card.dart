@@ -4,10 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
 import 'package:livestock/src/utilities/enum_converters.dart';
 
-class RegistrationCard extends StatelessWidget {
+class HistoryCard extends StatelessWidget {
   final AnimalHistoryRecord _animalHistoryRecord;
 
-  RegistrationCard({@required AnimalHistoryRecord historyRecord})
+  HistoryCard({@required AnimalHistoryRecord historyRecord})
       : assert(historyRecord != null),
         _animalHistoryRecord = historyRecord;
 

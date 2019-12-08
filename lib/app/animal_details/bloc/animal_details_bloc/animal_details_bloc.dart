@@ -32,7 +32,7 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
 
   Stream<AnimalDetailsState> _mapLoadAnimalDetailsToState(
       LoadAnimalDetails event) async* {
-    yield AnimalDetailsLoading();
+    yield AnimalDetailsLoading(animalNumber: event.animalNumber);
 
     var animal = await _animalRepository.loadAnimalByNumber(event.animalNumber);
 

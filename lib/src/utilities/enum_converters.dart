@@ -1,6 +1,5 @@
 import 'package:animal_repository/animal_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class EnumConverters {
   static String toDiagnosesDisplayValue(Diagnoses diagnoses) {

@@ -1,4 +1,4 @@
-import 'package:animal_repository/animal_repository.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 import 'package:livestock/app/search_animal/bloc/search_animal_bloc.dart';
 import 'package:livestock/app/search_animal/search_animals_screen.dart';
 import 'package:livestock/app/authentication/bloc/authentication_bloc.dart';

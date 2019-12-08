@@ -3,7 +3,7 @@ import 'package:livestock/app/login/bloc/login_event.dart';
 import 'package:livestock/app/login/bloc/login_state.dart';
 import 'package:livestock/src/utilities/validators.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:user_repository/user_repository.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 import 'package:mockito/mockito.dart';
 
 class MockUserRepository extends Mock implements UserRepository {}

@@ -1,7 +1,7 @@
-import 'package:animal_repository/animal_repository.dart';
-import 'package:animal_repository/src/models/diagnoses.dart';
-import 'package:animal_repository/src/models/health_states.dart';
-import 'package:animal_repository/src/models/treatments.dart';
+import 'package:livestock_repository/livestock_repository.dart';
+import 'package:livestock_repository/src/models/diagnoses.dart';
+import 'package:livestock_repository/src/models/health_states.dart';
+import 'package:livestock_repository/src/models/treatments.dart';
 import 'package:meta/meta.dart';
 
 @immutable

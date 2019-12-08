@@ -28,10 +28,8 @@ dependencies:
   intl: ^0.16.0
 
   # Add dependencies to repository packages
-  animal_repository:
-    path: repositories/animal_repository
-  user_repository:
-    path: repositories/user_repository
+  livestock_repository:
+    path: livestock_repository
 
   # Add Firebase plugins
   firebase_crashlytics: ^0.1.0+3

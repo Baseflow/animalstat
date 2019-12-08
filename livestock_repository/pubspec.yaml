@@ -1,4 +1,4 @@
-name: animal_repository
+name: livestock_repository
 
 version: 1.0.0
 
@@ -16,3 +16,4 @@ dependencies:
   # Add Firebase plugins
   firebase_core: ^0.4.0+9
   cloud_firestore: ^0.12.9+5
+  firebase_auth: ^0.15.1

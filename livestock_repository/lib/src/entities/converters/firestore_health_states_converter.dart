@@ -1,4 +1,4 @@
-import 'package:animal_repository/animal_repository.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 
 class FirestoreHealthStatesConverter {
   static HealthStates toEnum(String firestorePath){

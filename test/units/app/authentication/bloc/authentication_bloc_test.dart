@@ -1,5 +1,5 @@
 import 'package:livestock/app/authentication/bloc/bloc.dart';
-import 'package:user_repository/user_repository.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

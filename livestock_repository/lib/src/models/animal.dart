@@ -1,4 +1,4 @@
-import 'package:animal_repository/src/models/health_states.dart';
+import 'package:livestock_repository/src/models/health_states.dart';
 import 'package:meta/meta.dart';
 
 @immutable

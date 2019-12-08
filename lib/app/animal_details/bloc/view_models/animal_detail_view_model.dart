@@ -1,4 +1,4 @@
-import 'package:animal_repository/animal_repository.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 import 'package:intl/intl.dart';
 class AnimalDetailsViewModel {
   final int animalNumber;

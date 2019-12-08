@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:animal_repository/animal_repository.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 
 abstract class SearchAnimalState extends Equatable {
   const SearchAnimalState();

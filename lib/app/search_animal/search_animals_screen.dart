@@ -9,7 +9,7 @@ import 'package:livestock/src/ui/widgets/livestock_appbar_bottom.dart';
 import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
 import 'package:livestock/src/ui/widgets/livestock_number_box.dart';
 import 'package:livestock/src/ui/widgets/livestock_search_text_field.dart';
-import 'package:animal_repository/animal_repository.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 
 class SearchAnimalScreen extends StatelessWidget {
   @override

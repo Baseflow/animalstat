@@ -1,4 +1,4 @@
-import 'package:animal_repository/animal_repository.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 
 class FirestoreDiagnosesConverter {
   static Diagnoses toEnum(String firestorePath){

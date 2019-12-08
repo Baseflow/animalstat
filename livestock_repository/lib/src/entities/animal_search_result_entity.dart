@@ -2,19 +2,19 @@
 // Use of this source code is governed by the MIT license that can be found
 // in the LICENSE file.
 
-import 'package:animal_repository/animal_repository.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 import 'converters/firestore_health_states_converter.dart';
 
-class AnimalEntity extends Equatable {
+class AnimalSearchResultEntity extends Equatable {
   final int animalNumber;
   final DateTime dateOfBirth;
   final int currentCageNumber;
   final String currentHealthStatus;
 
-  const AnimalEntity(
+  const AnimalSearchResultEntity(
     this.animalNumber,
     this.dateOfBirth,
     this.currentCageNumber,
@@ -31,15 +31,15 @@ class AnimalEntity extends Equatable {
 
   @override
   String toString() {
-    return 'AnimalEntity { animalNumber: $animalNumber, dateOfBirth: $dateOfBirth, currentCageNumber: $currentCageNumber, currentHealthStatus: $currentHealthStatus }';
+    return 'AnimalSearchResultEntity { animalNumber: $animalNumber, dateOfBirth: $dateOfBirth, currentCageNumber: $currentCageNumber, currentHealthStatus: $currentHealthStatus }';
   }
 
-  static AnimalEntity fromSnapshot(DocumentSnapshot snap) {
+  static AnimalSearchResultEntity fromSnapshot(DocumentSnapshot snap) {
     int animalNumber = int.parse(snap.documentID);
     Timestamp dateOfBirth = snap.data['date_of_birth'] as Timestamp;
     DocumentReference healthStatusRef = snap.data['current_health_status'] as DocumentReference;
 
-    return AnimalEntity(
+    return AnimalSearchResultEntity(
       animalNumber,
       dateOfBirth.toDate(),
       snap.data['current_cage_number'],
@@ -47,8 +47,8 @@ class AnimalEntity extends Equatable {
     );
   }
 
-  static AnimalEntity fromModel(Animal model) {
-    return AnimalEntity(
+  static AnimalSearchResultEntity fromModel(AnimalSearchResult model) {
+    return AnimalSearchResultEntity(
       model.animalNumber,
       model.dateOfBirth,
       model.currentCageNumber,
@@ -56,8 +56,8 @@ class AnimalEntity extends Equatable {
     );
   }
 
-  Animal toModel() {
-    return Animal(
+  AnimalSearchResult toModel() {
+    return AnimalSearchResult(
       animalNumber,
       dateOfBirth,
       currentCageNumber,

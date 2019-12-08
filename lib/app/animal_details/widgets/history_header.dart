@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:livestock/app/add_animal_detail/add_animal_detail_dialog.dart';
 import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
 
@@ -31,7 +32,10 @@ class HistoryHeader extends StatelessWidget {
               color: kWhite,
             ),
             text: 'Toevoegen',
-            onPressed: () {},
+            onPressed: () => showDialog(
+              context: context,
+              builder: (BuildContext context) => AddAnimalDetailDialog()
+            ),
           ),
         ],
       ),

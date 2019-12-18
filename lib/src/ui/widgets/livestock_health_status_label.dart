@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:livestock/src/ui/widgets/livestock_segmented_button.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 import 'package:livestock/src/utilities/enum_converters.dart';
 
 class LivestockHealthStatusLabel extends StatelessWidget {
   final HealthStates healthStatus;
+  final bool isSelected;
 
-  const LivestockHealthStatusLabel({this.healthStatus});
+  const LivestockHealthStatusLabel({
+    @required this.healthStatus,
+    this.isSelected = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,27 +18,11 @@ class LivestockHealthStatusLabel extends StatelessWidget {
       return Container();
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(17.0)),
-        color: EnumConverters.toHealthStatusBackgroundColor(healthStatus),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 15.0,
-          right: 15.0,
-          top: 7.0,
-          bottom: 7.0,
-        ),
-        child: Text(
-          EnumConverters.toHealthStatusDisplayValue(healthStatus),
-          style: TextStyle(
-            color: EnumConverters.toHealthStatusTextColor(healthStatus),
-            fontSize: 15.0,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      ),
+    return LivestockSegmentedButton(
+      borderColor: isSelected ? EnumConverters.toHealthStatusTextColor(healthStatus) : null,
+      backgroundColor: EnumConverters.toHealthStatusBackgroundColor(healthStatus),
+      text: EnumConverters.toHealthStatusDisplayValue(healthStatus),
+      textColor: EnumConverters.toHealthStatusTextColor(healthStatus),
     );
   }
 }

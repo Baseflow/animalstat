@@ -11,26 +11,24 @@ class AddAnimalDetailHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(
-              'Registraties',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Text(
+            'Registratie maken',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
             ),
           ),
-          IconButton(
-            icon: Icon(
-              FontAwesomeIcons.times,
-            ),
-            onPressed: _onClose,
+        ),
+        IconButton(
+          icon: Icon(
+            FontAwesomeIcons.times,
           ),
-        ],
-      ),
+          onPressed: _onClose,
+        ),
+      ],
     );
   }
 }

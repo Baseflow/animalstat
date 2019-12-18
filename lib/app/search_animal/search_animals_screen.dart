@@ -57,6 +57,7 @@ class SearchAnimalScreen extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(9.0),
         child: LivestockSearchTextField(
+          autofocus: true,
           keyboardType: TextInputType.number,
           onChanged: (value) => BlocProvider.of<SearchAnimalBloc>(context)
               .add(QueryChanged(query: value)),

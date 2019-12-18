@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:livestock/app/add_animal_detail/add_animal_detail_dialog.dart';
+import 'package:livestock/app/add_animal_detail/bloc/add_animal_detail_bloc.dart';
 import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 
 class HistoryHeader extends StatelessWidget {
   @override
@@ -27,14 +32,31 @@ class HistoryHeader extends StatelessWidget {
           ),
           LivestockPrimaryButton(
             icon: Icon(
-              Icons.add,
+              FontAwesomeIcons.plus,
+              size: 16,
               color: kWhite,
             ),
             text: 'Toevoegen',
-            onPressed: () {},
+            onPressed: () => _addDetailButtonPressed(context),
           ),
         ],
       ),
+    );
+  }
+
+  void _addDetailButtonPressed(BuildContext context) {
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return BlocProvider(
+          builder: (_) => AddAnimalDetailBloc(
+            animalNumber: 0, // TODO: Figure out how to get access to the animal number
+            animalRepository: RepositoryProvider.of<AnimalRepository>(context),
+          ),
+          child: AddAnimalDetailDialog(),
+        );
+      }
     );
   }
 }

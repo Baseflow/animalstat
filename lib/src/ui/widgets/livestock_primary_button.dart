@@ -23,19 +23,22 @@ class LivestockPrimaryButton extends StatelessWidget {
       style: Theme.of(context).textTheme.button.copyWith(
             color: Colors.white,
             fontWeight: FontWeight.bold,
+            fontSize: 16,
           ),
+      textAlign: TextAlign.center,
     );
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(5.0),
     );
 
-    final button = (_icon != null)
+    final button = _icon != null
         ? RaisedButton.icon(
-            icon: _icon,
             shape: shape,
             onPressed: _onPressed,
             label: label,
-            color: kPrimaryColor)
+            icon: _icon,
+            color: kPrimaryColor,
+          )
         : RaisedButton(
             shape: shape,
             onPressed: _onPressed,

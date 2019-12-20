@@ -6,14 +6,12 @@ import 'package:meta/meta.dart';
 
 @immutable
 class AnimalHistoryRecord {
-  final int cageNumber;
   final DateTime seenOn;
   final Diagnoses diagnosis;
   final HealthStates healthStatus;
   final Treatments treatment;
 
   AnimalHistoryRecord(
-      this.cageNumber,
       this.diagnosis,
       this.healthStatus,
       this.seenOn,
@@ -22,7 +20,6 @@ class AnimalHistoryRecord {
 
   @override
   int get hashCode =>
-      cageNumber.hashCode ^
       diagnosis.hashCode ^
       healthStatus.hashCode ^
       seenOn.hashCode ^
@@ -33,7 +30,6 @@ class AnimalHistoryRecord {
       identical(this, other) ||
           other is AnimalHistoryRecord &&
               runtimeType == other.runtimeType &&
-              cageNumber == other.cageNumber &&
               diagnosis == other.diagnosis &&
               healthStatus == other.healthStatus &&
               treatment == other.treatment &&
@@ -41,6 +37,6 @@ class AnimalHistoryRecord {
 
   @override
   String toString() {
-    return 'AnimalHistoryRecord{cageNumber: $cageNumber, diagnosis: $diagnosis, healthStaus: $healthStatus, treatment: $treatment, seenOn: $seenOn}';
+    return 'AnimalHistoryRecord{diagnosis: $diagnosis, healthStaus: $healthStatus, treatment: $treatment, seenOn: $seenOn}';
   }
 }

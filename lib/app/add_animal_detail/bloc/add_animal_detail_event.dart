@@ -7,6 +7,15 @@ abstract class AddAnimalDetailEvent extends Equatable {
   const AddAnimalDetailEvent();
 }
 
+class SaveAnimalHistoryRecord extends AddAnimalDetailEvent {
+  SaveAnimalHistoryRecord({@required this.stateToSave});
+  
+  final AddAnimalDetailState stateToSave;
+  
+  @override
+  List<Object> get props => [stateToSave];
+}
+
 class UpdateDiagnosis extends AddAnimalDetailEvent {
   UpdateDiagnosis({@required this.previousState, @required this.diagnosis,});
   

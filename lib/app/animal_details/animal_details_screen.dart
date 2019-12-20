@@ -11,28 +11,27 @@ class AnimalDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverToBoxAdapter(
-            child: HistoryHeader(),
-          ),
-          BlocBuilder<AnimalHistoryBloc, AnimalHistoryState>(
-            builder: (BuildContext context, AnimalHistoryState state) {
-              if(state is HistoryUpdated) {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                    return HistoryCard(historyRecord: state.history[index],);
+      body: BlocBuilder<AnimalHistoryBloc, AnimalHistoryState>(
+          builder: (BuildContext context, AnimalHistoryState state) {
+        return CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: HistoryHeader(animalNumber: state.animalNumber),
+            ),
+            if (state is HistoryUpdated)
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return HistoryCard(
+                      historyRecord: state.history[index],
+                    );
                   },
-                    childCount: state.history.length,
-                  ),
-                );
-              } else {
-                return SliverToBoxAdapter(child: Container());
-              }
-            }
-          ),
-        ],
-      ),
+                  childCount: state.history.length,
+                ),
+              ),
+          ],
+        );
+      }),
     );
   }
 

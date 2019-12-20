@@ -40,8 +40,8 @@ class FirestoreAnimalRepository implements AnimalRepository {
         .orderBy('seen_on', descending: true)
         .snapshots()
         .map((snap) => snap.documents
-          .map((doc) => AnimalHistoryRecordEntity.fromSnapshot(doc).toModel())
-          .toList());
+            .map((doc) => AnimalHistoryRecordEntity.fromSnapshot(doc).toModel())
+            .toList());
   }
 
   @override
@@ -54,5 +54,29 @@ class FirestoreAnimalRepository implements AnimalRepository {
         .document(animalNumber.toString())
         .get()
         .then((doc) => AnimalEntity.fromSnapshot(doc).toModel());
+  }
+
+  @override
+  Future insertHistoryRecord(
+    int animalNumber,
+    AnimalHistoryRecord animalHistoryRecord,
+  ) {
+    if (animalNumber == null) {
+      throw ArgumentError.notNull('animalNumber');
+    }
+
+    if (animalHistoryRecord == null) {
+      throw ArgumentError.notNull('animalHistoryRecord');
+    }
+
+    final timestamp = Timestamp.fromDate(animalHistoryRecord.seenOn);
+    final historyRecordEntity =
+        AnimalHistoryRecordEntity.fromModel(animalHistoryRecord);
+
+    return _animalCollection
+        .document(animalNumber.toString())
+        .collection('history')
+        .document(timestamp.millisecondsSinceEpoch.toString())
+        .setData(historyRecordEntity.toJson());
   }
 }

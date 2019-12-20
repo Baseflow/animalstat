@@ -48,34 +48,44 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
             ),
             child: Padding(
               padding: const EdgeInsets.all(30.0),
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child:
-                        BlocBuilder<AddAnimalDetailBloc, AddAnimalDetailState>(
-                      builder: (context, state) {
-                        if (state is AddAnimalDetailState) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              AddAnimalDetailHeader(
-                                onClose: () => Navigator.of(context).pop(),
-                              ),
-                              ..._buildDateRow(
-                                  state.registrationDateDisplayValue),
-                              ..._buildHealthStatusSelectionRow(state),
-                              ..._buildDiagnosisSelectionRow(state),
-                              ..._buildTreatmentSelectionRow(state),
-                            ],
-                          );
-                        }
+              child: BlocListener<AddAnimalDetailBloc, AddAnimalDetailState>(
+                listener: (context, state) {
+                  if (state is HistoryRecordSaved) {
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: BlocBuilder<AddAnimalDetailBloc, AddAnimalDetailState>(
+                  builder: (context, state) {
+                    if (state is HistoryRecordSaved) {
+                      return Container();
+                    }
 
-                        return Container();
-                      },
-                    ),
-                  ),
-                  _buildBottomBar(),
-                ],
+                    if (state is AddAnimalDetailState) {
+                      return Column(
+                        children: <Widget>[
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                AddAnimalDetailHeader(
+                                  onClose: () => Navigator.of(context).pop(),
+                                ),
+                                ..._buildDateRow(
+                                    state.registrationDateDisplayValue),
+                                ..._buildHealthStatusSelectionRow(state),
+                                ..._buildDiagnosisSelectionRow(state),
+                                ..._buildTreatmentSelectionRow(state),
+                              ],
+                            ),
+                          ),
+                          _buildBottomBar(state),
+                        ],
+                      );
+                    }
+
+                    return Container();
+                  },
+                ),
               ),
             ),
           ),
@@ -84,7 +94,7 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
     );
   }
 
-  Widget _buildBottomBar() {
+  Widget _buildBottomBar(AddAnimalDetailState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -93,7 +103,11 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
           padding: const EdgeInsets.only(top: 15.0),
           child: LivestockPrimaryButton(
             text: 'Opslaan',
-            onPressed: () {},
+            onPressed: () => BlocProvider.of<AddAnimalDetailBloc>(context).add(
+              SaveAnimalHistoryRecord(
+                stateToSave: state,
+              ),
+            ),
             icon: Icon(
               FontAwesomeIcons.plus,
               color: Colors.white,

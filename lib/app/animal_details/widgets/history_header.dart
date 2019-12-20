@@ -8,6 +8,10 @@ import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 
 class HistoryHeader extends StatelessWidget {
+  HistoryHeader({@required this.animalNumber});
+  
+  final int animalNumber;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -51,7 +55,7 @@ class HistoryHeader extends StatelessWidget {
       builder: (BuildContext context) {
         return BlocProvider(
           builder: (_) => AddAnimalDetailBloc(
-            animalNumber: 0, // TODO: Figure out how to get access to the animal number
+            animalNumber: animalNumber,
             animalRepository: RepositoryProvider.of<AnimalRepository>(context),
           ),
           child: AddAnimalDetailDialog(),

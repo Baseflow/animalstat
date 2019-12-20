@@ -5,4 +5,9 @@ abstract class AnimalRepository {
   Stream<List<AnimalHistoryRecord>> animalHistory(int animalNumber);
 
   Future<Animal> loadAnimalByNumber(int animalNumber);
+
+  Future insertHistoryRecord(
+    int animalNumber,
+    AnimalHistoryRecord animalHistoryRecord,
+  );
 }

@@ -1,15 +1,15 @@
+import 'package:livestock/app/animal_details/bloc/bloc.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
 import 'package:livestock/src/utilities/enum_converters.dart';
 
 class HistoryCard extends StatelessWidget {
-  final AnimalHistoryRecord _animalHistoryRecord;
+  final AnimalHistoryCardState _historyCardState;
 
-  HistoryCard({@required AnimalHistoryRecord historyRecord})
-      : assert(historyRecord != null),
-        _animalHistoryRecord = historyRecord;
+  HistoryCard({@required AnimalHistoryCardState historyCardState})
+      : assert(historyCardState != null),
+        _historyCardState = historyCardState;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,7 @@ class HistoryCard extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    DateFormat('dd-MM-yyyy')
-                        .format(_animalHistoryRecord.seenOn),
+                    _historyCardState.seenOn,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18.0,
@@ -32,11 +31,11 @@ class HistoryCard extends StatelessWidget {
                   ),
                 ),
                 LivestockHealthStatusLabel(
-                  healthStatus: _animalHistoryRecord.healthStatus,
+                  healthStatus: _historyCardState.healthStatus,
                 ),
               ],
             ),
-            (_animalHistoryRecord.diagnosis != Diagnoses.none)
+            (_historyCardState.diagnosis != Diagnoses.none)
                 ? Padding(
                     padding: const EdgeInsets.only(top: 17.0),
                     child: Row(
@@ -67,7 +66,7 @@ class HistoryCard extends StatelessWidget {
         ),
         Text(
           EnumConverters.toDiagnosesDisplayValue(
-              _animalHistoryRecord.diagnosis),
+              _historyCardState.diagnosis),
           style: TextStyle(
             fontSize: 17.0,
           ),
@@ -77,7 +76,7 @@ class HistoryCard extends StatelessWidget {
   }
 
   Widget _buildTreatmentColumn() {
-    if (_animalHistoryRecord.treatment == Treatments.none) {
+    if (_historyCardState.treatment == Treatments.none) {
       return Container();
     }
 
@@ -85,7 +84,7 @@ class HistoryCard extends StatelessWidget {
       children: <Widget>[
         Text(
           EnumConverters.toTreatmentDisplayValue(
-              _animalHistoryRecord.treatment),
+              _historyCardState.treatment),
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 17.0,

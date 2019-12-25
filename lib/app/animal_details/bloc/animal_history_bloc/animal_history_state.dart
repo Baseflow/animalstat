@@ -1,6 +1,7 @@
-import 'package:livestock_repository/livestock_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+import 'animal_history_card_state.dart';
 
 abstract class AnimalHistoryState extends Equatable {
   const AnimalHistoryState(this.animalNumber);
@@ -23,7 +24,7 @@ class LoadingHistory extends AnimalHistoryState {
 }
 
 class HistoryUpdated extends AnimalHistoryState {
-  final List<AnimalHistoryRecord> history;
+  final List<AnimalHistoryCardState> history;
 
   HistoryUpdated({@required int animalNumber, @required this.history})
       : super(animalNumber);

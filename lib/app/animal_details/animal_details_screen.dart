@@ -23,7 +23,7 @@ class AnimalDetailsScreen extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
                     return HistoryCard(
-                      historyRecord: state.history[index],
+                      historyCardState: state.history[index],
                     );
                   },
                   childCount: state.history.length,

@@ -45,15 +45,15 @@ class FirestoreAnimalRepository implements AnimalRepository {
   }
 
   @override
-  Future<Animal> loadAnimalByNumber(int animalNumber) {
+  Stream<Animal> loadAnimalByNumber(int animalNumber) {
     if (animalNumber == null) {
       throw ArgumentError.notNull('animalNumber');
     }
 
     return _animalCollection
         .document(animalNumber.toString())
-        .get()
-        .then((doc) => AnimalEntity.fromSnapshot(doc).toModel());
+        .snapshots()
+        .map((snap) => AnimalEntity.fromSnapshot(snap).toModel());
   }
 
   @override

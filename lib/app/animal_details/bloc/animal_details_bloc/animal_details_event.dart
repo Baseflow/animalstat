@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 import 'package:meta/meta.dart';
 
 abstract class AnimalDetailsEvent extends Equatable {
@@ -12,4 +13,13 @@ class LoadAnimalDetails extends AnimalDetailsEvent {
 
   @override
   List<Object> get props => [animalNumber];
+}
+
+class AnimalDetailsChanged extends AnimalDetailsEvent {
+  AnimalDetailsChanged({@required this.animal});
+  
+  final Animal animal;
+  
+  @override
+  List<Object> get props => [animal];
 }

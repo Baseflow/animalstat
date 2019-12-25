@@ -24,7 +24,7 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
     if (event is QueryChanged) {
       yield* _mapQueryChangedToState(event);
     } else if (event is ResultsChanged) {
-      yield* _mapResultsUpdatedToState(event);
+      yield* _mapResultsChangedToState(event);
     }
   }
 
@@ -41,7 +41,7 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
         .listen((searchResult) => add(ResultsChanged(results: searchResult)));
   }
 
-  Stream<SearchAnimalState> _mapResultsUpdatedToState(
+  Stream<SearchAnimalState> _mapResultsChangedToState(
       ResultsChanged event) async* {
     if (event.results == null || event.results.length == 0) {
       yield NotFound();

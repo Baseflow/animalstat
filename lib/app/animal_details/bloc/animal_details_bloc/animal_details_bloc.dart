@@ -9,6 +9,8 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
   final int _animalNumber;
   final AnimalRepository _animalRepository;
 
+  StreamSubscription _animalDetailSubscription;
+
   AnimalDetailsBloc({
     @required int animalNumber,
     @required AnimalRepository animalRepository,
@@ -27,6 +29,8 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
   ) async* {
     if (event is LoadAnimalDetails) {
       yield* _mapLoadAnimalDetailsToState(event);
+    } else if (event is AnimalDetailsChanged) {
+      yield* _mapAnimalDetailsChangedToState(event);
     }
   }
 
@@ -34,8 +38,16 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
       LoadAnimalDetails event) async* {
     yield AnimalDetailsLoading(animalNumber: event.animalNumber);
 
-    var animal = await _animalRepository.loadAnimalByNumber(event.animalNumber);
+    _animalDetailSubscription?.cancel();
+    _animalDetailSubscription = _animalRepository
+        .loadAnimalByNumber(event.animalNumber)
+        .listen(
+            (animalDetail) => add(AnimalDetailsChanged(animal: animalDetail)));
+  }
 
-    yield AnimalDetailsLoaded(animal: AnimalDetailsViewModel.fromModel(animal));
+  Stream<AnimalDetailsState> _mapAnimalDetailsChangedToState(
+      AnimalDetailsChanged event) async* {
+    final animalViewModel = AnimalDetailsViewModel.fromModel(event.animal);
+    yield AnimalDetailsLoaded(animal: animalViewModel);
   }
 }

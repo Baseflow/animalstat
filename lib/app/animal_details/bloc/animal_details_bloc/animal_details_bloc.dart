@@ -50,4 +50,10 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
     final animalViewModel = AnimalDetailsViewModel.fromModel(event.animal);
     yield AnimalDetailsLoaded(animal: animalViewModel);
   }
+
+  @override
+  Future<void> close() {
+    _animalDetailSubscription?.cancel();
+    return super.close();
+  }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -40,8 +41,20 @@ class AnimalHistoryBloc extends Bloc<AnimalHistoryEvent, AnimalHistoryState> {
     _animalHistoryRecordsSubscription?.cancel();
     _animalHistoryRecordsSubscription = _animalRepository
         .animalHistory(animalNumber)
-        .listen((historyRecords) => add(HistoryChanged(
-            animalNumber: animalNumber, history: historyRecords)));
+        .listen((historyRecords) {
+          final historyCardStates = historyRecords.map((entity) {
+            return AnimalHistoryCardState(
+              animalNumber: animalNumber,
+              diagnosis: entity.diagnosis,
+              healthStatus: entity.healthStatus,
+              seenOn: DateFormat('dd-MM-yyyy').format(entity.seenOn),
+              treatment: entity.treatment,
+            );
+          }).toList();
+
+          add(HistoryChanged(
+            animalNumber: animalNumber, history: historyCardStates));
+        });
   }
 
   Stream<AnimalHistoryState> _mapHistoryUpdatedToState(

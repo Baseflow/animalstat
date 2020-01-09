@@ -39,9 +39,16 @@ dependencies:
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.7.4
+
   flutter_test:
     sdk: flutter
   mockito: ^4.1.1
+
+flutter_icons:
+  image_path: 'assets/images/livestock_icon.png'
+  android: true
+  ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

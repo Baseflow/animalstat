@@ -89,7 +89,21 @@ class _LoginFormState extends State<LoginForm> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
-                    child: FlutterLogo(size: 200),
+                    child: 
+                    Center(
+                      child: Container(
+                        width: 200.0,
+                        height: 200.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage('assets/images/livestock_logo.png',),
+                              ),
+                          borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                    ),
                   ),
                   LivestockTextFormField(
                     controller: _emailController,
@@ -111,7 +125,9 @@ class _LoginFormState extends State<LoginForm> {
                       autovalidate: true,
                       autocorrect: false,
                       validator: (_) {
-                        return !state.isPasswordValid ? 'Invalid Password' : null;
+                        return !state.isPasswordValid
+                            ? 'Invalid Password'
+                            : null;
                       },
                     ),
                   ),

@@ -16,10 +16,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        brightness: Brightness.dark,
-        title: Text('Login'),
-      ),
       body: LoginForm(
         userRepository: _userRepository,
       ),

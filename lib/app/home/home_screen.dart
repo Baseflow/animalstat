@@ -16,10 +16,6 @@ class HomeScreen extends StatelessWidget {
           builder: (BuildContext context, AuthenticationState state) {
         var welcomeMessage = 'Welkom';
 
-        if (state is Authenticated) {
-          welcomeMessage = 'Welkom ${state.displayName}';
-        }
-
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -63,7 +59,6 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       actions: <Widget>[
-        IconButton(icon: Icon(Icons.add), onPressed: () {}),
         IconButton(
             icon: Icon(Icons.search),
             onPressed: () {

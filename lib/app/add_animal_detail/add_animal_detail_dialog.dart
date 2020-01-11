@@ -64,18 +64,20 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
                       return Column(
                         children: <Widget>[
                           Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                AddAnimalDetailHeader(
-                                  onClose: () => Navigator.of(context).pop(),
-                                ),
-                                ..._buildDateRow(
-                                    state.registrationDateDisplayValue),
-                                ..._buildHealthStatusSelectionRow(state),
-                                ..._buildDiagnosisSelectionRow(state),
-                                ..._buildTreatmentSelectionRow(state),
-                              ],
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  AddAnimalDetailHeader(
+                                    onClose: () => Navigator.of(context).pop(),
+                                  ),
+                                  ..._buildDateRow(
+                                      state.registrationDateDisplayValue),
+                                  ..._buildHealthStatusSelectionRow(state),
+                                  ..._buildDiagnosisSelectionRow(state),
+                                  ..._buildTreatmentSelectionRow(state),
+                                ],
+                              ),
                             ),
                           ),
                           _buildBottomBar(state),

@@ -5,8 +5,41 @@ import 'package:livestock/app/animal_details/widgets/animal_details_header.dart'
 import 'package:livestock/app/animal_details/widgets/history_card.dart';
 import 'package:livestock/app/animal_details/widgets/history_header.dart';
 import 'package:livestock/src/ui/widgets/livestock_number_box.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 
 class AnimalDetailsScreen extends StatelessWidget {
+  static MaterialPageRoute route(int animalNumber) {
+    return MaterialPageRoute(
+      builder: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider<AnimalHistoryBloc>(
+            builder: (_) => AnimalHistoryBloc(
+              animalNumber: animalNumber,
+              animalRepository:
+                  RepositoryProvider.of<AnimalRepository>(context),
+            )..add(
+                LoadHistory(
+                  animalNumber: animalNumber,
+                ),
+              ),
+          ),
+          BlocProvider<AnimalDetailsBloc>(
+            builder: (_) => AnimalDetailsBloc(
+              animalNumber: animalNumber,
+              animalRepository:
+                  RepositoryProvider.of<AnimalRepository>(context),
+            )..add(
+                LoadAnimalDetails(
+                  animalNumber: animalNumber,
+                ),
+              ),
+          ),
+        ],
+        child: AnimalDetailsScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

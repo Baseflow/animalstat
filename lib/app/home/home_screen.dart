@@ -63,15 +63,7 @@ class HomeScreen extends StatelessWidget {
             icon: Icon(Icons.search),
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => BlocProvider<SearchAnimalBloc>(
-                    builder: (context) => SearchAnimalBloc(
-                      animalRepository:
-                          RepositoryProvider.of<AnimalRepository>(context),
-                    ),
-                    child: SearchAnimalScreen(),
-                  ),
-                ),
+                SearchAnimalScreen.route(),
               );
             }),
       ],

@@ -12,6 +12,17 @@ import 'package:livestock/src/ui/widgets/livestock_search_text_field.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 
 class SearchAnimalScreen extends StatelessWidget {
+  static MaterialPageRoute route() {
+    return MaterialPageRoute(
+      builder: (context) => BlocProvider<SearchAnimalBloc>(
+        builder: (context) => SearchAnimalBloc(
+          animalRepository: RepositoryProvider.of<AnimalRepository>(context),
+        ),
+        child: SearchAnimalScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,15 +120,11 @@ class SearchAnimalScreen extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => MultiBlocProvider(
-            providers: getAnimalDetailProviders(
-              searchResult.animalNumber,
-              context,
-            ),
-            child: AnimalDetailsScreen(),
+        Navigator.of(context).push(
+          AnimalDetailsScreen.route(
+            searchResult.animalNumber,
           ),
-        ));
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -161,23 +168,4 @@ class SearchAnimalScreen extends StatelessWidget {
       ),
     );
   }
-
-  List<BlocProvider> getAnimalDetailProviders(
-    int animalNumber,
-    BuildContext context,
-  ) =>
-      [
-        BlocProvider<AnimalHistoryBloc>(
-            builder: (_) => AnimalHistoryBloc(
-                  animalNumber: animalNumber,
-                  animalRepository:
-                      RepositoryProvider.of<AnimalRepository>(context),
-                )..add(LoadHistory(animalNumber: animalNumber))),
-        BlocProvider<AnimalDetailsBloc>(
-          builder: (_) => AnimalDetailsBloc(
-            animalNumber: animalNumber,
-            animalRepository: RepositoryProvider.of<AnimalRepository>(context),
-          )..add(LoadAnimalDetails(animalNumber: animalNumber)),
-        ),
-      ];
 }

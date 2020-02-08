@@ -1,32 +1,44 @@
+import 'dart:ui';
+
 import 'package:equatable/equatable.dart';
-import 'package:livestock/app/animal_details/bloc/view_models/animal_detail_view_model.dart';
+import 'package:livestock/app/animal_details/bloc/animal_details_bloc/animal_details_view_model.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 import 'package:meta/meta.dart';
 
-abstract class AnimalDetailsState extends Equatable {
+class AnimalDetailsState extends Equatable {
   final int animalNumber;
+  final AnimalDetailsViewModel animalDetailsViewModel;
+  final bool isLoading;
 
-  const AnimalDetailsState(this.animalNumber);
+  const AnimalDetailsState(this.animalNumber, {this.animalDetailsViewModel, this.isLoading});
+
+  factory AnimalDetailsState.loading(int animalNumber) {
+    return AnimalDetailsState(animalNumber,
+      animalDetailsViewModel: null,
+      isLoading: true,
+    );
+  }
+
+  AnimalDetailsState update(Animal animal) {
+    var viewModel = AnimalDetailsViewModel.fromModel(animal);
+
+    return copyWith(
+      animalDetailsViewModel: viewModel,
+      isLoading: false,
+    );
+  }
+
+  AnimalDetailsState copyWith({
+    AnimalDetailsViewModel animalDetailsViewModel,
+    bool isLoading,
+  }) {
+    return AnimalDetailsState(
+      this.animalNumber,
+      animalDetailsViewModel: animalDetailsViewModel ?? this.animalDetailsViewModel,
+      isLoading: isLoading ?? this.isLoading,
+    );
+  }
 
   @override
-  List<Object> get props => [animalNumber];
-}
-
-class InitialAnimalDetailsState extends AnimalDetailsState {
-  const InitialAnimalDetailsState({@required int animalNumber})
-    : super(animalNumber);
-}
-
-class AnimalDetailsLoading extends AnimalDetailsState {
-  const AnimalDetailsLoading({@required int animalNumber})
-      : super(animalNumber);
-}
-
-class AnimalDetailsLoaded extends AnimalDetailsState {
-  final AnimalDetailsViewModel animal;
-
-  AnimalDetailsLoaded({@required this.animal})
-    : super(animal.animalNumber);
-
-  @override
-  List<Object> get props => [animal];
+  List<Object> get props => [animalNumber, animalDetailsViewModel, isLoading];
 }

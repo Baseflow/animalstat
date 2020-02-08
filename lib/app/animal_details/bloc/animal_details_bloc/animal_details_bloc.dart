@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:livestock_repository/livestock_repository.dart';
-import 'package:livestock/app/animal_details/bloc/view_models/animal_detail_view_model.dart';
+import 'package:livestock/app/animal_details/bloc/animal_details_bloc/animal_details_view_model.dart';
 import 'package:meta/meta.dart';
 import '../bloc.dart';
 
@@ -19,9 +19,7 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
         this._animalRepository = animalRepository;
 
   @override
-  AnimalDetailsState get initialState => InitialAnimalDetailsState(
-        animalNumber: _animalNumber,
-      );
+  AnimalDetailsState get initialState => AnimalDetailsState.loading(_animalNumber,);
 
   @override
   Stream<AnimalDetailsState> mapEventToState(
@@ -36,7 +34,7 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
 
   Stream<AnimalDetailsState> _mapLoadAnimalDetailsToState(
       LoadAnimalDetails event) async* {
-    yield AnimalDetailsLoading(animalNumber: event.animalNumber);
+    yield AnimalDetailsState.loading(event.animalNumber);
 
     _animalDetailSubscription?.cancel();
     _animalDetailSubscription = _animalRepository
@@ -47,8 +45,7 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
 
   Stream<AnimalDetailsState> _mapAnimalDetailsChangedToState(
       AnimalDetailsChanged event) async* {
-    final animalViewModel = AnimalDetailsViewModel.fromModel(event.animal);
-    yield AnimalDetailsLoaded(animal: animalViewModel);
+    yield state.update(event.animal);
   }
 
   @override

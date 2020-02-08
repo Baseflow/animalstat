@@ -17,7 +17,7 @@ class AnimalDetailsHeader extends StatelessWidget
       color: kAccentColor,
       child: BlocBuilder<AnimalDetailsBloc, AnimalDetailsState>(
           builder: (BuildContext context, AnimalDetailsState state) {
-        if (state is AnimalDetailsLoaded) {
+        if (!state.isLoading) {
           return Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: Row(
@@ -36,7 +36,7 @@ class AnimalDetailsHeader extends StatelessWidget
                       ),
                     ),
                     Text(
-                      state.animal.dateOfBirth,
+                      state.animalDetailsViewModel.dateOfBirth,
                       style: TextStyle(
                         color: kWhite,
                         fontWeight: FontWeight.bold,
@@ -47,7 +47,7 @@ class AnimalDetailsHeader extends StatelessWidget
                 ),
                 Expanded(child: Container()),
                 LivestockHealthStatusLabel(
-                    healthStatus: state.animal.currentHealthStatus)
+                    healthStatus: state.animalDetailsViewModel.currentHealthStatus)
               ],
             ),
           );

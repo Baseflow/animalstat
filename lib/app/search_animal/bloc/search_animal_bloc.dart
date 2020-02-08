@@ -15,7 +15,7 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
         this._animalRepository = animalRepository;
 
   @override
-  SearchAnimalState get initialState => InitialSearchState();
+  SearchAnimalState get initialState => SearchAnimalState.empty();
 
   @override
   Stream<SearchAnimalState> mapEventToState(
@@ -29,25 +29,35 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
   }
 
   Stream<SearchAnimalState> _mapQueryChangedToState(QueryChanged event) async* {
+    if(event.query.length == 0) {
+      yield SearchAnimalState.empty();
+      return;
+    }
+    
     var animalNumber = int.tryParse(event.query);
 
     if (animalNumber == null) {
-      yield InvalidQuery(query: event.query);
+      yield SearchAnimalState.invalidQuery(event.query);
     }
 
     _animalSearchResultSubscription?.cancel();
-    _animalSearchResultSubscription = _animalRepository
-        .searchAnimals(animalNumber)
-        .listen((searchResult) => add(ResultsChanged(results: searchResult)));
+    _animalSearchResultSubscription =
+        _animalRepository.searchAnimals(animalNumber).listen(
+              (searchResult) => add(
+                ResultsChanged(
+                  query: event.query,
+                  results: searchResult,
+                ),
+              ),
+            );
   }
 
   Stream<SearchAnimalState> _mapResultsChangedToState(
       ResultsChanged event) async* {
-    if (event.results == null || event.results.length == 0) {
-      yield NotFound();
-    } else {
-      yield ResultsUpdated(searchResults: event.results);
-    }
+    yield state.update(
+      query: event.query,
+      searchResults: event.results,
+    );
   }
 
   @override

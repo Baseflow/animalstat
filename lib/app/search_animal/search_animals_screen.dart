@@ -35,18 +35,38 @@ class SearchAnimalScreen extends StatelessWidget {
       ),
       body: BlocBuilder<SearchAnimalBloc, SearchAnimalState>(
         builder: (BuildContext context, SearchAnimalState state) {
-          if (state is ResultsUpdated) {
-            return ListView.builder(
-              itemBuilder: (context, index) =>
-                  _buildResultRow(context, state.searchResults[index]),
-              itemCount: state.searchResults.length,
+          if (state.isSearching) {
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          } else if (state is NotFound) {
-            return _buildMessage(context, 'Geen resultaten gevonden.');
           }
 
-          return _buildMessage(
-              context, 'Vul een diernummer in om een dier te zoeken.');
+          if (state.notFound) {
+            return _buildMessage(
+              context,
+              'Geen resultaten gevonden.',
+            );
+          }
+
+          if (state.isEmpty) {
+            return _buildMessage(
+              context,
+              'Vul een diernummer in om een dier te zoeken.',
+            );
+          }
+
+          if (!state.isQueryValid) {
+            return _buildMessage(
+              context,
+              'Het ingevoerde nummer "${state.query}" bevat illegale characters.',
+            );
+          }
+
+          return ListView.builder(
+            itemBuilder: (context, index) =>
+                _buildResultRow(context, state.searchResults[index]),
+            itemCount: state.searchResults.length,
+          );
         },
       ),
     );

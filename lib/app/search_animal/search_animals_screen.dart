@@ -55,7 +55,7 @@ class SearchAnimalScreen extends StatelessWidget {
             );
           }
 
-          if (!state.isQueryValid) {
+          if (state.isInvalidQuery) {
             return _buildMessage(
               context,
               'Het ingevoerde nummer "${state.query}" bevat illegale characters.',

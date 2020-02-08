@@ -4,17 +4,17 @@ import 'package:livestock_repository/livestock_repository.dart';
 
 class SearchAnimalState extends Equatable {
   final bool isEmpty;
-  final bool isQueryValid;
+  final bool isInvalidQuery;
   final bool isSearching;
   final String query;
   final List<AnimalSearchResult> searchResults;
 
-  bool get notFound => !isEmpty && isQueryValid && searchResults.length == 0;
+  bool get notFound => !isEmpty && !isInvalidQuery && searchResults.length == 0;
   bool get isNewAnimal => notFound && query.length == 5;
 
   SearchAnimalState({
     @required this.isEmpty,
-    @required this.isQueryValid,
+    @required this.isInvalidQuery,
     @required this.isSearching,
     @required this.query,
     @required this.searchResults,
@@ -23,7 +23,7 @@ class SearchAnimalState extends Equatable {
   factory SearchAnimalState.empty() {
     return SearchAnimalState(
       isEmpty: true,
-      isQueryValid: true,
+      isInvalidQuery: false,
       isSearching: false,
       query: '',
       searchResults: <AnimalSearchResult>[],
@@ -35,7 +35,7 @@ class SearchAnimalState extends Equatable {
   ) {
     return SearchAnimalState(
       isEmpty: false,
-      isQueryValid: false,
+      isInvalidQuery: true,
       isSearching: false,
       query: query,
       searchResults: <AnimalSearchResult>[],
@@ -62,7 +62,7 @@ class SearchAnimalState extends Equatable {
   }) {
     return SearchAnimalState(
       isEmpty: isEmpty ?? this.isEmpty,
-      isQueryValid: isQueryValid ?? this.isQueryValid,
+      isInvalidQuery: isQueryValid ?? this.isInvalidQuery,
       isSearching: isSearching ?? this.isSearching,
       query: query ?? this.query,
       searchResults: searchResults ?? this.searchResults,
@@ -72,7 +72,7 @@ class SearchAnimalState extends Equatable {
   @override
   List<Object> get props => [
         isEmpty,
-        isQueryValid,
+        isInvalidQuery,
         isSearching,
         query,
         searchResults,

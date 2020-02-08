@@ -24,7 +24,7 @@ class AnimalDetailsScreen extends StatelessWidget {
               ),
           ),
           BlocProvider<AnimalDetailsBloc>(
-            create: (_) => AnimalDetailsBloc(
+            create: (context) => AnimalDetailsBloc(
               animalNumber: animalNumber,
               animalRepository:
                   context.repository<AnimalRepository>(),

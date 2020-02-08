@@ -5,6 +5,7 @@ import 'package:livestock/app/add_animal_detail/widgets/add_animal_detail_header
 import 'package:livestock/app/add_animal_detail/widgets/diagnosis_selection_widget.dart';
 import 'package:livestock/app/add_animal_detail/widgets/health_status_selection_widget.dart';
 import 'package:livestock/app/add_animal_detail/widgets/treatment_selection_widget.dart';
+import 'package:livestock/app/animal_details/bloc/bloc.dart';
 import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 
@@ -49,42 +50,45 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
               padding: const EdgeInsets.all(30.0),
               child: BlocListener<AddAnimalDetailBloc, AddAnimalDetailState>(
                 listener: (context, state) {
-                  if (state is HistoryRecordSaved) {
+                  if (state.isSaved) {
                     Navigator.of(context).pop();
+
+                    context.bloc<AnimalDetailsBloc>().add(
+                          AnimalHealthStatusChanged(
+                            animalNumber: state.animalNumber,
+                            healthStatus: state.healthStatus,
+                          ),
+                        );
                   }
                 },
                 child: BlocBuilder<AddAnimalDetailBloc, AddAnimalDetailState>(
                   builder: (context, state) {
-                    if (state is HistoryRecordSaved) {
+                    if (state.isSaved) {
                       return Container();
                     }
 
-                    if (state is AddAnimalDetailState) {
-                      return Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  AddAnimalDetailHeader(
-                                    onClose: () => Navigator.of(context).pop(),
-                                  ),
-                                  ..._buildDateRow(
-                                      state.registrationDateDisplayValue),
-                                  ..._buildHealthStatusSelectionRow(state),
-                                  ..._buildDiagnosisSelectionRow(state),
-                                  ..._buildTreatmentSelectionRow(state),
-                                ],
-                              ),
+                    return Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                AddAnimalDetailHeader(
+                                  onClose: () => Navigator.of(context).pop(),
+                                ),
+                                ..._buildDateRow(
+                                    state.registrationDateDisplayValue),
+                                ..._buildHealthStatusSelectionRow(state),
+                                ..._buildDiagnosisSelectionRow(state),
+                                ..._buildTreatmentSelectionRow(state),
+                              ],
                             ),
                           ),
-                          _buildBottomBar(state),
-                        ],
-                      );
-                    }
-
-                    return Container();
+                        ),
+                        _buildBottomBar(state),
+                      ],
+                    );
                   },
                 ),
               ),

@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:livestock/app/add_animal_detail/add_animal_detail_dialog.dart';
 import 'package:livestock/app/add_animal_detail/bloc/add_animal_detail_bloc.dart';
+import 'package:livestock/app/animal_details/bloc/animal_details_bloc/animal_details_bloc.dart';
 import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 
 class HistoryHeader extends StatelessWidget {
   HistoryHeader({@required this.animalNumber});
-  
+
   final int animalNumber;
 
   @override
@@ -49,18 +50,24 @@ class HistoryHeader extends StatelessWidget {
   }
 
   void _addDetailButtonPressed(BuildContext context) {
+    final animalDetailsBloc = context.bloc<AnimalDetailsBloc>();
+    
     showDialog(
-      barrierDismissible: true,
-      context: context,
-      builder: (BuildContext context) {
-        return BlocProvider(
-          create: (context) => AddAnimalDetailBloc(
-            animalNumber: animalNumber,
-            animalRepository: context.repository<AnimalRepository>(),
-          ),
-          child: AddAnimalDetailDialog(),
-        );
-      }
-    );
+        barrierDismissible: true,
+        context: context,
+        builder: (BuildContext context) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: animalDetailsBloc),
+              BlocProvider(
+                create: (context) => AddAnimalDetailBloc(
+                  animalNumber: animalNumber,
+                  animalRepository: context.repository<AnimalRepository>(),
+                ),
+              ),
+            ],
+            child: AddAnimalDetailDialog(),
+          );
+        });
   }
 }

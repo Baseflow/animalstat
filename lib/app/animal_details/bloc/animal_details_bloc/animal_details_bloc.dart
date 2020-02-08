@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:livestock_repository/livestock_repository.dart';
-import 'package:livestock/app/animal_details/bloc/animal_details_bloc/animal_details_view_model.dart';
 import 'package:meta/meta.dart';
 import '../bloc.dart';
 
@@ -19,7 +18,9 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
         this._animalRepository = animalRepository;
 
   @override
-  AnimalDetailsState get initialState => AnimalDetailsState.loading(_animalNumber,);
+  AnimalDetailsState get initialState => AnimalDetailsState.loading(
+        _animalNumber,
+      );
 
   @override
   Stream<AnimalDetailsState> mapEventToState(
@@ -29,6 +30,8 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
       yield* _mapLoadAnimalDetailsToState(event);
     } else if (event is AnimalDetailsChanged) {
       yield* _mapAnimalDetailsChangedToState(event);
+    } else if (event is AnimalHealthStatusChanged) {
+      yield* _mapAnimalHeathStatusChangedToState(event);
     }
   }
 
@@ -46,6 +49,20 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
   Stream<AnimalDetailsState> _mapAnimalDetailsChangedToState(
       AnimalDetailsChanged event) async* {
     yield state.update(event.animal);
+  }
+
+  Stream<AnimalDetailsState> _mapAnimalHeathStatusChangedToState(
+    AnimalHealthStatusChanged event,
+  ) async* {
+    if (state.animalNumber == event.animalNumber) {
+      var viewModel = state.animalDetailsViewModel.copyWith(
+        currentHealthStatus: event.healthStatus,
+      );
+
+      yield state.copyWith(
+        animalDetailsViewModel: viewModel,
+      );
+    }
   }
 
   @override

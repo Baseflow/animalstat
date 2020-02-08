@@ -43,7 +43,7 @@ class AddAnimalDetailBloc
       event.stateToSave.toModel(),
     );
 
-    yield HistoryRecordSaved();
+    yield state.copyWith(isSaved: true);
   }
 
   Stream<AddAnimalDetailState> _updateDiagnoses(

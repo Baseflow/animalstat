@@ -74,9 +74,7 @@ class App extends StatelessWidget {
         }
 
         if (state is Unauthenticated) {
-          return LoginScreen(
-            userRepository: RepositoryProvider.of<UserRepository>(context),
-          );
+          return LoginScreen();
         }
 
         if (state is Authenticated) {

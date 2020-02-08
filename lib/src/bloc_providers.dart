@@ -10,12 +10,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class BlocProviders {
   static List<BlocProvider> get providers => [
         BlocProvider<AuthenticationBloc>(
-          builder: (BuildContext context) => AuthenticationBloc(
+          create: (BuildContext context) => AuthenticationBloc(
             userRepository: RepositoryProvider.of<UserRepository>(context),
           )..add(AppStarted()),
         ),
         BlocProvider<LoginBloc>(
-          builder: (BuildContext context) => LoginBloc(
+          create: (BuildContext context) => LoginBloc(
             userRepository: RepositoryProvider.of<UserRepository>(context),
             validators: UtilityProvider.of<Validators>(context),
           ),

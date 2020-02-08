@@ -8,13 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 
 class LoginForm extends StatefulWidget {
-  final UserRepository _userRepository;
-
-  LoginForm({Key key, @required UserRepository userRepository})
-      : assert(userRepository != null),
-        _userRepository = userRepository,
-        super(key: key);
-
   State<LoginForm> createState() => _LoginFormState();
 }
 
@@ -35,7 +28,7 @@ class _LoginFormState extends State<LoginForm> {
   void initState() {
     super.initState();
 
-    _loginBloc = BlocProvider.of<LoginBloc>(context);
+    _loginBloc = context.bloc<LoginBloc>();
     _emailController.addListener(_onEmailChanged);
     _passwordController.addListener(_onPasswordChanged);
   }
@@ -75,7 +68,7 @@ class _LoginFormState extends State<LoginForm> {
         }
 
         if (state.isSuccess) {
-          BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
+          context.bloc<AuthenticationBloc>().add(LoggedIn());
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(

@@ -54,9 +54,9 @@ class HistoryHeader extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return BlocProvider(
-          builder: (context) => AddAnimalDetailBloc(
+          create: (context) => AddAnimalDetailBloc(
             animalNumber: animalNumber,
-            animalRepository: RepositoryProvider.of<AnimalRepository>(context),
+            animalRepository: context.repository<AnimalRepository>(),
           ),
           child: AddAnimalDetailDialog(),
         );

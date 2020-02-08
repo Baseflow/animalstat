@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/semantics.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -17,9 +18,25 @@ class LoadAnimalDetails extends AnimalDetailsEvent {
 
 class AnimalDetailsChanged extends AnimalDetailsEvent {
   AnimalDetailsChanged({@required this.animal});
-  
+
   final Animal animal;
-  
+
   @override
   List<Object> get props => [animal];
+}
+
+class AnimalHealthStatusChanged extends AnimalDetailsEvent {
+  final int animalNumber;
+  final HealthStates healthStatus;
+
+  AnimalHealthStatusChanged({
+    @required this.animalNumber,
+    @required this.healthStatus,
+  });
+
+  @override
+  List<Object> get props => [
+        animalNumber,
+        healthStatus,
+      ];
 }

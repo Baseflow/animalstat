@@ -13,10 +13,10 @@ class AnimalDetailsScreen extends StatelessWidget {
       builder: (context) => MultiBlocProvider(
         providers: [
           BlocProvider<AnimalHistoryBloc>(
-            builder: (_) => AnimalHistoryBloc(
+            create: (_) => AnimalHistoryBloc(
               animalNumber: animalNumber,
               animalRepository:
-                  RepositoryProvider.of<AnimalRepository>(context),
+                  context.repository<AnimalRepository>(),
             )..add(
                 LoadHistory(
                   animalNumber: animalNumber,
@@ -24,10 +24,10 @@ class AnimalDetailsScreen extends StatelessWidget {
               ),
           ),
           BlocProvider<AnimalDetailsBloc>(
-            builder: (_) => AnimalDetailsBloc(
+            create: (_) => AnimalDetailsBloc(
               animalNumber: animalNumber,
               animalRepository:
-                  RepositoryProvider.of<AnimalRepository>(context),
+                  context.repository<AnimalRepository>(),
             )..add(
                 LoadAnimalDetails(
                   animalNumber: animalNumber,

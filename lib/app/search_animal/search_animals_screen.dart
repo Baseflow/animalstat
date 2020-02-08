@@ -15,8 +15,8 @@ class SearchAnimalScreen extends StatelessWidget {
   static MaterialPageRoute route() {
     return MaterialPageRoute(
       builder: (context) => BlocProvider<SearchAnimalBloc>(
-        builder: (context) => SearchAnimalBloc(
-          animalRepository: RepositoryProvider.of<AnimalRepository>(context),
+        create: (context) => SearchAnimalBloc(
+          animalRepository: context.repository<AnimalRepository>(),
         ),
         child: SearchAnimalScreen(),
       ),
@@ -32,7 +32,7 @@ class SearchAnimalScreen extends StatelessWidget {
             icon: Icon(Icons.close),
             onPressed: () {
               Navigator.pop(context);
-              BlocProvider.of<SearchAnimalBloc>(context)
+              context.bloc<SearchAnimalBloc>()
                   .add(QueryChanged(query: ''));
             },
           ),
@@ -90,7 +90,7 @@ class SearchAnimalScreen extends StatelessWidget {
         child: LivestockSearchTextField(
           autofocus: true,
           keyboardType: TextInputType.number,
-          onChanged: (value) => BlocProvider.of<SearchAnimalBloc>(context)
+          onChanged: (value) => context.bloc<SearchAnimalBloc>()
               .add(QueryChanged(query: value)),
         ),
       ),

@@ -15,11 +15,11 @@ class UtilityProvider<T> extends Provider<T> {
   /// ```
   UtilityProvider({
     Key key,
-    @required ValueBuilder<T> builder,
+    @required Create<T> create,
     Widget child,
   }) : super(
           key: key,
-          builder: builder,
+          create: create,
           dispose: (_, __) {},
           child: child,
         );

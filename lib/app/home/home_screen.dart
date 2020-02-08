@@ -1,5 +1,3 @@
-import 'package:livestock_repository/livestock_repository.dart';
-import 'package:livestock/app/search_animal/bloc/search_animal_bloc.dart';
 import 'package:livestock/app/search_animal/search_animals_screen.dart';
 import 'package:livestock/app/authentication/bloc/authentication_bloc.dart';
 import 'package:livestock/app/authentication/bloc/bloc.dart';
@@ -46,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                onPressed: () => BlocProvider.of<AuthenticationBloc>(context)
+                onPressed: () => context.bloc<AuthenticationBloc>()
                     .add(LoggedOut()),
               ),
             ],

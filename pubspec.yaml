@@ -22,7 +22,8 @@ dependencies:
 
   pedantic: ^1.8.0
   meta: ^1.1.7
-  flutter_bloc: ^2.0.0
+  flutter_bloc: ^3.2.0
+  rxdart: ^0.23.1
   equatable: ^0.6.1
   font_awesome_flutter: ^8.5.0
   intl: ^0.16.0

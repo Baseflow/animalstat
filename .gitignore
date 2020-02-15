@@ -75,3 +75,4 @@
 # Make sure Google Service configuration is not committed to source control
 **/ios/**/GoogleService-Info.plist
 **/android/**/google-services.json
+node_modules

@@ -6,8 +6,8 @@ import 'package:livestock/app/add_animal_detail/widgets/diagnosis_selection_widg
 import 'package:livestock/app/add_animal_detail/widgets/health_status_selection_widget.dart';
 import 'package:livestock/app/add_animal_detail/widgets/treatment_selection_widget.dart';
 import 'package:livestock/app/animal_details/bloc/bloc.dart';
+import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
-import 'package:livestock_repository/livestock_repository.dart';
 
 import 'bloc/bloc.dart';
 
@@ -17,16 +17,24 @@ class AddAnimalDetailDialog extends StatefulWidget {
 }
 
 class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
-  Diagnoses selectedDiagnosis;
-  HealthStates selectedHealthStatus;
-  Treatments selectedTreatment;
+  final _formKey = GlobalKey<FormState>();
+  
+  AddAnimalDetailBloc _addAnimalDetailBloc;
+  TextEditingController _cageEditingController;
 
   @override
   void initState() {
-    selectedDiagnosis = null;
-    selectedHealthStatus = null;
-    selectedTreatment = null;
     super.initState();
+
+    _addAnimalDetailBloc = context.bloc<AddAnimalDetailBloc>();
+    _cageEditingController = TextEditingController();
+    _cageEditingController.addListener(_onCageNumberChanged);
+    _cageEditingController.value = TextEditingValue(
+      text: _addAnimalDetailBloc.state.cageDisplayValue,
+      selection: TextSelection.fromPosition(
+        TextPosition(offset: _addAnimalDetailBloc.state.cageDisplayValue?.length ?? 0),
+      ),
+    );
   }
 
   @override
@@ -70,19 +78,21 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
                     return Column(
                       children: <Widget>[
                         Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                AddAnimalDetailHeader(
-                                  onClose: () => Navigator.of(context).pop(),
-                                ),
-                                ..._buildDateRow(
-                                    state.registrationDateDisplayValue),
-                                ..._buildHealthStatusSelectionRow(state),
-                                ..._buildDiagnosisSelectionRow(state),
-                                ..._buildTreatmentSelectionRow(state),
-                              ],
+                          child: Form(
+                            key: _formKey,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  AddAnimalDetailHeader(
+                                    onClose: () => Navigator.of(context).pop(),
+                                  ),
+                                  ..._buildDateRow(state),
+                                  ..._buildHealthStatusSelectionRow(state),
+                                  ..._buildDiagnosisSelectionRow(state),
+                                  ..._buildTreatmentSelectionRow(state),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -100,6 +110,15 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
   }
 
   Widget _buildBottomBar(AddAnimalDetailState state) {
+    var saveAction = state.canSave ?
+            () =>
+              BlocProvider.of<AddAnimalDetailBloc>(context).add(
+                SaveAnimalHistoryRecord(
+                  stateToSave: state,
+                ),
+              )
+            : null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -108,11 +127,7 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
           padding: const EdgeInsets.only(top: 15.0),
           child: LivestockPrimaryButton(
             text: 'Opslaan',
-            onPressed: () => BlocProvider.of<AddAnimalDetailBloc>(context).add(
-              SaveAnimalHistoryRecord(
-                stateToSave: state,
-              ),
-            ),
+            onPressed: saveAction,
             icon: Icon(
               FontAwesomeIcons.plus,
               color: Colors.white,
@@ -124,28 +139,77 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
     );
   }
 
-  List<Widget> _buildDateRow(String dateToDisplay) {
+  List<Widget> _buildDateRow(AddAnimalDetailState state) {
     return <Widget>[
       Divider(),
       Padding(
-        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.only(
+          top: 15.0,
+          bottom: 15.0,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              'Datum',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15.0,
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Datum',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 14, bottom: 18),
+                  child: Text(
+                    state.registrationDateDisplayValue,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Text(
-              dateToDisplay,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18.0,
-              ),
-            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Hok',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
+                  ),
+                ),
+                SizedBox(
+                  width: 70,
+                  child: TextField(
+                    controller: _cageEditingController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide(
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.all(0),
+                      counter: Container(),
+                    ),
+                    maxLength: 3,
+                    maxLengthEnforced: true,
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: kDefaultTextColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
@@ -248,5 +312,19 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
         ),
       ),
     ];
+  }
+
+  @override
+  void dispose() {
+    _cageEditingController.dispose();
+    super.dispose();
+  }
+
+  void _onCageNumberChanged() {
+    _addAnimalDetailBloc.add(
+      UpdateCageNumber(
+        cage: _cageEditingController.text,
+      ),
+    );
   }
 }

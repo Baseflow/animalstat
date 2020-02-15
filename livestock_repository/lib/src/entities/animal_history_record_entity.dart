@@ -10,35 +10,38 @@ import 'package:livestock_repository/src/entities/converters/firestore_health_st
 import 'package:livestock_repository/src/entities/converters/firestore_treatments_converter.dart';
 
 class AnimalHistoryRecordEntity extends Equatable {
+  final int cage;
   final int diagnosis;
   final int healthStatus;
   final DateTime seenOn;
   final int treatment;
 
   const AnimalHistoryRecordEntity(
-      this.diagnosis,
-      this.healthStatus,
-      this.seenOn,
-      this.treatment,
-      );
+    this.cage,
+    this.diagnosis,
+    this.healthStatus,
+    this.seenOn,
+    this.treatment,
+  );
 
   @override
   List<Object> get props => [
-    diagnosis,
-    healthStatus,
-    seenOn,
-    treatment,
-  ];
+        diagnosis,
+        healthStatus,
+        seenOn,
+        treatment,
+      ];
 
   @override
   String toString() {
-    return 'AnimalHistoryRecordEntity {diagnosis: $diagnosis, healthStatus: $healthStatus, seenOn: $seenOn, treatments: $treatment }';
+    return 'AnimalHistoryRecordEntity {cage: $cage, diagnosis: $diagnosis, healthStatus: $healthStatus, seenOn: $seenOn, treatments: $treatment }';
   }
 
   static AnimalHistoryRecordEntity fromSnapshot(DocumentSnapshot snap) {
     Timestamp seenOn = snap.data['seen_on'] as Timestamp;
 
     return AnimalHistoryRecordEntity(
+      snap.data['cage'],
       snap.data['diagnosis'],
       snap.data['health_status'],
       seenOn.toDate(),
@@ -48,6 +51,7 @@ class AnimalHistoryRecordEntity extends Equatable {
 
   static AnimalHistoryRecordEntity fromModel(AnimalHistoryRecord model) {
     return AnimalHistoryRecordEntity(
+      model.cage,
       model.diagnosis.index,
       model.healthStatus.index,
       model.seenOn,
@@ -57,6 +61,7 @@ class AnimalHistoryRecordEntity extends Equatable {
 
   AnimalHistoryRecord toModel() {
     return AnimalHistoryRecord(
+      cage,
       FirestoreDiagnosesConverter.toEnum(diagnosis),
       FirestoreHealthStatesConverter.toEnum(healthStatus),
       seenOn,
@@ -66,6 +71,7 @@ class AnimalHistoryRecordEntity extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
+      'cage': cage,
       'diagnosis': diagnosis,
       'health_status': healthStatus,
       // TODO: Implement support for 'seenBy' parameter...

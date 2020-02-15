@@ -5,24 +5,17 @@ import 'package:livestock/app/authentication/bloc/bloc.dart';
 import 'package:livestock/app/login/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:livestock_repository/livestock_repository.dart';
 
 class LoginForm extends StatefulWidget {
   State<LoginForm> createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   LoginBloc _loginBloc;
-
-  bool get isPopulated =>
-      _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
-
-  bool isLoginButtonEnabled(LoginState state) {
-    return state.isFormValid && isPopulated && !state.isSubmitting;
-  }
 
   @override
   void initState() {
@@ -76,6 +69,7 @@ class _LoginFormState extends State<LoginForm> {
           return Padding(
             padding: EdgeInsets.all(20.0),
             child: Form(
+              key: _formKey,
               child: ListView(
                 children: <Widget>[
                   Padding(
@@ -128,9 +122,11 @@ class _LoginFormState extends State<LoginForm> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         LivestockPrimaryButton(
-                            onPressed: isLoginButtonEnabled(state)
-                                ? _onFormSubmitted
-                                : null,
+                            onPressed: () {
+                              if(_formKey.currentState.validate()) {
+                                _submitForm();
+                              }
+                            },
                             text: 'Login'),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -170,7 +166,7 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  void _onFormSubmitted() {
+  void _submitForm() {
     _loginBloc.add(
       LoginWithCredentialsPressed(
         email: _emailController.text,

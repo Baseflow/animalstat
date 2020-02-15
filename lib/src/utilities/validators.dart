@@ -7,10 +7,10 @@ class Validators {
   );
 
   bool isValidEmail(String email) {
-    return _emailRegExp.hasMatch(email);
+    return email.isNotEmpty && _emailRegExp.hasMatch(email);
   }
 
   bool isValidPassword(String password) {
-    return _passwordRegExp.hasMatch(password);
+    return password.isNotEmpty && _passwordRegExp.hasMatch(password);
   }
 }

@@ -25,7 +25,9 @@ class AddAnimalDetailBloc
   Stream<AddAnimalDetailState> mapEventToState(
     AddAnimalDetailEvent event,
   ) async* {
-    if (event is UpdateDiagnosis) {
+    if (event is UpdateCageNumber) {
+      yield* _updateCageNumber(event);
+    } else if (event is UpdateDiagnosis) {
       yield* _updateDiagnoses(event);
     } else if (event is UpdateHealthStatus) {
       yield* _updateHealthStatus(event);
@@ -44,6 +46,22 @@ class AddAnimalDetailBloc
     );
 
     yield state.copyWith(isSaved: true);
+  }
+
+  Stream<AddAnimalDetailState> _updateCageNumber(
+    UpdateCageNumber event,
+  ) async* {
+    var cage = int.tryParse(event.cage);
+
+    yield AddAnimalDetailState(
+      animalNumber: state.animalNumber,
+      cage: cage,
+      diagnosis: state.diagnosis,
+      healthStatus: state.healthStatus,
+      isSaved: state.isSaved,
+      seenOn: state.seenOn,
+      treatment: state.treatment,
+      );
   }
 
   Stream<AddAnimalDetailState> _updateDiagnoses(
@@ -97,8 +115,29 @@ class AddAnimalDetailBloc
   static bool allowDiagnosisSelection(HealthStates healthStatus) =>
       healthStatus == HealthStates.ill ||
       healthStatus == HealthStates.suspicious;
+
   static bool allowTreatmentSelection(
           HealthStates healthStatus, Diagnoses diagnosis) =>
       AddAnimalDetailBloc.allowDiagnosisSelection(healthStatus) &&
       diagnosis != Diagnoses.none;
+
+  static bool canSaveState(AddAnimalDetailState state) {
+    if(state.cage == null || state.healthStatus == null) {
+      return false;
+    }
+
+    if(state.healthStatus == HealthStates.deceased || state.healthStatus == HealthStates.healthy) {
+      return true;
+    }
+
+    if(state.healthStatus == HealthStates.suspicious && state.diagnosis != null && state.diagnosis != Diagnoses.none) {
+      return true;
+    }
+
+    if(state.healthStatus == HealthStates.ill && state.diagnosis != null && state.diagnosis != Diagnoses.none && state.treatment != Treatments.none) {
+      return true;
+    }
+
+    return false;
+  }
 }

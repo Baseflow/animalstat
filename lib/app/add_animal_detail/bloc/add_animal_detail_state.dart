@@ -9,12 +9,14 @@ class AddAnimalDetailState extends Equatable {
     @required this.animalNumber,
     @required this.seenOn,
     @required this.isSaved,
+    this.cage,
     this.diagnosis,
     this.healthStatus,
     this.treatment,
   });
 
   final int animalNumber;
+  final int cage;
   final Diagnoses diagnosis;
   final HealthStates healthStatus;
   final bool isSaved;
@@ -23,9 +25,10 @@ class AddAnimalDetailState extends Equatable {
 
   bool get allowDiagnosisSelection => AddAnimalDetailBloc.allowDiagnosisSelection(healthStatus);
   bool get allowTreatmentSelection => AddAnimalDetailBloc.allowTreatmentSelection(healthStatus, diagnosis);
-
+  bool get canSave => AddAnimalDetailBloc.canSaveState(this);
+  String get cageDisplayValue => cage?.toString() ?? '';
   String get registrationDateDisplayValue => DateFormat('dd-MM-yyyy').format(seenOn);
-
+  
   factory AddAnimalDetailState.initial(int animalNumber) {
     return AddAnimalDetailState(
       animalNumber: animalNumber,
@@ -39,6 +42,7 @@ class AddAnimalDetailState extends Equatable {
 
   AddAnimalDetailState copyWith({
     int animalNumber,
+    int cage,
     Diagnoses diagnosis,
     HealthStates healthStatus,
     bool isSaved,
@@ -47,6 +51,7 @@ class AddAnimalDetailState extends Equatable {
   }) {
     return AddAnimalDetailState(
       animalNumber: animalNumber ?? this.animalNumber,
+      cage: cage ?? this.cage,
       diagnosis: diagnosis ?? this.diagnosis,
       healthStatus: healthStatus ?? this.healthStatus,
       isSaved: isSaved ?? this.isSaved,
@@ -57,6 +62,7 @@ class AddAnimalDetailState extends Equatable {
 
   AnimalHistoryRecord toModel() {
     return AnimalHistoryRecord(
+      cage,
       diagnosis,
       healthStatus,
       seenOn,
@@ -66,5 +72,5 @@ class AddAnimalDetailState extends Equatable {
 
   @override
   List<Object> get props =>
-      [diagnosis, healthStatus, isSaved, seenOn, treatment];
+      [animalNumber, cage, diagnosis, healthStatus, isSaved, seenOn, treatment];
 }

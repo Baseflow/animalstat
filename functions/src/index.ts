@@ -7,7 +7,7 @@ import {REGION} from './constants';
 
 export const firestoreInstance = admin.firestore();
 
-export const updateCurrentDiagnosis = functions
+export const updateCurrentHealthStatus = functions
     .region(REGION)
     .firestore
     .document('animals/{animalId}/history/{timestamp}')
@@ -18,5 +18,19 @@ export const updateCurrentDiagnosis = functions
         if(!newValue) return;
 
         const healthStatus = newValue.health_status;
-        return atomicFunctions.updateCurrentDiagnosis(animalId, healthStatus);
+        return atomicFunctions.updateCurrentHealthStatus(animalId, healthStatus);
+    });
+
+export const updateCurrentCageNumber = functions
+    .region(REGION)
+    .firestore
+    .document('animals/{animalId}/history/{timestamp}')
+    .onWrite((change, context) => {
+        const animalId : string = context.params.animalId;
+        const newValue = change.after.data();
+
+        if(!newValue) return;
+
+        const cageNumber = newValue.cage;
+        return atomicFunctions.updateCurrentCageNumber(animalId, cageNumber);
     });

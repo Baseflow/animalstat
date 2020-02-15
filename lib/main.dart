@@ -8,7 +8,6 @@ import 'package:livestock/src/providers/multi_utility_provider.dart';
 import 'package:livestock/src/repository_providers.dart';
 import 'package:livestock/src/utility_providers.dart';
 import 'package:livestock/app/authentication/bloc/bloc.dart';
-import 'package:livestock_repository/livestock_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';

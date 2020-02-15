@@ -16,6 +16,15 @@ class SaveAnimalHistoryRecord extends AddAnimalDetailEvent {
   List<Object> get props => [stateToSave];
 }
 
+class UpdateCageNumber extends AddAnimalDetailEvent {
+  UpdateCageNumber({@required this.cage,});
+
+  final String cage;
+
+  @override
+  List<Object> get props => [cage];
+}
+
 class UpdateDiagnosis extends AddAnimalDetailEvent {
   UpdateDiagnosis({@required this.previousState, @required this.diagnosis,});
   

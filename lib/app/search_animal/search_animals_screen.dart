@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livestock/app/animal_details/animal_details_screen.dart';
-import 'package:livestock/app/animal_details/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/search_animal_state.dart';
 import 'package:livestock/src/ui/theming.dart';

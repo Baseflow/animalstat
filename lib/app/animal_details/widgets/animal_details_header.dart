@@ -36,7 +36,7 @@ class AnimalDetailsHeader extends StatelessWidget
                       ),
                     ),
                     Text(
-                      state.animalDetailsViewModel.dateOfBirth,
+                      state.dateOfBirthDisplayValue,
                       style: TextStyle(
                         color: kWhite,
                         fontWeight: FontWeight.bold,
@@ -45,9 +45,36 @@ class AnimalDetailsHeader extends StatelessWidget
                     ),
                   ],
                 ),
-                Expanded(child: Container()),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Text(
+                        'Hok',
+                        style: TextStyle(
+                          color: kWhite,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                      Text(
+                        '${state.cageDisplayValue}',
+                        style: TextStyle(
+                          color: kWhite,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(),
+                ),
                 LivestockHealthStatusLabel(
-                    healthStatus: state.animalDetailsViewModel.currentHealthStatus)
+                    healthStatus:
+                        state.currentHealthStatus)
               ],
             ),
           );

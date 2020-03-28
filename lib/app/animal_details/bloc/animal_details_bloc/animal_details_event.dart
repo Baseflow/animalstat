@@ -16,27 +16,30 @@ class LoadAnimalDetails extends AnimalDetailsEvent {
   List<Object> get props => [animalNumber];
 }
 
-class AnimalDetailsChanged extends AnimalDetailsEvent {
-  AnimalDetailsChanged({@required this.animal});
-
+class AnimalChanged extends AnimalDetailsEvent {
   final Animal animal;
+
+  AnimalChanged({@required this.animal});
 
   @override
   List<Object> get props => [animal];
 }
 
-class AnimalHealthStatusChanged extends AnimalDetailsEvent {
-  final int animalNumber;
-  final HealthStates healthStatus;
+class UpdateDetails extends AnimalDetailsEvent {
+  final int cage;
+  final HealthStates currentHealthStatus;
+  final DateTime dateOfBirth;
 
-  AnimalHealthStatusChanged({
-    @required this.animalNumber,
-    @required this.healthStatus,
+  const UpdateDetails({
+    this.cage,
+    this.currentHealthStatus,
+    this.dateOfBirth,
   });
 
   @override
   List<Object> get props => [
-        animalNumber,
-        healthStatus,
+        cage,
+        currentHealthStatus,
+        dateOfBirth,
       ];
 }

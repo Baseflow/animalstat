@@ -42,7 +42,7 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
 
     _animalSearchResultSubscription?.cancel();
     _animalSearchResultSubscription =
-        _animalRepository.searchAnimals(animalNumber).listen(
+        _animalRepository.findAnimals(animalNumber).listen(
               (searchResult) => add(
                 ResultsChanged(
                   query: event.query,

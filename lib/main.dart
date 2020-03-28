@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:livestock/app/login/login_screen.dart';
-import 'package:livestock/app/home/home_screen.dart';
+import 'package:livestock/app/recurring_treatments/recurring_treatments_screen.dart';
 import 'package:livestock/app/splash/splash_screen.dart';
 import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/bloc_providers.dart';
@@ -45,43 +45,52 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.light,
-        fontFamily: 'SF Pro Text',
-        primaryColor: kPrimaryColor,
-        accentColor: kAccentColor,
-        backgroundColor: kBackgroundColor,
-        scaffoldBackgroundColor: kBackgroundColor,
-        dialogBackgroundColor: kWhite,
-        primaryTextTheme: TextTheme(
-          title: TextStyle(color: kWhite),
-        ),
-        textTheme: TextTheme(
-          body1: TextStyle(
-            color: kDefaultTextColor,
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: MaterialApp(
+        theme: ThemeData(
+          brightness: Brightness.light,
+          fontFamily: 'SF Pro Text',
+          primaryColor: kPrimaryColor,
+          accentColor: kAccentColor,
+          backgroundColor: kBackgroundColor,
+          scaffoldBackgroundColor: kBackgroundColor,
+          dialogBackgroundColor: kWhite,
+          primaryTextTheme: TextTheme(
+            title: TextStyle(color: kWhite),
+          ),
+          textTheme: TextTheme(
+            body1: TextStyle(
+              color: kDefaultTextColor,
+            ),
+          ),
+          primaryIconTheme: const IconThemeData.fallback().copyWith(
+            color: Colors.white,
           ),
         ),
-        primaryIconTheme: const IconThemeData.fallback().copyWith(
-          color: Colors.white,
-        ),
+        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (BuildContext context, AuthenticationState state) {
+          if (state is Uninitialized) {
+            return SplashScreen();
+          }
+
+          if (state is Unauthenticated) {
+            return LoginScreen();
+          }
+
+          if (state is Authenticated) {
+            return RecurringTreatmentsScreen();
+          }
+
+          return Container();
+        }),
       ),
-      home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          builder: (BuildContext context, AuthenticationState state) {
-        if (state is Uninitialized) {
-          return SplashScreen();
-        }
-
-        if (state is Unauthenticated) {
-          return LoginScreen();
-        }
-
-        if (state is Authenticated) {
-          return HomeScreen();
-        }
-
-        return Container();
-      }),
     );
   }
 }

@@ -28,10 +28,10 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
   ) async* {
     if (event is LoadAnimalDetails) {
       yield* _mapLoadAnimalDetailsToState(event);
-    } else if (event is AnimalDetailsChanged) {
-      yield* _mapAnimalDetailsChangedToState(event);
-    } else if (event is AnimalHealthStatusChanged) {
-      yield* _mapAnimalHeathStatusChangedToState(event);
+    } else if (event is AnimalChanged) {
+      yield* _mapAnimalChangedToState(event);
+    } else if (event is UpdateDetails) {
+      yield* _mapUpdateDetailsToState(event);
     }
   }
 
@@ -41,28 +41,24 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
 
     _animalDetailSubscription?.cancel();
     _animalDetailSubscription = _animalRepository
-        .loadAnimalByNumber(event.animalNumber)
+        .findAnimalByNumber(event.animalNumber)
         .listen(
-            (animalDetail) => add(AnimalDetailsChanged(animal: animalDetail)));
+            (animalDetail) => add(AnimalChanged(animal: animalDetail)));
   }
 
-  Stream<AnimalDetailsState> _mapAnimalDetailsChangedToState(
-      AnimalDetailsChanged event) async* {
+  Stream<AnimalDetailsState> _mapAnimalChangedToState(
+      AnimalChanged event) async* {
     yield state.update(event.animal);
   }
 
-  Stream<AnimalDetailsState> _mapAnimalHeathStatusChangedToState(
-    AnimalHealthStatusChanged event,
+  Stream<AnimalDetailsState> _mapUpdateDetailsToState(
+    UpdateDetails event,
   ) async* {
-    if (state.animalNumber == event.animalNumber) {
-      var viewModel = state.animalDetailsViewModel.copyWith(
-        currentHealthStatus: event.healthStatus,
-      );
-
-      yield state.copyWith(
-        animalDetailsViewModel: viewModel,
-      );
-    }
+    yield state.copyWith(
+      cage: event.cage,
+      currentHealthStatus: event.currentHealthStatus,
+      dateOfBirth: event.dateOfBirth,
+    );
   }
 
   @override

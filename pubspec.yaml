@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.3.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -27,6 +27,7 @@ dependencies:
   equatable: ^1.1.0
   font_awesome_flutter: ^8.5.0
   intl: ^0.16.0
+  flutter_slidable: ^0.5.4
 
   # Add dependencies to repository packages
   livestock_repository:

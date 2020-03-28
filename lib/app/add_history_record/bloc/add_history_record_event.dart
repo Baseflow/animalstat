@@ -1,22 +1,22 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:livestock/app/add_animal_detail/bloc/add_animal_detail_state.dart';
+import 'package:livestock/app/add_history_record/bloc/bloc.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 
-abstract class AddAnimalDetailEvent extends Equatable {
-  const AddAnimalDetailEvent();
+abstract class AddHistoryRecordEvent extends Equatable {
+  const AddHistoryRecordEvent();
 }
 
-class SaveAnimalHistoryRecord extends AddAnimalDetailEvent {
+class SaveAnimalHistoryRecord extends AddHistoryRecordEvent {
   SaveAnimalHistoryRecord({@required this.stateToSave});
   
-  final AddAnimalDetailState stateToSave;
+  final AddHistoryRecordState stateToSave;
   
   @override
   List<Object> get props => [stateToSave];
 }
 
-class UpdateCageNumber extends AddAnimalDetailEvent {
+class UpdateCageNumber extends AddHistoryRecordEvent {
   UpdateCageNumber({@required this.cage,});
 
   final String cage;
@@ -25,32 +25,41 @@ class UpdateCageNumber extends AddAnimalDetailEvent {
   List<Object> get props => [cage];
 }
 
-class UpdateDiagnosis extends AddAnimalDetailEvent {
+class UpdateDiagnosis extends AddHistoryRecordEvent {
   UpdateDiagnosis({@required this.previousState, @required this.diagnosis,});
   
-  final AddAnimalDetailState previousState;
+  final AddHistoryRecordState previousState;
   final Diagnoses diagnosis;
 
   @override
   List<Object> get props => [previousState, diagnosis];
 }
 
-class UpdateHealthStatus extends AddAnimalDetailEvent {
+class UpdateHealthStatus extends AddHistoryRecordEvent {
   UpdateHealthStatus({@required this.previousState, @required this.healthStatus,});
   
-  final AddAnimalDetailState previousState;
+  final AddHistoryRecordState previousState;
   final HealthStates healthStatus;
 
   @override
   List<Object> get props => [previousState, healthStatus];
 }
 
-class UpdateTreatment extends AddAnimalDetailEvent {
+class UpdateTreatment extends AddHistoryRecordEvent {
   UpdateTreatment({@required this.previousState, @required this.treatment,});
   
-  final AddAnimalDetailState previousState;
+  final AddHistoryRecordState previousState;
   final Treatments treatment;
 
   @override
   List<Object> get props => [previousState, treatment];
+}
+
+class UpdateTreatmentEndDate extends AddHistoryRecordEvent {
+  UpdateTreatmentEndDate({@required this.endDate});
+
+  final DateTime endDate;
+
+  @override
+  List<Object> get props => [endDate];
 }

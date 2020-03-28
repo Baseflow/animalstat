@@ -12,6 +12,7 @@ class AnimalHistoryRecord extends Equatable {
   final Diagnoses diagnosis;
   final HealthStates healthStatus;
   final Treatments treatment;
+  final DateTime treatmentEndDate;
 
   AnimalHistoryRecord(
     this.cage,
@@ -19,13 +20,21 @@ class AnimalHistoryRecord extends Equatable {
     this.healthStatus,
     this.seenOn,
     this.treatment,
+    this.treatmentEndDate,
   );
 
   @override
-  List<Object> get props => [cage, diagnosis, healthStatus, seenOn, treatment];
+  List<Object> get props => [
+        cage,
+        diagnosis,
+        healthStatus,
+        seenOn,
+        treatment,
+        treatmentEndDate,
+      ];
 
   @override
   String toString() {
-    return 'AnimalHistoryRecord{diagnosis: $diagnosis, healthStaus: $healthStatus, treatment: $treatment, seenOn: $seenOn}';
+    return 'AnimalHistoryRecord{diagnosis: $diagnosis, healthStaus: $healthStatus, treatment: $treatment, seenOn: $seenOn, endDate: $treatmentEndDate}';
   }
 }

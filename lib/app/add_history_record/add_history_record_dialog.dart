@@ -1,38 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:livestock/app/add_animal_detail/widgets/add_animal_detail_header.dart';
-import 'package:livestock/app/add_animal_detail/widgets/diagnosis_selection_widget.dart';
-import 'package:livestock/app/add_animal_detail/widgets/health_status_selection_widget.dart';
-import 'package:livestock/app/add_animal_detail/widgets/treatment_selection_widget.dart';
+import 'package:livestock/app/add_history_record/widgets/add_animal_detail_header.dart';
+import 'package:livestock/app/add_history_record/widgets/diagnosis_selection_widget.dart';
+import 'package:livestock/app/add_history_record/widgets/health_status_selection_widget.dart';
+import 'package:livestock/app/add_history_record/widgets/treatment_selection_widget.dart';
 import 'package:livestock/app/animal_details/bloc/bloc.dart';
 import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
 
 import 'bloc/bloc.dart';
 
-class AddAnimalDetailDialog extends StatefulWidget {
+class AddHistoryRecordDialog extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _AddAnimalDetailDialogState();
+  State<StatefulWidget> createState() => _AddHistoryRecordDialogState();
 }
 
-class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
+class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
   final _formKey = GlobalKey<FormState>();
-  
-  AddAnimalDetailBloc _addAnimalDetailBloc;
+
+  AddHistoryRecordBloc _addHistoryRecordBloc;
+  AnimalDetailsBloc _animalDetailsBloc;
   TextEditingController _cageEditingController;
 
   @override
   void initState() {
     super.initState();
 
-    _addAnimalDetailBloc = context.bloc<AddAnimalDetailBloc>();
+    _addHistoryRecordBloc = context.bloc<AddHistoryRecordBloc>();
+    _animalDetailsBloc = context.bloc<AnimalDetailsBloc>();
     _cageEditingController = TextEditingController();
     _cageEditingController.addListener(_onCageNumberChanged);
     _cageEditingController.value = TextEditingValue(
-      text: _addAnimalDetailBloc.state.cageDisplayValue,
+      text: _animalDetailsBloc.state.cage?.toString() ?? '',
       selection: TextSelection.fromPosition(
-        TextPosition(offset: _addAnimalDetailBloc.state.cageDisplayValue?.length ?? 0),
+        TextPosition(
+            offset: _animalDetailsBloc.state.cage.toString().length ?? 0),
       ),
     );
   }
@@ -56,20 +59,20 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
             ),
             child: Padding(
               padding: const EdgeInsets.all(30.0),
-              child: BlocListener<AddAnimalDetailBloc, AddAnimalDetailState>(
+              child: BlocListener<AddHistoryRecordBloc, AddHistoryRecordState>(
                 listener: (context, state) {
                   if (state.isSaved) {
                     Navigator.of(context).pop();
 
-                    context.bloc<AnimalDetailsBloc>().add(
-                          AnimalHealthStatusChanged(
-                            animalNumber: state.animalNumber,
-                            healthStatus: state.healthStatus,
-                          ),
-                        );
+                    _animalDetailsBloc.add(
+                      UpdateDetails(
+                        cage: state.cage,
+                        currentHealthStatus: state.healthStatus,
+                      ),
+                    );
                   }
                 },
-                child: BlocBuilder<AddAnimalDetailBloc, AddAnimalDetailState>(
+                child: BlocBuilder<AddHistoryRecordBloc, AddHistoryRecordState>(
                   builder: (context, state) {
                     if (state.isSaved) {
                       return Container();
@@ -91,6 +94,7 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
                                   ..._buildHealthStatusSelectionRow(state),
                                   ..._buildDiagnosisSelectionRow(state),
                                   ..._buildTreatmentSelectionRow(state),
+                                  ..._buildTreatmentEndDateRow(state),
                                 ],
                               ),
                             ),
@@ -109,15 +113,14 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
     );
   }
 
-  Widget _buildBottomBar(AddAnimalDetailState state) {
-    var saveAction = state.canSave ?
-            () =>
-              BlocProvider.of<AddAnimalDetailBloc>(context).add(
-                SaveAnimalHistoryRecord(
-                  stateToSave: state,
-                ),
-              )
-            : null;
+  Widget _buildBottomBar(AddHistoryRecordState state) {
+    var saveAction = state.canSave
+        ? () => context.bloc<AddHistoryRecordBloc>().add(
+              SaveAnimalHistoryRecord(
+                stateToSave: state,
+              ),
+            )
+        : null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -139,7 +142,7 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
     );
   }
 
-  List<Widget> _buildDateRow(AddAnimalDetailState state) {
+  List<Widget> _buildDateRow(AddHistoryRecordState state) {
     return <Widget>[
       Divider(),
       Padding(
@@ -217,100 +220,118 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
   }
 
   List<Widget> _buildDiagnosisSelectionRow(
-      AddAnimalDetailState animalDetailState) {
+      AddHistoryRecordState animalDetailState) {
     if (!animalDetailState.allowDiagnosisSelection) {
       return <Widget>[];
     }
 
-    return <Widget>[
-      Divider(),
-      Padding(
-        padding: const EdgeInsets.only(top: 15.0, bottom: 8.0),
-        child: Text(
-          'Diagnose',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 15.0,
+    return _buildDialogRow(
+      title: 'Diagnose',
+      child: DiagnosisSelectionWidget(
+        onChanged: (diagnosis) =>
+            BlocProvider.of<AddHistoryRecordBloc>(context).add(
+          UpdateDiagnosis(
+            diagnosis: diagnosis,
+            previousState: animalDetailState,
           ),
         ),
+        selectedDiagnosis: animalDetailState.diagnosis,
       ),
-      Padding(
-        padding: const EdgeInsets.only(bottom: 15.0),
-        child: DiagnosisSelectionWidget(
-          onChanged: (diagnosis) =>
-              BlocProvider.of<AddAnimalDetailBloc>(context).add(
-            UpdateDiagnosis(
-              diagnosis: diagnosis,
-              previousState: animalDetailState,
-            ),
-          ),
-          selectedDiagnosis: animalDetailState.diagnosis,
-        ),
-      ),
-    ];
+    );
   }
 
   List<Widget> _buildHealthStatusSelectionRow(
-      AddAnimalDetailState animalDetailState) {
-    return <Widget>[
-      Divider(),
-      Padding(
-        padding: const EdgeInsets.only(top: 15.0, bottom: 8.0),
-        child: Text(
-          'Gezondheidsstatus',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 15.0,
+      AddHistoryRecordState animalDetailState) {
+    return _buildDialogRow(
+      title: 'Gezondheidsstatus',
+      child: HealthStatusSelectionWidget(
+        onChanged: (healthStatus) =>
+            BlocProvider.of<AddHistoryRecordBloc>(context).add(
+          UpdateHealthStatus(
+            healthStatus: healthStatus,
+            previousState: animalDetailState,
           ),
         ),
+        selectedHealthStatus: animalDetailState.healthStatus,
       ),
-      Padding(
-        padding: const EdgeInsets.only(bottom: 15.0),
-        child: HealthStatusSelectionWidget(
-          onChanged: (healthStatus) =>
-              BlocProvider.of<AddAnimalDetailBloc>(context).add(
-            UpdateHealthStatus(
-              healthStatus: healthStatus,
-              previousState: animalDetailState,
-            ),
-          ),
-          selectedHealthStatus: animalDetailState.healthStatus,
-        ),
-      ),
-    ];
+    );
   }
 
-  List<Widget> _buildTreatmentSelectionRow(
-      AddAnimalDetailState animalDetailState) {
-    if (!animalDetailState.allowTreatmentSelection) {
+  List<Widget> _buildTreatmentEndDateRow(
+    AddHistoryRecordState recordState,
+  ) {
+    if (!recordState.allowTreatmentSelection) {
       return <Widget>[];
     }
 
+    return _buildDialogRow(
+      title: 'Einddatum',
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            recordState.treatmentEndDateDisplayValue,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+            ),
+          ),
+          IconButton(
+            onPressed: () => showDatePicker(
+              context: context,
+              initialDate: recordState.treatmentEndDate ?? DateTime.now(),
+              firstDate: DateTime.now().subtract(Duration(days: 1)),
+              lastDate: DateTime.now().add(Duration(days: 31)),
+            ).then(
+              (selectedDate) => _addHistoryRecordBloc.add(
+                UpdateTreatmentEndDate(endDate: selectedDate),
+              ),
+            ),
+            icon: Icon(FontAwesomeIcons.calendar),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildTreatmentSelectionRow(AddHistoryRecordState recordState) {
+    if (!recordState.allowTreatmentSelection) {
+      return <Widget>[];
+    }
+
+    return _buildDialogRow(
+      title: 'Behandeling',
+      child: TreatmentSelectionWidget(
+        onChanged: (treatment) =>
+            BlocProvider.of<AddHistoryRecordBloc>(context).add(
+          UpdateTreatment(
+            treatment: treatment,
+            previousState: recordState,
+          ),
+        ),
+        selectedTreatment: recordState.treatment,
+      ),
+    );
+  }
+
+  List<Widget> _buildDialogRow({
+    @required String title,
+    @required Widget child,
+  }) {
     return <Widget>[
       Divider(),
       Padding(
         padding: const EdgeInsets.only(top: 15.0, bottom: 8.0),
         child: Text(
-          'Behandeling',
+          title,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 15.0,
           ),
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.only(bottom: 15.0),
-        child: TreatmentSelectionWidget(
-          onChanged: (treatment) =>
-              BlocProvider.of<AddAnimalDetailBloc>(context).add(
-            UpdateTreatment(
-              treatment: treatment,
-              previousState: animalDetailState,
-            ),
-          ),
-          selectedTreatment: animalDetailState.treatment,
-        ),
-      ),
+      Padding(padding: const EdgeInsets.only(bottom: 15.0), child: child),
     ];
   }
 
@@ -321,7 +342,7 @@ class _AddAnimalDetailDialogState extends State<AddAnimalDetailDialog> {
   }
 
   void _onCageNumberChanged() {
-    _addAnimalDetailBloc.add(
+    _addHistoryRecordBloc.add(
       UpdateCageNumber(
         cage: _cageEditingController.text,
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:livestock/app/add_animal_detail/add_animal_detail_dialog.dart';
-import 'package:livestock/app/add_animal_detail/bloc/add_animal_detail_bloc.dart';
+import 'package:livestock/app/add_history_record/add_history_record_dialog.dart';
+import 'package:livestock/app/add_history_record/bloc/bloc.dart';
 import 'package:livestock/app/animal_details/bloc/animal_details_bloc/animal_details_bloc.dart';
 import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
@@ -60,13 +60,13 @@ class HistoryHeader extends StatelessWidget {
             providers: [
               BlocProvider.value(value: animalDetailsBloc),
               BlocProvider(
-                create: (context) => AddAnimalDetailBloc(
+                create: (context) => AddHistoryRecordBloc(
                   animalNumber: animalNumber,
                   animalRepository: context.repository<AnimalRepository>(),
                 ),
               ),
             ],
-            child: AddAnimalDetailDialog(),
+            child: AddHistoryRecordDialog(),
           );
         });
   }

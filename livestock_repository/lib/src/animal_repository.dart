@@ -1,10 +1,9 @@
 import 'package:livestock_repository/livestock_repository.dart';
 
 abstract class AnimalRepository {
-  Stream<List<AnimalSearchResult>> searchAnimals(int animalNumber);
-  Stream<List<AnimalHistoryRecord>> animalHistory(int animalNumber);
-
-  Stream<Animal> loadAnimalByNumber(int animalNumber);
+  Stream<List<Animal>> findAnimals(int animalNumber);
+  Stream<List<AnimalHistoryRecord>> findAnimalHistory(int animalNumber);
+  Stream<Animal> findAnimalByNumber(int animalNumber);
 
   Future insertHistoryRecord(
     int animalNumber,

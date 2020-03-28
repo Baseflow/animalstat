@@ -7,7 +7,7 @@ class SearchAnimalState extends Equatable {
   final bool isInvalidQuery;
   final bool isSearching;
   final String query;
-  final List<AnimalSearchResult> searchResults;
+  final List<Animal> searchResults;
 
   bool get notFound => !isEmpty && !isInvalidQuery && searchResults.length == 0;
   bool get isNewAnimal => notFound && query.length == 5;
@@ -26,7 +26,7 @@ class SearchAnimalState extends Equatable {
       isInvalidQuery: false,
       isSearching: false,
       query: '',
-      searchResults: <AnimalSearchResult>[],
+      searchResults: <Animal>[],
     );
   }
 
@@ -38,13 +38,13 @@ class SearchAnimalState extends Equatable {
       isInvalidQuery: true,
       isSearching: false,
       query: query,
-      searchResults: <AnimalSearchResult>[],
+      searchResults: <Animal>[],
     );
   }
 
   SearchAnimalState update({
     String query,
-    List<AnimalSearchResult> searchResults,
+    List<Animal> searchResults,
   }) {
     return copyWith(
       isEmpty: query?.length == 0 ?? true,
@@ -58,7 +58,7 @@ class SearchAnimalState extends Equatable {
     bool isQueryValid,
     bool isSearching,
     String query,
-    List<AnimalSearchResult> searchResults,
+    List<Animal> searchResults,
   }) {
     return SearchAnimalState(
       isEmpty: isEmpty ?? this.isEmpty,

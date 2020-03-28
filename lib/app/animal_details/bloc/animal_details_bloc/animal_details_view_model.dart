@@ -4,29 +4,34 @@ import 'package:intl/intl.dart';
 
 class AnimalDetailsViewModel {
   final int animalNumber;
-  final String dateOfBirth;
+  final int cage;
   final HealthStates currentHealthStatus;
+  final String dateOfBirth;
 
   const AnimalDetailsViewModel({
     @required this.animalNumber,
-    @required this.dateOfBirth,
+    @required this.cage,
     @required this.currentHealthStatus,
+    @required this.dateOfBirth,
   });
 
   AnimalDetailsViewModel.fromModel(Animal animal)
       : this.animalNumber = animal.animalNumber,
-        this.dateOfBirth = DateFormat('dd-MM-yyyy').format(animal.dateOfBirth),
-        this.currentHealthStatus = animal.currentHealthStatus;
+        this.cage = animal.currentCageNumber,
+        this.currentHealthStatus = animal.currentHealthStatus,
+        this.dateOfBirth = DateFormat('dd-MM-yyyy').format(animal.dateOfBirth);
 
   AnimalDetailsViewModel copyWith({
     int animalNumber,
-    String dateOfBirth,
+    int cage,
     HealthStates currentHealthStatus,
+    String dateOfBirth,
   }) {
     return AnimalDetailsViewModel(
       animalNumber: animalNumber ?? this.animalNumber,
-      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      cage: cage ?? this.cage,
       currentHealthStatus: currentHealthStatus ?? this.currentHealthStatus,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
     );
   }
 }

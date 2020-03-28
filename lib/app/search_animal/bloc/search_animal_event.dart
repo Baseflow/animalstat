@@ -20,7 +20,7 @@ class QueryChanged extends SearchAnimalEvent {
 
 class ResultsChanged extends SearchAnimalEvent {
   final String query;
-  final List<AnimalSearchResult> results;
+  final List<Animal> results;
 
   const ResultsChanged({@required this.query, @required this.results});
 

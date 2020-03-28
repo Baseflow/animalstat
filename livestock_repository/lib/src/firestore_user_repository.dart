@@ -1,10 +1,10 @@
 import 'package:livestock_repository/livestock_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseUserRepository implements UserRepository{
+class FirestoreUserRepository implements UserRepository{
   final FirebaseAuth _firebaseAuth;
 
-  FirebaseUserRepository({
+  FirestoreUserRepository({
     FirebaseAuth firebaseAuth,
   })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 

@@ -20,15 +20,10 @@ class HistoryCard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(
-                  child: Text(
-                    _historyCardState.seenOn,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                    ),
-                  ),
+                  child: _buildTitleColumn(),
                 ),
                 LivestockHealthStatusLabel(
                   healthStatus: _historyCardState.healthStatus,
@@ -41,7 +36,7 @@ class HistoryCard extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Expanded( child: _buildDiagnosesColumn()),
+                        Expanded(child: _buildDiagnosesColumn()),
                         _buildTreatmentColumn(),
                       ],
                     ),
@@ -50,6 +45,27 @@ class HistoryCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTitleColumn() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          _historyCardState.seenOnDisplayValue,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18.0,
+          ),
+        ),
+        Text(
+          _historyCardState.cageDisplayValue,
+          style: TextStyle(
+            fontSize: 17.0,
+          ),
+        ),
+      ],
     );
   }
 
@@ -65,8 +81,7 @@ class HistoryCard extends StatelessWidget {
           ),
         ),
         Text(
-          EnumConverters.toDiagnosesDisplayValue(
-              _historyCardState.diagnosis),
+          EnumConverters.toDiagnosesDisplayValue(_historyCardState.diagnosis),
           style: TextStyle(
             fontSize: 17.0,
           ),
@@ -83,8 +98,7 @@ class HistoryCard extends StatelessWidget {
     return Column(
       children: <Widget>[
         Text(
-          EnumConverters.toTreatmentDisplayValue(
-              _historyCardState.treatment),
+          EnumConverters.toTreatmentDisplayValue(_historyCardState.treatment),
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 17.0,

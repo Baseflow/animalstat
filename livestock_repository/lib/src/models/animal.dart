@@ -30,7 +30,7 @@ class Animal {
           animalNumber == other.animalNumber &&
           dateOfBirth == other.dateOfBirth &&
           currentCageNumber == other.currentCageNumber &&
-          currentHealthStatus == currentHealthStatus;
+          currentHealthStatus == other.currentHealthStatus;
 
   @override
   String toString() {

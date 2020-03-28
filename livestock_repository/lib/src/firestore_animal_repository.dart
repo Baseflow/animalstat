@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'entities/entities.dart';
+import 'extensions/extensions.dart';
 import 'models/models.dart';
 import 'animal_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +9,7 @@ class FirestoreAnimalRepository implements AnimalRepository {
   final _animalCollection = Firestore.instance.collection('animals');
 
   @override
-  Stream<List<AnimalSearchResult>> searchAnimals(int animalNumber) {
+  Stream<List<Animal>> findAnimals(int animalNumber) {
     if (animalNumber == null) {
       return Stream.empty();
     }
@@ -24,12 +24,12 @@ class FirestoreAnimalRepository implements AnimalRepository {
         .where('animal_number', isLessThan: end)
         .snapshots()
         .map((snap) => snap.documents
-            .map((doc) => AnimalSearchResultEntity.fromSnapshot(doc).toModel())
+            .map((doc) => doc.toAnimal())
             .toList());
   }
 
   @override
-  Stream<List<AnimalHistoryRecord>> animalHistory(int animalNumber) {
+  Stream<List<AnimalHistoryRecord>> findAnimalHistory(int animalNumber) {
     if (animalNumber == null) {
       return Stream.empty();
     }
@@ -40,12 +40,12 @@ class FirestoreAnimalRepository implements AnimalRepository {
         .orderBy('seen_on', descending: true)
         .snapshots()
         .map((snap) => snap.documents
-            .map((doc) => AnimalHistoryRecordEntity.fromSnapshot(doc).toModel())
+            .map((doc) => doc.toAnimalHistoryRecord())
             .toList());
   }
 
   @override
-  Stream<Animal> loadAnimalByNumber(int animalNumber) {
+  Stream<Animal> findAnimalByNumber(int animalNumber) {
     if (animalNumber == null) {
       throw ArgumentError.notNull('animalNumber');
     }
@@ -53,7 +53,7 @@ class FirestoreAnimalRepository implements AnimalRepository {
     return _animalCollection
         .document(animalNumber.toString())
         .snapshots()
-        .map((snap) => AnimalEntity.fromSnapshot(snap).toModel());
+        .map((snap) => snap.toAnimal());
   }
 
   @override
@@ -70,13 +70,12 @@ class FirestoreAnimalRepository implements AnimalRepository {
     }
 
     final timestamp = Timestamp.fromDate(animalHistoryRecord.seenOn);
-    final historyRecordEntity =
-        AnimalHistoryRecordEntity.fromModel(animalHistoryRecord);
+    final historyRecordJson = animalHistoryRecord.toJson();
 
     return _animalCollection
         .document(animalNumber.toString())
         .collection('history')
         .document(timestamp.millisecondsSinceEpoch.toString())
-        .setData(historyRecordEntity.toJson());
+        .setData(historyRecordJson);
   }
 }

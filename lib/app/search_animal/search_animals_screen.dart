@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:livestock/app/animal_details/animal_details_screen.dart';
 import 'package:livestock/app/search_animal/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/search_animal_state.dart';
@@ -31,8 +32,7 @@ class SearchAnimalScreen extends StatelessWidget {
             icon: Icon(Icons.close),
             onPressed: () {
               Navigator.pop(context);
-              context.bloc<SearchAnimalBloc>()
-                  .add(QueryChanged(query: ''));
+              context.bloc<SearchAnimalBloc>().add(QueryChanged(query: ''));
             },
           ),
         ],
@@ -49,6 +49,10 @@ class SearchAnimalScreen extends StatelessWidget {
             return Center(
               child: CircularProgressIndicator(),
             );
+          }
+
+          if (state.isNewAnimal) {
+            return _buildAddNewAnimal(context, state);
           }
 
           if (state.notFound) {
@@ -89,8 +93,28 @@ class SearchAnimalScreen extends StatelessWidget {
         child: LivestockSearchTextField(
           autofocus: true,
           keyboardType: TextInputType.number,
-          onChanged: (value) => context.bloc<SearchAnimalBloc>()
-              .add(QueryChanged(query: value)),
+          onChanged: (value) =>
+              context.bloc<SearchAnimalBloc>().add(QueryChanged(query: value)),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAddNewAnimal(BuildContext context, SearchAnimalState state,) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            _buildMessage(
+              context,
+              'Dier met nummer "${state.query}" niet gevonden. Klik op de knop om het dier aan te maken:',
+            ),
+            FloatingActionButton(
+              child: Icon(FontAwesomeIcons.plus),
+              onPressed: (){},
+            ),
+          ],
         ),
       ),
     );
@@ -115,7 +139,7 @@ class SearchAnimalScreen extends StatelessWidget {
   }
 
   Widget _buildResultRow(
-      BuildContext context, AnimalSearchResult searchResult) {
+      BuildContext context, Animal searchResult) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {

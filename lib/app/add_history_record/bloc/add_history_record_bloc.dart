@@ -4,12 +4,12 @@ import 'package:livestock_repository/livestock_repository.dart';
 import 'package:meta/meta.dart';
 import './bloc.dart';
 
-class AddAnimalDetailBloc
-    extends Bloc<AddAnimalDetailEvent, AddAnimalDetailState> {
+class AddHistoryRecordBloc
+    extends Bloc<AddHistoryRecordEvent, AddHistoryRecordState> {
   final int _animalNumber;
   final AnimalRepository _animalRepository;
 
-  AddAnimalDetailBloc({
+  AddHistoryRecordBloc({
     @required int animalNumber,
     @required AnimalRepository animalRepository,
   })  : assert(animalNumber != null),
@@ -18,12 +18,12 @@ class AddAnimalDetailBloc
         _animalRepository = animalRepository;
 
   @override
-  AddAnimalDetailState get initialState =>
-      AddAnimalDetailState.initial(_animalNumber);
+  AddHistoryRecordState get initialState =>
+      AddHistoryRecordState.initial(_animalNumber);
 
   @override
-  Stream<AddAnimalDetailState> mapEventToState(
-    AddAnimalDetailEvent event,
+  Stream<AddHistoryRecordState> mapEventToState(
+    AddHistoryRecordEvent event,
   ) async* {
     if (event is UpdateCageNumber) {
       yield* _updateCageNumber(event);
@@ -33,12 +33,14 @@ class AddAnimalDetailBloc
       yield* _updateHealthStatus(event);
     } else if (event is UpdateTreatment) {
       yield* _updateTreatment(event);
+    } else if (event is UpdateTreatmentEndDate) {
+      yield* _updateTreatmentEndDate(event);
     } else if (event is SaveAnimalHistoryRecord) {
       yield* _saveAnimalHistoryRecord(event);
     }
   }
 
-  Stream<AddAnimalDetailState> _saveAnimalHistoryRecord(
+  Stream<AddHistoryRecordState> _saveAnimalHistoryRecord(
       SaveAnimalHistoryRecord event) async* {
     await _animalRepository.insertHistoryRecord(
       event.stateToSave.animalNumber,
@@ -48,12 +50,12 @@ class AddAnimalDetailBloc
     yield state.copyWith(isSaved: true);
   }
 
-  Stream<AddAnimalDetailState> _updateCageNumber(
+  Stream<AddHistoryRecordState> _updateCageNumber(
     UpdateCageNumber event,
   ) async* {
     var cage = int.tryParse(event.cage);
 
-    yield AddAnimalDetailState(
+    yield AddHistoryRecordState(
       animalNumber: state.animalNumber,
       cage: cage,
       diagnosis: state.diagnosis,
@@ -64,7 +66,7 @@ class AddAnimalDetailBloc
       );
   }
 
-  Stream<AddAnimalDetailState> _updateDiagnoses(
+  Stream<AddHistoryRecordState> _updateDiagnoses(
     UpdateDiagnosis event,
   ) async* {
     final diagnosis = event.diagnosis == event.previousState.diagnosis
@@ -83,7 +85,7 @@ class AddAnimalDetailBloc
     );
   }
 
-  Stream<AddAnimalDetailState> _updateHealthStatus(
+  Stream<AddHistoryRecordState> _updateHealthStatus(
     UpdateHealthStatus event,
   ) async* {
     final healthStatus = event.healthStatus == event.previousState.healthStatus
@@ -102,7 +104,7 @@ class AddAnimalDetailBloc
     );
   }
 
-  Stream<AddAnimalDetailState> _updateTreatment(
+  Stream<AddHistoryRecordState> _updateTreatment(
     UpdateTreatment event,
   ) async* {
     final treatment = event.treatment == event.previousState.treatment
@@ -112,16 +114,22 @@ class AddAnimalDetailBloc
     yield event.previousState.copyWith(treatment: treatment);
   }
 
+  Stream<AddHistoryRecordState> _updateTreatmentEndDate(
+    UpdateTreatmentEndDate event,
+  ) async* {
+    yield state.copyWith(treatmentEndDate: event.endDate);
+  }
+
   static bool allowDiagnosisSelection(HealthStates healthStatus) =>
       healthStatus == HealthStates.ill ||
       healthStatus == HealthStates.suspicious;
 
   static bool allowTreatmentSelection(
           HealthStates healthStatus, Diagnoses diagnosis) =>
-      AddAnimalDetailBloc.allowDiagnosisSelection(healthStatus) &&
+      AddHistoryRecordBloc.allowDiagnosisSelection(healthStatus) &&
       diagnosis != Diagnoses.none;
 
-  static bool canSaveState(AddAnimalDetailState state) {
+  static bool canSaveState(AddHistoryRecordState state) {
     if(state.cage == null || state.healthStatus == null) {
       return false;
     }

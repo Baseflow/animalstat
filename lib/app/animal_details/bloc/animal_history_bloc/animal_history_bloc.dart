@@ -40,14 +40,15 @@ class AnimalHistoryBloc extends Bloc<AnimalHistoryEvent, AnimalHistoryState> {
 
     _animalHistoryRecordsSubscription?.cancel();
     _animalHistoryRecordsSubscription = _animalRepository
-        .animalHistory(animalNumber)
+        .findAnimalHistory(animalNumber)
         .listen((historyRecords) {
           final historyCardStates = historyRecords.map((entity) {
             return AnimalHistoryCardState(
               animalNumber: animalNumber,
+              cage: entity.cage,
               diagnosis: entity.diagnosis,
               healthStatus: entity.healthStatus,
-              seenOn: DateFormat('dd-MM-yyyy').format(entity.seenOn),
+              seenOn: entity.seenOn,
               treatment: entity.treatment,
             );
           }).toList();

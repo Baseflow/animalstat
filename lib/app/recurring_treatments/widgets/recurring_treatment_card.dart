@@ -1,5 +1,4 @@
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:livestock/app/recurring_treatments/bloc/recurring_treatments_bloc.dart';
 import 'package:livestock/src/ui/widgets/livestock_number_box.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,7 @@ import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
 import 'package:livestock/src/utilities/enum_converters.dart';
 
 class RecurringTreatmentCard extends StatelessWidget {
-  final RecurringTreatment recurringTreatment;
+  final RecurringTreatmentCardState recurringTreatment;
 
   RecurringTreatmentCard({@required this.recurringTreatment})
       : assert(recurringTreatment != null);
@@ -16,10 +15,7 @@ class RecurringTreatmentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.fromLTRB(15.0, 0, 15.0, 10),
-      child: Slidable(
-        actionPane: SlidableDrawerActionPane(),
-        actionExtentRatio: 0.25,
-        child: Padding(
+      child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: <Widget>[
@@ -50,43 +46,7 @@ class RecurringTreatmentCard extends StatelessWidget {
             ],
           ),
         ),
-        secondaryActions: <Widget>[
-          IconSlideAction(
-            caption: 'Toegediend',
-            color: Colors.green,
-            icon: FontAwesomeIcons.checkCircle,
-            onTap: () => print('Toegediend'),
-          ),
-          IconSlideAction(
-            caption: 'Stoppen',
-            color: Colors.red,
-            icon: FontAwesomeIcons.timesCircle,
-            onTap: () => print('Gestopt'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTitleColumn() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          recurringTreatment.administrationDate.toIso8601String(),
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18.0,
-          ),
-        ),
-        Text(
-          recurringTreatment.diagnosis.toString(),
-          style: TextStyle(
-            fontSize: 17.0,
-          ),
-        ),
-      ],
-    );
+      );
   }
 
   Widget _buildDiagnosesColumn() {
@@ -123,9 +83,6 @@ class RecurringTreatmentCard extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: 17.0,
           ),
-        ),
-        Text(
-          recurringTreatment.administrationDate.toIso8601String(),
         ),
       ],
     );

@@ -9,11 +9,25 @@ class FirestoreRecurringTreatmentsRepository
 
   @override
   Stream<List<RecurringTreatment>> findRecurringTreatmentsForDate(
-      DateTime date) {
-    return _recurringTreatmentsCollection
+    DateTime date,
+  ) {
+      return _recurringTreatmentsCollection
         .where('administration_date', isGreaterThanOrEqualTo: date)
         .where('administration_date', isLessThan: date.add(Duration(days: 1)))
         .snapshots()
-        .map((snap) => snap.documents.map((doc) => doc.toRecurringTreatment()).toList());
+        .map((snap) =>
+            snap.documents.map((doc) => doc.toRecurringTreatment())
+                          .where((treatment) => treatment.treatmentStatus == TreatmentStates.unknown).toList());
+  }
+
+  Future updateStatus(
+    String id,
+    TreatmentStates treatmentStatus,
+  ) {
+    final status = {
+      'treatment_status': treatmentStatus.index,
+    };
+
+    return _recurringTreatmentsCollection.document(id).updateData(status);
   }
 }

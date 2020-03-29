@@ -3,7 +3,9 @@ part of 'recurring_treatments_bloc.dart';
 class RecurringTreatmentsState extends Equatable {
   final bool isLoading;
   final DateTime selectedDate;
-  final List<RecurringTreatment> treatments;
+  final List<RecurringTreatmentCardState> treatments;
+
+  bool get notFound => (treatments?.length ?? 0) == 0;
 
   RecurringTreatmentsState({
     this.isLoading,
@@ -34,7 +36,7 @@ class RecurringTreatmentsState extends Equatable {
   RecurringTreatmentsState copyWith({
     bool isLoading,
     DateTime selectedDate,
-    List<RecurringTreatment> treatments,
+    List<RecurringTreatmentCardState> treatments,
   }) {
     return RecurringTreatmentsState(
       isLoading: isLoading ?? this.isLoading,

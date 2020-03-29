@@ -9,6 +9,7 @@ import '../../../src/extensions/date_time_extensions.dart';
 
 part 'recurring_treatments_event.dart';
 part 'recurring_treatments_state.dart';
+part 'recurring_treatment_card_state.dart';
 
 class RecurringTreatmentsBloc
     extends Bloc<RecurringTreatmentsEvent, RecurringTreatmentsState> {
@@ -36,6 +37,8 @@ class RecurringTreatmentsBloc
       yield* _mapLoadTreatmentsToState(event);
     } else if (event is TreatmentsUpdated) {
       yield* _mapTreatmentsUpdatedToState(event);
+    } else if (event is UpdateTreatment) {
+      yield* _mapUpdateTreatmentToState(event);
     }
   }
 
@@ -46,13 +49,20 @@ class RecurringTreatmentsBloc
     _recurringTreatmentsSubscription?.cancel();
     _recurringTreatmentsSubscription = _recurringTreatmentsRepository
         .findRecurringTreatmentsForDate(event.selectedDate)
-        .listen(
-          (recurringTreatments) => add(
-            TreatmentsUpdated(
-              treatments: recurringTreatments,
-            ),
-          ),
+        .listen((recurringTreatments) {
+      final recurringTreatmentCardStates = recurringTreatments.map((entity) {
+        return RecurringTreatmentCardState(
+          recurringTreatmentId: entity.id,
+          animalNumber: entity.animalNumber,
+          cage: entity.cageNumber,
+          diagnosis: entity.diagnosis,
+          healthStatus: entity.healthStatus,
+          treatment: entity.treatment,
         );
+      }).toList();
+
+      add(TreatmentsUpdated(treatments: recurringTreatmentCardStates));
+    });
   }
 
   Stream<RecurringTreatmentsState> _mapTreatmentsUpdatedToState(
@@ -60,7 +70,20 @@ class RecurringTreatmentsBloc
   ) async* {
     yield state.copyWith(
       isLoading: false,
-      treatments: event.treatments ?? <RecurringTreatment>[],
+      treatments: event.treatments ?? <RecurringTreatmentCardState>[],
     );
+  }
+
+  Stream<RecurringTreatmentsState> _mapUpdateTreatmentToState(
+    UpdateTreatment event,
+  ) async* {
+    yield RecurringTreatmentsState.loading(state.selectedDate);
+
+    await _recurringTreatmentsRepository.updateStatus(
+      event.cardState.recurringTreatmentId,
+      event.treatmentStatus,
+    );
+
+    add(LoadTreatments(selectedDate: state.selectedDate));
   }
 }

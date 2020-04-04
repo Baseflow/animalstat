@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/semantics.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 import 'package:meta/meta.dart';
 

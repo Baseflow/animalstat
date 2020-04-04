@@ -50,15 +50,13 @@ class HistoryHeader extends StatelessWidget {
   }
 
   void _addDetailButtonPressed(BuildContext context) {
-    final animalDetailsBloc = context.bloc<AnimalDetailsBloc>();
-    
     showDialog(
         barrierDismissible: true,
         context: context,
         builder: (BuildContext context) {
           return MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: animalDetailsBloc),
+              BlocProvider.value(value: context.bloc<AnimalDetailsBloc>()),
               BlocProvider(
                 create: (context) => AddHistoryRecordBloc(
                   animalNumber: animalNumber,

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:intl/intl.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';

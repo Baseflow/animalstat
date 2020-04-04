@@ -23,12 +23,22 @@ class SelectedDateChanged extends RecurringTreatmentsEvent {
 }
 
 class TreatmentsUpdated extends RecurringTreatmentsEvent {
-  final List<RecurringTreatmentCardState> treatments;
+  final List<RecurringTreatmentCardState> openTreatments;
+  final List<RecurringTreatmentCardState> appliedTreatments;
+  final List<RecurringTreatmentCardState> cancelledTreatments;
 
-  TreatmentsUpdated({@required this.treatments});
+  TreatmentsUpdated({
+    @required this.openTreatments,
+    @required this.appliedTreatments,
+    @required this.cancelledTreatments,
+  });
 
   @override
-  List<Object> get props => [treatments];
+  List<Object> get props => [
+        openTreatments,
+        appliedTreatments,
+        cancelledTreatments,
+      ];
 }
 
 class UpdateTreatment extends RecurringTreatmentsEvent {

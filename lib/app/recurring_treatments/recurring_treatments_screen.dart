@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:livestock/app/authentication/bloc/bloc.dart';
 import 'package:livestock/app/recurring_treatments/widgets/recurring_treatment_card.dart';
+import 'package:livestock/app/recurring_treatments/widgets/recurring_treatment_header.dart';
 import 'package:livestock/app/search_animal/search_animals_screen.dart';
 import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/ui/widgets/livestock_appbar_bottom.dart';
@@ -50,13 +51,16 @@ class RecurringTreatmentsScreen extends StatelessWidget {
 
             return CustomScrollView(
               slivers: <Widget>[
+                RecurringTreatmentHeader(
+                    title: 'Openstaande behandelingen',
+                  ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                       return Dismissible(
                         key: Key("dismissible_widget"),
                         child: RecurringTreatmentCard(
-                          recurringTreatment: state.treatments[index],
+                          recurringTreatment: state.openTreatments[index],
                         ),
                         background: Container(
                           child: Icon(FontAwesomeIcons.checkCircle),
@@ -76,12 +80,38 @@ class RecurringTreatmentsScreen extends StatelessWidget {
                               .bloc<RecurringTreatmentsBloc>()
                               .add(UpdateTreatment(
                                 treatmentStatus: treatmentStatus,
-                                cardState: state.treatments[index],
+                                cardState: state.openTreatments[index],
                               ));
                         },
                       );
                     },
-                    childCount: state.treatments.length,
+                    childCount: state.openTreatments.length,
+                  ),
+                ),
+                RecurringTreatmentHeader(
+                    title: 'Uitgevoerde behandelingen',
+                  ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return RecurringTreatmentCard(
+                        recurringTreatment: state.appliedTreatments[index],
+                      );
+                    },
+                    childCount: state.appliedTreatments.length,
+                  ),
+                ),
+                RecurringTreatmentHeader(
+                    title: 'Gestopte behandelingen',
+                  ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return RecurringTreatmentCard(
+                        recurringTreatment: state.cancelledTreatments[index],
+                      );
+                    },
+                    childCount: state.cancelledTreatments.length,
                   ),
                 ),
               ],

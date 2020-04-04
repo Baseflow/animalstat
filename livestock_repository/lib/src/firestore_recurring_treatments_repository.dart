@@ -16,8 +16,10 @@ class FirestoreRecurringTreatmentsRepository
         .where('administration_date', isLessThan: date.add(Duration(days: 1)))
         .snapshots()
         .map((snap) =>
-            snap.documents.map((doc) => doc.toRecurringTreatment())
-                          .where((treatment) => treatment.treatmentStatus == TreatmentStates.unknown).toList());
+            snap
+              .documents
+              .map((doc) => doc.toRecurringTreatment())
+              .toList());
   }
 
   Future updateStatus(

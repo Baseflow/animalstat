@@ -50,18 +50,24 @@ class RecurringTreatmentsBloc
     _recurringTreatmentsSubscription = _recurringTreatmentsRepository
         .findRecurringTreatmentsForDate(event.selectedDate)
         .listen((recurringTreatments) {
-      final recurringTreatmentCardStates = recurringTreatments.map((entity) {
-        return RecurringTreatmentCardState(
-          recurringTreatmentId: entity.id,
-          animalNumber: entity.animalNumber,
-          cage: entity.cageNumber,
-          diagnosis: entity.diagnosis,
-          healthStatus: entity.healthStatus,
-          treatment: entity.treatment,
-        );
-      }).toList();
+      final openTreatments = _filterByState(
+        recurringTreatments,
+        TreatmentStates.unknown,
+      );
+      final appliedTreatments = _filterByState(
+        recurringTreatments,
+        TreatmentStates.done,
+      );
+      final cancelledTreatments = _filterByState(
+        recurringTreatments,
+        TreatmentStates.cancelled,
+      );
 
-      add(TreatmentsUpdated(treatments: recurringTreatmentCardStates));
+      add(TreatmentsUpdated(
+        openTreatments: openTreatments,
+        appliedTreatments: appliedTreatments,
+        cancelledTreatments: cancelledTreatments,
+      ));
     });
   }
 
@@ -70,8 +76,30 @@ class RecurringTreatmentsBloc
   ) async* {
     yield state.copyWith(
       isLoading: false,
-      treatments: event.treatments ?? <RecurringTreatmentCardState>[],
+      openTreatments: event.openTreatments,
+      appliedTreatments: event.appliedTreatments,
+      cancelledTreatments: event.cancelledTreatments,
     );
+  }
+
+  List<RecurringTreatmentCardState> _filterByState(
+    List<RecurringTreatment> treatments,
+    TreatmentStates status,
+  ) {
+    if (treatments == null) {
+      return <RecurringTreatmentCardState>[];
+    }
+
+    return treatments.where((t) => t.treatmentStatus == status).map((t) {
+      return RecurringTreatmentCardState(
+        recurringTreatmentId: t.id,
+        animalNumber: t.animalNumber,
+        cage: t.cageNumber,
+        diagnosis: t.diagnosis,
+        healthStatus: t.healthStatus,
+        treatment: t.treatment,
+      );
+    }).toList();
   }
 
   Stream<RecurringTreatmentsState> _mapUpdateTreatmentToState(

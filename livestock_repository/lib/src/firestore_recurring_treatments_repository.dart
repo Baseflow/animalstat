@@ -4,22 +4,23 @@ import 'extensions/document_snapshot_extensions.dart';
 
 class FirestoreRecurringTreatmentsRepository
     extends RecurringTreatmentsRepository {
-  final _recurringTreatmentsCollection =
-      Firestore.instance.collection('recurring_treatments');
+  final CollectionReference _recurringTreatmentsCollection;
+
+  FirestoreRecurringTreatmentsRepository(User user)
+      : assert(user != null),
+        _recurringTreatmentsCollection = Firestore.instance
+            .collection('companies/${user.companyId}/recurring_treatments');
 
   @override
   Stream<List<RecurringTreatment>> findRecurringTreatmentsForDate(
     DateTime date,
   ) {
-      return _recurringTreatmentsCollection
+    return _recurringTreatmentsCollection
         .where('administration_date', isGreaterThanOrEqualTo: date)
         .where('administration_date', isLessThan: date.add(Duration(days: 1)))
         .snapshots()
         .map((snap) =>
-            snap
-              .documents
-              .map((doc) => doc.toRecurringTreatment())
-              .toList());
+            snap.documents.map((doc) => doc.toRecurringTreatment()).toList());
   }
 
   Future updateStatus(

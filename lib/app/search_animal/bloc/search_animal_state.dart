@@ -10,7 +10,6 @@ class SearchAnimalState extends Equatable {
   final List<Animal> searchResults;
 
   bool get notFound => !isEmpty && !isInvalidQuery && searchResults.length == 0;
-  bool get isNewAnimal => notFound && query.length == 5;
 
   SearchAnimalState({
     @required this.isEmpty,

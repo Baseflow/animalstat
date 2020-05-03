@@ -6,7 +6,12 @@ import 'animal_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreAnimalRepository implements AnimalRepository {
-  final _animalCollection = Firestore.instance.collection('animals');
+  final CollectionReference _animalCollection;
+
+  FirestoreAnimalRepository(User user)
+      : assert(user != null),
+        _animalCollection = Firestore.instance
+            .collection('companies/${user.companyId}/animals');
 
   @override
   Stream<List<Animal>> findAnimals(int animalNumber) {
@@ -23,9 +28,7 @@ class FirestoreAnimalRepository implements AnimalRepository {
         .where('animal_number', isGreaterThanOrEqualTo: start)
         .where('animal_number', isLessThan: end)
         .snapshots()
-        .map((snap) => snap.documents
-            .map((doc) => doc.toAnimal())
-            .toList());
+        .map((snap) => snap.documents.map((doc) => doc.toAnimal()).toList());
   }
 
   @override
@@ -39,9 +42,8 @@ class FirestoreAnimalRepository implements AnimalRepository {
         .collection('history')
         .orderBy('seen_on', descending: true)
         .snapshots()
-        .map((snap) => snap.documents
-            .map((doc) => doc.toAnimalHistoryRecord())
-            .toList());
+        .map((snap) =>
+            snap.documents.map((doc) => doc.toAnimalHistoryRecord()).toList());
   }
 
   @override

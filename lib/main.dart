@@ -2,16 +2,17 @@ import 'package:flutter/services.dart';
 import 'package:livestock/app/login/login_screen.dart';
 import 'package:livestock/app/recurring_treatments/recurring_treatments_screen.dart';
 import 'package:livestock/app/splash/splash_screen.dart';
+import 'package:livestock/src/factories/repository_factory.dart';
 import 'package:livestock/src/ui/theming.dart';
 import 'package:livestock/src/bloc_providers.dart';
 import 'package:livestock/src/providers/multi_utility_provider.dart';
-import 'package:livestock/src/repository_providers.dart';
 import 'package:livestock/src/utility_providers.dart';
 import 'package:livestock/app/authentication/bloc/bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 
 import 'src/livestock_bloc_delegate.dart';
 
@@ -30,8 +31,8 @@ void main() {
   runApp(
     MultiUtilityProvider(
       providers: UtilityProviders.providers,
-      child: MultiRepositoryProvider(
-        providers: RepositoryProviders.providers,
+      child: RepositoryProvider<UserRepository>(
+        create: (context) => FirestoreUserRepository(),
         child: MultiBlocProvider(
           providers: BlocProviders.providers,
           child: App(),
@@ -85,7 +86,20 @@ class App extends StatelessWidget {
           }
 
           if (state is Authenticated) {
-            return RecurringTreatmentsScreen();
+            return MultiRepositoryProvider(
+              providers: [
+                RepositoryProvider(
+                  create: (context) =>
+                      RepositoryFactory.CreateAnimalRepository(context),
+                ),
+                RepositoryProvider(
+                  create: (context) =>
+                      RepositoryFactory.CreateRecurringTreatmentsRepository(
+                          context),
+                ),
+              ],
+              child: RecurringTreatmentsScreen(),
+            );
           }
 
           return Container();

@@ -1,16 +1,25 @@
-class User {
-  final String name;
-  final String email;
+import 'package:flutter/foundation.dart';
 
-  User(this.name, this.email);
+class User {
+  final String id;
+  final String email;
+  final String companyId;
+  
+  User({
+    @required this.id, 
+    @required this.email, 
+    @required this.companyId, 
+  });
 
   User.fromJson(Map<String, dynamic> json) 
-      : name = json['name'],
-        email = json['email'];
+      : id = json['uid'],
+        email = json['email'],
+        companyId = json['companyId'];
   
   Map<String, dynamic> toJson() => 
   {
-    'name': name,
+    'uid': id,
     'email': email,
+    'companyId': companyId,
   };
 }

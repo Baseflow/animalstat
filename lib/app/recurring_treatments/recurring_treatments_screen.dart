@@ -12,13 +12,18 @@ import '../../src/extensions/date_time_extensions.dart';
 
 import 'bloc/recurring_treatments_bloc.dart';
 
-class RecurringTreatmentsScreen extends StatelessWidget {
+class RecurringTreatmentsScreen extends StatefulWidget {
   static MaterialPageRoute route() {
     return MaterialPageRoute(
       builder: (context) => RecurringTreatmentsScreen(),
     );
   }
 
+  @override
+  _RecurringTreatmentsScreenState createState() => _RecurringTreatmentsScreenState();
+}
+
+class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RecurringTreatmentsBloc>(
@@ -153,8 +158,9 @@ class RecurringTreatmentsScreen extends StatelessWidget {
         IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
+              final animalRepository = context.repository<AnimalRepository>();
               Navigator.of(context).push(
-                SearchAnimalScreen.route(),
+                SearchAnimalScreen.route(animalRepository),
               );
             }),
       ],

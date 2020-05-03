@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreUserRepository implements UserRepository{
   final FirebaseAuth _firebaseAuth;
+  final CollectionReference _userCollection = Firestore.instance.collection('users');
 
   FirestoreUserRepository({
     FirebaseAuth firebaseAuth,
@@ -28,13 +30,10 @@ class FirestoreUserRepository implements UserRepository{
 
   Future<User> getUser() async {
     var firebaseUser = await _firebaseAuth.currentUser();
-    return _fromFirebaseUser(firebaseUser);
-  }
+    var snapshot = await _userCollection
+      .document(firebaseUser.uid)
+      .get();
 
-  User _fromFirebaseUser(FirebaseUser user) {
-    return User(
-      user.displayName,
-      user.email,
-    );
+    return User.fromJson(snapshot.data);
   }
 }

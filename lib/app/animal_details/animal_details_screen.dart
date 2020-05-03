@@ -8,34 +8,38 @@ import 'package:livestock/src/ui/widgets/livestock_number_box.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 
 class AnimalDetailsScreen extends StatelessWidget {
-  static MaterialPageRoute route(int animalNumber) {
+  static MaterialPageRoute route(
+    AnimalRepository animalRepository,
+    int animalNumber,
+  ) {
     return MaterialPageRoute(
-      builder: (context) => MultiBlocProvider(
-        providers: [
-          BlocProvider<AnimalHistoryBloc>(
-            create: (_) => AnimalHistoryBloc(
-              animalNumber: animalNumber,
-              animalRepository:
-                  context.repository<AnimalRepository>(),
-            )..add(
-                LoadHistory(
-                  animalNumber: animalNumber,
+      builder: (context) => RepositoryProvider.value(
+        value: animalRepository,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<AnimalHistoryBloc>(
+              create: (context) => AnimalHistoryBloc(
+                animalNumber: animalNumber,
+                animalRepository: context.repository<AnimalRepository>(),
+              )..add(
+                  LoadHistory(
+                    animalNumber: animalNumber,
+                  ),
                 ),
-              ),
-          ),
-          BlocProvider<AnimalDetailsBloc>(
-            create: (context) => AnimalDetailsBloc(
-              animalNumber: animalNumber,
-              animalRepository:
-                  context.repository<AnimalRepository>(),
-            )..add(
-                LoadAnimalDetails(
-                  animalNumber: animalNumber,
+            ),
+            BlocProvider<AnimalDetailsBloc>(
+              create: (context) => AnimalDetailsBloc(
+                animalNumber: animalNumber,
+                animalRepository: context.repository<AnimalRepository>(),
+              )..add(
+                  LoadAnimalDetails(
+                    animalNumber: animalNumber,
+                  ),
                 ),
-              ),
-          ),
-        ],
-        child: AnimalDetailsScreen(),
+            ),
+          ],
+          child: AnimalDetailsScreen(),
+        ),
       ),
     );
   }

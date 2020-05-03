@@ -50,21 +50,26 @@ class HistoryHeader extends StatelessWidget {
   }
 
   void _addDetailButtonPressed(BuildContext context) {
+    var animalRepository = context.repository<AnimalRepository>();
+    var animalDetailsBloc = context.bloc<AnimalDetailsBloc>();
     showDialog(
         barrierDismissible: true,
         context: context,
         builder: (BuildContext context) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: context.bloc<AnimalDetailsBloc>()),
-              BlocProvider(
-                create: (context) => AddHistoryRecordBloc(
-                  animalNumber: animalNumber,
-                  animalRepository: context.repository<AnimalRepository>(),
+          return RepositoryProvider.value(
+            value: animalRepository,
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: animalDetailsBloc,),
+                BlocProvider(
+                  create: (context) => AddHistoryRecordBloc(
+                    animalNumber: animalNumber,
+                    animalRepository: context.repository<AnimalRepository>(),
+                  ),
                 ),
-              ),
-            ],
-            child: AddHistoryRecordDialog(),
+              ],
+              child: AddHistoryRecordDialog(),
+            ),
           );
         });
   }

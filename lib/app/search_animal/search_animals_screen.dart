@@ -12,13 +12,16 @@ import 'package:livestock/src/ui/widgets/livestock_search_text_field.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 
 class SearchAnimalScreen extends StatelessWidget {
-  static MaterialPageRoute route() {
+  static MaterialPageRoute route(AnimalRepository animalRepository) {
     return MaterialPageRoute(
-      builder: (context) => BlocProvider<SearchAnimalBloc>(
-        create: (context) => SearchAnimalBloc(
-          animalRepository: context.repository<AnimalRepository>(),
+      builder: (context) => RepositoryProvider.value(
+        value: animalRepository,
+        child: BlocProvider<SearchAnimalBloc>(
+          create: (context) => SearchAnimalBloc(
+            animalRepository: context.repository<AnimalRepository>(),
+          ),
+          child: SearchAnimalScreen(),
         ),
-        child: SearchAnimalScreen(),
       ),
     );
   }
@@ -49,10 +52,6 @@ class SearchAnimalScreen extends StatelessWidget {
             return Center(
               child: CircularProgressIndicator(),
             );
-          }
-
-          if (state.isNewAnimal) {
-            return _buildAddNewAnimal(context, state);
           }
 
           if (state.notFound) {
@@ -100,26 +99,6 @@ class SearchAnimalScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAddNewAnimal(BuildContext context, SearchAnimalState state,) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            _buildMessage(
-              context,
-              'Dier met nummer "${state.query}" niet gevonden. Klik op de knop om het dier aan te maken:',
-            ),
-            FloatingActionButton(
-              child: Icon(FontAwesomeIcons.plus),
-              onPressed: (){},
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildMessage(BuildContext context, String message) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -138,13 +117,14 @@ class SearchAnimalScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildResultRow(
-      BuildContext context, Animal searchResult) {
+  Widget _buildResultRow(BuildContext context, Animal searchResult) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
+        var animalRepository = context.repository<AnimalRepository>();
         Navigator.of(context).push(
           AnimalDetailsScreen.route(
+            animalRepository,
             searchResult.animalNumber,
           ),
         );

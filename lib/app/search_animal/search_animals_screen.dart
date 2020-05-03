@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:livestock/app/animal_details/animal_details_screen.dart';
 import 'package:livestock/app/search_animal/bloc/bloc.dart';
 import 'package:livestock/app/search_animal/bloc/search_animal_state.dart';

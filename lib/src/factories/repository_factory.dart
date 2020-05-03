@@ -4,12 +4,12 @@ import 'package:livestock/app/authentication/bloc/bloc.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 
 class RepositoryFactory {
-  static AnimalRepository CreateAnimalRepository(BuildContext context) {
+  static AnimalRepository createAnimalRepository(BuildContext context) {
     var user = _getUser(context);
     return FirestoreAnimalRepository(user);
   }
 
-  static RecurringTreatmentsRepository CreateRecurringTreatmentsRepository(BuildContext context) {
+  static RecurringTreatmentsRepository createRecurringTreatmentsRepository(BuildContext context) {
     var user = _getUser(context);
     return FirestoreRecurringTreatmentsRepository(user);
   }

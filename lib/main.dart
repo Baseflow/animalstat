@@ -90,11 +90,11 @@ class App extends StatelessWidget {
               providers: [
                 RepositoryProvider(
                   create: (context) =>
-                      RepositoryFactory.CreateAnimalRepository(context),
+                      RepositoryFactory.createAnimalRepository(context),
                 ),
                 RepositoryProvider(
                   create: (context) =>
-                      RepositoryFactory.CreateRecurringTreatmentsRepository(
+                      RepositoryFactory.createRecurringTreatmentsRepository(
                           context),
                 ),
               ],

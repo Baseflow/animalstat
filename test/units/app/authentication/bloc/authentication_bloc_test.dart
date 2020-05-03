@@ -45,9 +45,9 @@ void main() {
   group('when receiving an \'AppStarted\' event', () {
     test('should call \'isSignedIn\' method on UserRepository exactly once.', () {
       final event = AppStarted();
-      final user = User('Mr. Example', 'test@example.com');
+      final user = User(id: '12345' ,email: 'test@example.com', companyId: 'my_company');
 
-      expectLater(authenticationBloc.state, mayEmit(Authenticated(user.name)))
+      expectLater(authenticationBloc.state, mayEmit(Authenticated(user)))
           .then((_) => verify(mockUserRepository.isSignedIn()).called(1));
 
       authenticationBloc.add(event);
@@ -55,10 +55,10 @@ void main() {
 
     test('should emit [Uninitialized, Authenticated] if user is already logged in.', () {
       final event = AppStarted();
-      final user = User('Mr. Example', 'test@example.com');
+      final user = User(id: '12345' ,email: 'test@example.com', companyId: 'my_company');
       final expected = [
         Uninitialized(),
-        Authenticated(user.name),
+        Authenticated(user),
       ];
 
       when(mockUserRepository.isSignedIn()).thenAnswer((_) => Future.value(true));
@@ -71,12 +71,12 @@ void main() {
 
     test('should call \'getUser\' method on UserRepository if user is already logged in.', () {
       final event = AppStarted();
-      final user = User('Mr. Example', 'test@example.com');
+      final user = User(id: '12345' ,email: 'test@example.com', companyId: 'my_company');
 
       when(mockUserRepository.isSignedIn()).thenAnswer((_) => Future.value(true));
       when(mockUserRepository.getUser()).thenAnswer((_) => Future.value(user));
 
-      expectLater(authenticationBloc.state, mayEmit(Authenticated(user.name)))
+      expectLater(authenticationBloc.state, mayEmit(Authenticated(user)))
           .then((_) => verify(mockUserRepository.getUser()).called(1));
 
       authenticationBloc.add(event);
@@ -98,12 +98,12 @@ void main() {
 
     test('should not call \'getUser\' method on UserRepository if user is not logged in.', () {
       final event = AppStarted();
-      final user = User('Mr. Example', 'test@example.com');
+      final user = User(id: '12345' ,email: 'test@example.com', companyId: 'my_company');
 
       when(mockUserRepository.isSignedIn()).thenAnswer((_) => Future.value(false));
       when(mockUserRepository.getUser()).thenAnswer((_) => Future.value(user));
 
-      expectLater(authenticationBloc.state, mayEmit(Authenticated(user.name)))
+      expectLater(authenticationBloc.state, mayEmit(Authenticated(user)))
           .then((_) => verifyNever(mockUserRepository.getUser()));
 
       authenticationBloc.add(event);
@@ -127,10 +127,10 @@ void main() {
   group('when receiving a \'LoggedIn\' event', () {
     test('should emit [Uninitialized, Authenticated] when logging in', () {
       final event = LoggedIn();
-      final user = User('Mr. Example', 'test@example.com');
+      final user = User(id: '12345' ,email: 'test@example.com', companyId: 'my_company');
       final expected = [
         Uninitialized(),
-        Authenticated(user.name),
+        Authenticated(user),
       ];
 
       when(mockUserRepository.getUser()).thenAnswer((_) => Future.value(user));
@@ -142,11 +142,11 @@ void main() {
 
     test('should call \'getUser\' method on the supplied UserRepository exactly once', () {
       final event = LoggedIn();
-      final user = User('Mr. Example', 'test@example.com');
+      final user = User(id: '12345' ,email: 'test@example.com', companyId: 'my_company');
 
       when(mockUserRepository.getUser()).thenAnswer((_) => Future.value(user));
 
-      expectLater(authenticationBloc.state, mayEmit(Authenticated(user.name)))
+      expectLater(authenticationBloc.state, mayEmit(Authenticated(user)))
           .then((_) => verify(mockUserRepository.getUser()).called(1));
 
       authenticationBloc.add(event);

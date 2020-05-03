@@ -51,6 +51,7 @@ class HistoryHeader extends StatelessWidget {
 
   void _addDetailButtonPressed(BuildContext context) {
     var animalRepository = context.repository<AnimalRepository>();
+    //ignore: close_sinks
     var animalDetailsBloc = context.bloc<AnimalDetailsBloc>();
     showDialog(
         barrierDismissible: true,

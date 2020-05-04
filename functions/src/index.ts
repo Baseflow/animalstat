@@ -10,10 +10,11 @@ export const firestoreInstance = admin.firestore();
 export const createRecurringTreatments = functions
     .region(REGION)
     .firestore
-    .document('animals/{animalId}/history/{timestamp}')
+    .document('companies/{companyId}/animals/{animalId}/history/{timestamp}')
     .onCreate(async (snapshot, context) => {
         const oneDayInMiliseconds: number = 1000 * 60 * 60 * 24;
-        const animalId : number = parseInt(context.params.animalId);
+        const animalId: number = parseInt(context.params.animalId);
+        const companyId: string = context.params.companyId;
         const startDateInMiliseconds: number = Date.now() + oneDayInMiliseconds;
         const healthRecord = snapshot.data();
 
@@ -40,34 +41,36 @@ export const createRecurringTreatments = functions
                 treatment_status: 0
             };
 
-            await atomicFunctions.createRecurringTreatment(recurringItem);
+            await atomicFunctions.createRecurringTreatment(companyId, recurringItem);
         }
     });
 
 export const updateCurrentHealthStatus = functions
     .region(REGION)
     .firestore
-    .document('animals/{animalId}/history/{timestamp}')
+    .document('companies/{companyId}/animals/{animalId}/history/{timestamp}')
     .onCreate((snapshot, context) => {
         const animalId : string = context.params.animalId;
+        const companyId: string = context.params.companyId;
         const newValue = snapshot.data();
         
         if(!newValue) return;
 
         const healthStatus = newValue.health_status;
-        return atomicFunctions.updateCurrentHealthStatus(animalId, healthStatus);
+        return atomicFunctions.updateCurrentHealthStatus(companyId, animalId, healthStatus);
     });
 
 export const updateCurrentCageNumber = functions
     .region(REGION)
     .firestore
-    .document('animals/{animalId}/history/{timestamp}')
+    .document('companies/{companyId}/animals/{animalId}/history/{timestamp}')
     .onCreate((snapshot, context) => {
         const animalId : string = context.params.animalId;
+        const companyId: string = context.params.companyId;
         const newValue = snapshot.data();
 
         if(!newValue) return;
 
         const cageNumber = newValue.cage;
-        return atomicFunctions.updateCurrentCageNumber(animalId, cageNumber);
+        return atomicFunctions.updateCurrentCageNumber(companyId, animalId, cageNumber);
     });

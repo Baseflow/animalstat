@@ -1,14 +1,14 @@
 import { firestoreInstance } from "../index";
 
-export function createRecurringTreatment(recurringTreatment: any): Promise<any> {
+export function createRecurringTreatment(companyId: string, recurringTreatment: any): Promise<any> {
     return firestoreInstance
-        .collection('recurring_treatments')
+        .collection(`companies/${companyId}/recurring_treatments`)
         .add(recurringTreatment);
 }
 
-export function updateCurrentCageNumber(animalId: string, cage: Number): Promise<any> {
+export function updateCurrentCageNumber(companyId: string, animalId: string, cage: Number): Promise<any> {
     return firestoreInstance
-        .collection('animals')
+        .collection(`companies/${companyId}/animals`)
         .doc(animalId)
         .set({
             current_cage_number: cage
@@ -17,9 +17,9 @@ export function updateCurrentCageNumber(animalId: string, cage: Number): Promise
         });
 }
 
-export function updateCurrentHealthStatus(animalId: string, health_status: any): Promise<any> {
+export function updateCurrentHealthStatus(companyId: string, animalId: string, health_status: any): Promise<any> {
     return firestoreInstance
-        .collection('animals')
+        .collection(`companies/${companyId}/animals`)
         .doc(animalId)
         .set({
             current_health_status: health_status

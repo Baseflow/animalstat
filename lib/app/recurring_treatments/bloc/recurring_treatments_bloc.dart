@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:meta/meta.dart';
 
 import '../../../src/extensions/date_time_extensions.dart';

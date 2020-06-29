@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:livestock/app/animal_details/animal_details_screen.dart';
-import 'package:livestock/app/search_animal/bloc/bloc.dart';
-import 'package:livestock/app/search_animal/bloc/search_animal_state.dart';
-import 'package:livestock/src/ui/theming.dart';
-import 'package:livestock/src/ui/widgets/livestock_appbar_bottom.dart';
-import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
-import 'package:livestock/src/ui/widgets/livestock_number_box.dart';
-import 'package:livestock/src/ui/widgets/livestock_search_text_field.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat/app/animal_details/animal_details_screen.dart';
+import 'package:animalstat/app/search_animal/bloc/bloc.dart';
+import 'package:animalstat/app/search_animal/bloc/search_animal_state.dart';
+import 'package:animalstat/src/ui/theming.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_appbar_bottom.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_health_status_label.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_number_box.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_search_text_field.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 
 class SearchAnimalScreen extends StatelessWidget {
   static MaterialPageRoute route(AnimalRepository animalRepository) {
@@ -43,7 +43,7 @@ class SearchAnimalScreen extends StatelessWidget {
         bottom: _buildAppBarBottom(context),
         elevation: 0.0,
         titleSpacing: 0.0,
-        title: Text('Livestock'),
+        title: Text('animalstat'),
       ),
       body: BlocBuilder<SearchAnimalBloc, SearchAnimalState>(
         builder: (BuildContext context, SearchAnimalState state) {
@@ -85,10 +85,10 @@ class SearchAnimalScreen extends StatelessWidget {
   }
 
   Widget _buildAppBarBottom(BuildContext context) {
-    return LivestockAppBarBottom(
+    return AnimalstatAppBarBottom(
       child: Padding(
         padding: const EdgeInsets.all(9.0),
-        child: LivestockSearchTextField(
+        child: AnimalstatSearchTextField(
           autofocus: true,
           keyboardType: TextInputType.number,
           onChanged: (value) =>
@@ -149,7 +149,7 @@ class SearchAnimalScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              LivestockNumberBox(
+              AnimalstatNumberBox(
                 animalNumber: searchResult.animalNumber.toString(),
               ),
               Expanded(
@@ -157,7 +157,7 @@ class SearchAnimalScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
-                child: LivestockHealthStatusLabel(
+                child: AnimalstatHealthStatusLabel(
                   healthStatus: searchResult.currentHealthStatus,
                 ),
               ),

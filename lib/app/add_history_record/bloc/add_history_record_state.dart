@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
-import 'package:livestock/app/add_history_record/bloc/bloc.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat/app/add_history_record/bloc/bloc.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:meta/meta.dart';
 import '../../../src/extensions/date_time_extensions.dart';
 

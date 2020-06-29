@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
-import 'package:livestock/src/ui/widgets/livestock_toggle_button.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_health_status_label.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_toggle_button.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 
 class HealthStatusSelectionWidget extends StatelessWidget {
   HealthStatusSelectionWidget({this.onChanged, this.selectedHealthStatus});
@@ -18,15 +18,15 @@ class HealthStatusSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LivestockToggleButton(
+    return AnimalstatToggleButton(
       children: _healthStatusIndexMap.values
-          .map((v) => LivestockHealthStatusLabel(
+          .map((v) => AnimalstatHealthStatusLabel(
                 healthStatus: v,
               ))
           .toList(),
       onPressed: (index) => onChanged(_healthStatusIndexMap[index]),
       selectedChildren: _healthStatusIndexMap.values
-          .map((v) => LivestockHealthStatusLabel(
+          .map((v) => AnimalstatHealthStatusLabel(
                 healthStatus: v,
                 isSelected: true,
               ))

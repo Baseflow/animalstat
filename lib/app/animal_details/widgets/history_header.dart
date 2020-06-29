@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:livestock/app/add_history_record/add_history_record_dialog.dart';
-import 'package:livestock/app/add_history_record/bloc/bloc.dart';
-import 'package:livestock/app/animal_details/bloc/animal_details_bloc/animal_details_bloc.dart';
-import 'package:livestock/src/ui/theming.dart';
-import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat/app/add_history_record/add_history_record_dialog.dart';
+import 'package:animalstat/app/add_history_record/bloc/bloc.dart';
+import 'package:animalstat/app/animal_details/bloc/animal_details_bloc/animal_details_bloc.dart';
+import 'package:animalstat/src/ui/theming.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_primary_button.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 
 class HistoryHeader extends StatelessWidget {
   HistoryHeader({@required this.animalNumber});
@@ -35,7 +35,7 @@ class HistoryHeader extends StatelessWidget {
               ),
             ),
           ),
-          LivestockPrimaryButton(
+          AnimalstatPrimaryButton(
             icon: Icon(
               FontAwesomeIcons.plus,
               size: 16,

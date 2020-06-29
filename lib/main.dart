@@ -1,23 +1,24 @@
 import 'package:flutter/services.dart';
-import 'package:livestock/app/login/login_screen.dart';
-import 'package:livestock/app/recurring_treatments/recurring_treatments_screen.dart';
-import 'package:livestock/app/splash/splash_screen.dart';
-import 'package:livestock/src/factories/repository_factory.dart';
-import 'package:livestock/src/ui/theming.dart';
-import 'package:livestock/src/bloc_providers.dart';
-import 'package:livestock/src/providers/multi_utility_provider.dart';
-import 'package:livestock/src/utility_providers.dart';
-import 'package:livestock/app/authentication/bloc/bloc.dart';
+import 'package:animalstat/app/login/login_screen.dart';
+import 'package:animalstat/app/recurring_treatments/recurring_treatments_screen.dart';
+import 'package:animalstat/app/splash/splash_screen.dart';
+import 'package:animalstat/src/factories/repository_factory.dart';
+import 'package:animalstat/src/ui/theming.dart';
+import 'package:animalstat/src/bloc_providers.dart';
+import 'package:animalstat/src/providers/multi_utility_provider.dart';
+import 'package:animalstat/src/utility_providers.dart';
+import 'package:animalstat/app/authentication/bloc/bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
+import 'src/ui/theming.dart';
 
-import 'src/livestock_bloc_delegate.dart';
+import 'src/animalstat_bloc_delegate.dart';
 
 void main() {
-  BlocSupervisor.delegate = LivestockBlocDelegate();
+  BlocSupervisor.delegate = AnimalstatBlocDelegate();
 
   // Set `enableInDevMode` to true to see reports while in debug mode
   // This is only to be used for confirming that reports are being
@@ -60,19 +61,20 @@ class App extends StatelessWidget {
           fontFamily: 'SF Pro Text',
           primaryColor: kPrimaryColor,
           accentColor: kAccentColor,
+          buttonColor: kButtonColor,
           backgroundColor: kBackgroundColor,
           scaffoldBackgroundColor: kBackgroundColor,
           dialogBackgroundColor: kWhite,
           primaryTextTheme: TextTheme(
-            title: TextStyle(color: kWhite),
+            headline6: TextStyle(color: kWhite),
           ),
           textTheme: TextTheme(
-            body1: TextStyle(
+            bodyText2: TextStyle(
               color: kDefaultTextColor,
             ),
           ),
           primaryIconTheme: const IconThemeData.fallback().copyWith(
-            color: Colors.white,
+            color: kAccentColor,
           ),
         ),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(

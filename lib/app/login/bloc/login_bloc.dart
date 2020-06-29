@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:livestock_repository/livestock_repository.dart';
-import 'package:livestock/src/utilities/utilities.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:animalstat/src/utilities/utilities.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';

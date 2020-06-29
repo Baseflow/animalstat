@@ -1,8 +1,8 @@
-import 'package:livestock/src/ui/widgets/livestock_text_form_field.dart';
-import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
-import 'package:livestock/src/ui/widgets/livestock_secondary_button.dart';
-import 'package:livestock/app/authentication/bloc/bloc.dart';
-import 'package:livestock/app/login/bloc/bloc.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_text_form_field.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_primary_button.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_secondary_button.dart';
+import 'package:animalstat/app/authentication/bloc/bloc.dart';
+import 'package:animalstat/app/login/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -82,7 +82,7 @@ class _LoginFormState extends State<LoginForm> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: AssetImage('assets/images/livestock_logo.png',),
+                                image: AssetImage('assets/images/animalstat_logo.png',),
                               ),
                           borderRadius: BorderRadius.all(Radius.circular(14.0)),
                           color: Colors.redAccent,
@@ -90,7 +90,7 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ),
                   ),
-                  LivestockTextFormField(
+                  AnimalstatTextFormField(
                     controller: _emailController,
                     prefixIcon: Icon(Icons.email),
                     labelText: 'Email',
@@ -102,7 +102,7 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: LivestockTextFormField(
+                    child: AnimalstatTextFormField(
                       controller: _passwordController,
                       prefixIcon: Icon(Icons.lock),
                       labelText: 'Password',
@@ -121,7 +121,7 @@ class _LoginFormState extends State<LoginForm> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        LivestockPrimaryButton(
+                        AnimalstatPrimaryButton(
                             onPressed: () {
                               if(_formKey.currentState.validate()) {
                                 _submitForm();
@@ -130,7 +130,7 @@ class _LoginFormState extends State<LoginForm> {
                             text: 'Login'),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: LivestockSecondaryButton(
+                          child: AnimalstatSecondaryButton(
                             onPressed: () {},
                             text: 'Forgot password',
                           ),

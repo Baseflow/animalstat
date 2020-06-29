@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:intl/intl.dart';
 
 class AnimalDetailsViewModel {

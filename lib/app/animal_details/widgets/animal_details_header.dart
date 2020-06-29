@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:livestock/src/ui/theming.dart';
-import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
-import 'package:livestock/app/animal_details/bloc/bloc.dart';
+import 'package:animalstat/src/ui/theming.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_health_status_label.dart';
+import 'package:animalstat/app/animal_details/bloc/bloc.dart';
 
 class AnimalDetailsHeader extends StatelessWidget
     implements PreferredSizeWidget {
@@ -72,7 +72,7 @@ class AnimalDetailsHeader extends StatelessWidget
                 Expanded(
                   child: Container(),
                 ),
-                LivestockHealthStatusLabel(
+                AnimalstatHealthStatusLabel(
                     healthStatus:
                         state.currentHealthStatus)
               ],

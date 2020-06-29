@@ -1,9 +1,9 @@
-import 'package:livestock/app/recurring_treatments/bloc/recurring_treatments_bloc.dart';
-import 'package:livestock/src/ui/widgets/livestock_number_box.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat/app/recurring_treatments/bloc/recurring_treatments_bloc.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_number_box.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
-import 'package:livestock/src/utilities/enum_converters.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_health_status_label.dart';
+import 'package:animalstat/src/utilities/enum_converters.dart';
 
 class RecurringTreatmentCard extends StatelessWidget {
   final RecurringTreatmentCardState recurringTreatment;
@@ -23,10 +23,10 @@ class RecurringTreatmentCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  LivestockNumberBox(
+                  AnimalstatNumberBox(
                     animalNumber: recurringTreatment.animalNumber.toString(),
                   ),
-                  LivestockHealthStatusLabel(
+                  AnimalstatHealthStatusLabel(
                     healthStatus: recurringTreatment.healthStatus,
                   ),
                 ],

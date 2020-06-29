@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:livestock/src/ui/widgets/livestock_segmented_button.dart';
-import 'package:livestock/src/ui/widgets/livestock_toggle_button.dart';
-import 'package:livestock/src/utilities/enum_converters.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_segmented_button.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_toggle_button.dart';
+import 'package:animalstat/src/utilities/enum_converters.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 
 class DiagnosisSelectionWidget extends StatelessWidget {
   DiagnosisSelectionWidget({this.onChanged, this.selectedDiagnosis});
@@ -19,9 +19,9 @@ class DiagnosisSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LivestockToggleButton(
+    return AnimalstatToggleButton(
       children: _diagnosisIndexMap.values
-          .map((v) => LivestockSegmentedButton(
+          .map((v) => AnimalstatSegmentedButton(
                 borderColor: Color.fromRGBO(99, 99, 99, 1),
                 backgroundColor: Colors.transparent,
                 text: EnumConverters.toDiagnosesDisplayValue(v),
@@ -30,7 +30,7 @@ class DiagnosisSelectionWidget extends StatelessWidget {
           .toList(),
       onPressed: (index) => onChanged(_diagnosisIndexMap[index]),
       selectedChildren: _diagnosisIndexMap.values
-          .map((v) => LivestockSegmentedButton(
+          .map((v) => AnimalstatSegmentedButton(
                 backgroundColor: Color.fromRGBO(99, 99, 99, 1),
                 text: EnumConverters.toDiagnosesDisplayValue(v),
                 textColor: Colors.white,

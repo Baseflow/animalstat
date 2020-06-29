@@ -1,4 +1,4 @@
-package com.baseflow.livestock
+package com.baseflow.animalstat
 
 import android.os.Bundle
 

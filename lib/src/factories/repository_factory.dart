@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:livestock/app/authentication/bloc/bloc.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat/app/authentication/bloc/bloc.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 
 class RepositoryFactory {
   static AnimalRepository createAnimalRepository(BuildContext context) {

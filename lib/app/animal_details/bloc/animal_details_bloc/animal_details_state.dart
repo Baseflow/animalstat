@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:meta/meta.dart';
 
 class AnimalDetailsState extends Equatable {

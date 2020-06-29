@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:livestock/app/animal_details/bloc/bloc.dart';
-import 'package:livestock/app/animal_details/widgets/animal_details_header.dart';
-import 'package:livestock/app/animal_details/widgets/history_card.dart';
-import 'package:livestock/app/animal_details/widgets/history_header.dart';
-import 'package:livestock/src/ui/widgets/livestock_number_box.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat/app/animal_details/bloc/bloc.dart';
+import 'package:animalstat/app/animal_details/widgets/animal_details_header.dart';
+import 'package:animalstat/app/animal_details/widgets/history_card.dart';
+import 'package:animalstat/app/animal_details/widgets/history_header.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_number_box.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 
 class AnimalDetailsScreen extends StatelessWidget {
   static MaterialPageRoute route(
@@ -85,10 +85,10 @@ class AnimalDetailsScreen extends StatelessWidget {
       title: BlocBuilder<AnimalDetailsBloc, AnimalDetailsState>(
           builder: (BuildContext context, AnimalDetailsState state) {
         return (state is AnimalDetailsState)
-            ? LivestockNumberBox(
+            ? AnimalstatNumberBox(
                 animalNumber: state.animalNumber.toString(),
               )
-            : Text('Livestock');
+            : Text('animalstat');
       }),
     );
   }

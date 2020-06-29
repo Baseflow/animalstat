@@ -1,8 +1,8 @@
-import 'package:livestock/app/animal_details/bloc/bloc.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat/app/animal_details/bloc/bloc.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
-import 'package:livestock/src/utilities/enum_converters.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_health_status_label.dart';
+import 'package:animalstat/src/utilities/enum_converters.dart';
 
 class HistoryCard extends StatelessWidget {
   final AnimalHistoryCardState _historyCardState;
@@ -25,7 +25,7 @@ class HistoryCard extends StatelessWidget {
                 Expanded(
                   child: _buildTitleColumn(),
                 ),
-                LivestockHealthStatusLabel(
+                AnimalstatHealthStatusLabel(
                   healthStatus: _historyCardState.healthStatus,
                 ),
               ],

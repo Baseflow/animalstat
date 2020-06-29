@@ -1,5 +1,5 @@
-import 'package:livestock/src/providers/utility_provider.dart';
-import 'package:livestock/src/utilities/utilities.dart';
+import 'package:animalstat/src/providers/utility_provider.dart';
+import 'package:animalstat/src/utilities/utilities.dart';
 
 class UtilityProviders {
   static List<UtilityProvider> get providers => [

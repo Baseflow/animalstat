@@ -1,4 +1,4 @@
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 
 class EnumConverters {

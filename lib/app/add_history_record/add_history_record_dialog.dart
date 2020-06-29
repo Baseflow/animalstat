@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:livestock/app/add_history_record/widgets/add_animal_detail_header.dart';
-import 'package:livestock/app/add_history_record/widgets/diagnosis_selection_widget.dart';
-import 'package:livestock/app/add_history_record/widgets/health_status_selection_widget.dart';
-import 'package:livestock/app/add_history_record/widgets/treatment_selection_widget.dart';
-import 'package:livestock/app/animal_details/bloc/bloc.dart';
-import 'package:livestock/src/ui/theming.dart';
-import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
+import 'package:animalstat/app/add_history_record/widgets/add_animal_detail_header.dart';
+import 'package:animalstat/app/add_history_record/widgets/diagnosis_selection_widget.dart';
+import 'package:animalstat/app/add_history_record/widgets/health_status_selection_widget.dart';
+import 'package:animalstat/app/add_history_record/widgets/treatment_selection_widget.dart';
+import 'package:animalstat/app/animal_details/bloc/bloc.dart';
+import 'package:animalstat/src/ui/theming.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_primary_button.dart';
 
 import 'bloc/bloc.dart';
 
@@ -128,7 +128,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
         Divider(),
         Padding(
           padding: const EdgeInsets.only(top: 15.0),
-          child: LivestockPrimaryButton(
+          child: AnimalstatPrimaryButton(
             text: 'Opslaan',
             onPressed: saveAction,
             icon: Icon(

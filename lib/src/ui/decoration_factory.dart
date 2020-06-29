@@ -1,4 +1,4 @@
-import 'package:livestock/src/ui/theming.dart';
+import 'package:animalstat/src/ui/theming.dart';
 import 'package:flutter/material.dart';
 
 class DecorationFactory {
@@ -26,17 +26,26 @@ class DecorationFactory {
     String labelText,
     Widget prefixIcon,
   }) {
+    const border = const OutlineInputBorder(
+      borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+      borderSide: const BorderSide(color: kBorderColor, width: 1),
+    );
+
     return InputDecoration(
-      border: const OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-        borderSide: BorderSide.none,
-      ),
+      border: border,
+      enabledBorder: border,
+      focusedBorder: border,
       counterText: '',
-      fillColor: kPrimaryDarkColor,
+      fillColor: Colors.white,
       filled: true,
       hintText: hintText,
       labelText: labelText,
-      prefixIcon: prefixIcon,
+      contentPadding: EdgeInsets.all(0),
+      prefixIcon: prefixIcon ??
+          Icon(
+            Icons.search,
+            color: kDefaultTextColor,
+          ),
     );
   }
 

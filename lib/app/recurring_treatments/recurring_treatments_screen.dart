@@ -73,18 +73,18 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen> {
                             recurringTreatment: state.openTreatments[index],
                           ),
                           background: Container(
-                            child: Icon(FontAwesomeIcons.checkCircle),
-                            color: Colors.green,
-                          ),
-                          secondaryBackground: Container(
                             child: Icon(FontAwesomeIcons.timesCircle),
                             color: Colors.red,
+                          ),
+                          secondaryBackground: Container(
+                            child: Icon(FontAwesomeIcons.checkCircle),
+                            color: Colors.green,
                           ),
                           onDismissed: (direction) {
                             final treatmentStatus =
                                 direction == DismissDirection.endToStart
-                                    ? TreatmentStates.cancelled
-                                    : TreatmentStates.done;
+                                    ? TreatmentStates.done
+                                    : TreatmentStates.cancelled;
 
                             context
                                 .bloc<RecurringTreatmentsBloc>()

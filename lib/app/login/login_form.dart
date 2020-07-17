@@ -73,21 +73,11 @@ class _LoginFormState extends State<LoginForm> {
               child: ListView(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: 
-                    Center(
-                      child: Container(
-                        width: 200.0,
-                        height: 200.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage('assets/images/animalstat_logo.png',),
-                              ),
-                          borderRadius: BorderRadius.all(Radius.circular(14.0)),
-                          color: Colors.redAccent,
+                    padding: EdgeInsets.symmetric(vertical: 50),
+                    child: Center(
+                        child: Image.asset(
+                            'assets/images/animalstat_banner.png',
                         ),
-                      ),
                     ),
                   ),
                   AnimalstatTextFormField(

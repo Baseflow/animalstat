@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:animalstat/src/ui/theming.dart';
 
 class AnimalstatPrimaryButton extends StatelessWidget {
   final Icon _icon;

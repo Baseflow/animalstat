@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "animalstat-4c689",
-    "production": "animalstat-production"
+    "default": "livestock-4c689",
+    "production": "livestock-production"
   }
 }

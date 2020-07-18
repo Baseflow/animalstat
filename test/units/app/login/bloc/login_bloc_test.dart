@@ -35,7 +35,7 @@ void main() {
     reset(mockUserRepository);
     reset(mockValidators);
 
-    if(loginBloc != null) {
+    if (loginBloc != null) {
       loginBloc.close();
     }
 
@@ -67,7 +67,7 @@ void main() {
     });
 
     test('initialState should be `empty`', () {
-      expect(loginBloc.initialState, LoginState.empty());
+      expect(loginBloc.state, LoginState.empty());
     });
   });
 
@@ -76,9 +76,7 @@ void main() {
       final email = '';
       final currentState = LoginState.empty();
       final event = EmailChanged(email: email);
-      final expected = [
-        currentState
-      ];
+      final expected = [currentState];
 
       when(mockValidators.isValidEmail(email)).thenAnswer((_) => true);
 
@@ -87,7 +85,9 @@ void main() {
       loginBloc.add(event);
     });
 
-    test('should emit an empty LoginState and updated state where isValidEmail is false.', () {
+    test(
+        'should emit an empty LoginState and updated state where isValidEmail is false.',
+        () {
       final email = '';
       final currentState = LoginState.empty();
       final event = EmailChanged(email: email);
@@ -109,9 +109,7 @@ void main() {
       final password = '';
       final currentState = LoginState.empty();
       final event = PasswordChanged(password: password);
-      final expected = [
-        currentState
-      ];
+      final expected = [currentState];
 
       when(mockValidators.isValidPassword(password)).thenAnswer((_) => true);
 
@@ -120,7 +118,9 @@ void main() {
       loginBloc.add(event);
     });
 
-    test('should emit an empty LoginState and updated state where isValidPassword is false.', () {
+    test(
+        'should emit an empty LoginState and updated state where isValidPassword is false.',
+        () {
       final password = '';
       final currentState = LoginState.empty();
       final event = PasswordChanged(password: password);
@@ -140,61 +140,68 @@ void main() {
   group('when receiving an \'LoginWithCredentialsPressed\' event', () {
     test('should emit LoadingState.', () {
       final event = LoginWithCredentialsPressed(email: '', password: '');
-      final expected = [
-        LoginState.empty(),
-        LoginState.loading()
-      ];
+      final expected = [LoginState.empty(), LoginState.loading()];
 
       expectLater(loginBloc.state, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
 
-    test('should emit \'LoginState.loading()\' state and call \'UserRepository.signInWithCredentials\' exactly once.', () {
+    test(
+        'should emit \'LoginState.loading()\' state and call \'UserRepository.signInWithCredentials\' exactly once.',
+        () {
       final email = '';
       final password = '';
-      final event = LoginWithCredentialsPressed(email: email, password: password);
-      final expected = [
-        LoginState.empty(),
-        LoginState.loading()
-      ];
+      final event =
+          LoginWithCredentialsPressed(email: email, password: password);
+      final expected = [LoginState.empty(), LoginState.loading()];
 
-      when(mockUserRepository.signInWithCredentials(email, password)).thenAnswer((_) => Future.value());
+      when(mockUserRepository.signInWithCredentials(email, password))
+          .thenAnswer((_) => Future.value());
 
-      expectLater(loginBloc.state, emitsInOrder(expected))
-        .then((_) => verify(mockUserRepository.signInWithCredentials(email, password)).called(1));
+      expectLater(loginBloc.state, emitsInOrder(expected)).then((_) =>
+          verify(mockUserRepository.signInWithCredentials(email, password))
+              .called(1));
 
       loginBloc.add(event);
     });
 
-    test('with valid credentials, should emit an [LoginState.empty(), LoginState.loading(), LoginState.success()].', () {
+    test(
+        'with valid credentials, should emit an [LoginState.empty(), LoginState.loading(), LoginState.success()].',
+        () {
       final email = '';
       final password = '';
-      final event = LoginWithCredentialsPressed(email: email, password: password);
+      final event =
+          LoginWithCredentialsPressed(email: email, password: password);
       final expected = [
         LoginState.empty(),
         LoginState.loading(),
         LoginState.success(),
       ];
 
-      when(mockUserRepository.signInWithCredentials(email, password)).thenAnswer((_) => Future.value());
+      when(mockUserRepository.signInWithCredentials(email, password))
+          .thenAnswer((_) => Future.value());
 
       expectLater(loginBloc.state, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
 
-    test('with invalid credentials, should emit an [LoginState.empty(), LoginState.loading(), LoginState.failure()].', () {
+    test(
+        'with invalid credentials, should emit an [LoginState.empty(), LoginState.loading(), LoginState.failure()].',
+        () {
       final email = '';
       final password = '';
-      final event = LoginWithCredentialsPressed(email: email, password: password);
+      final event =
+          LoginWithCredentialsPressed(email: email, password: password);
       final expected = [
         LoginState.empty(),
         LoginState.loading(),
         LoginState.failure(),
       ];
 
-      when(mockUserRepository.signInWithCredentials(email, password)).thenThrow(new Error());
+      when(mockUserRepository.signInWithCredentials(email, password))
+          .thenThrow(new Error());
 
       expectLater(loginBloc.state, emitsInOrder(expected));
 

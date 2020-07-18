@@ -15,10 +15,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'src/ui/theming.dart';
 
-import 'src/animalstat_bloc_delegate.dart';
+import 'src/animalstat_bloc_observer.dart';
 
 void main() {
-  BlocSupervisor.delegate = AnimalstatBlocDelegate();
+  Bloc.observer = AnimalstatBlocObserver();
 
   // Set `enableInDevMode` to true to see reports while in debug mode
   // This is only to be used for confirming that reports are being

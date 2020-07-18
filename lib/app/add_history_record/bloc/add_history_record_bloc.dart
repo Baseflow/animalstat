@@ -15,11 +15,8 @@ class AddHistoryRecordBloc
   })  : assert(animalNumber != null),
         assert(animalRepository != null),
         _animalNumber = animalNumber,
-        _animalRepository = animalRepository;
-
-  @override
-  AddHistoryRecordState get initialState =>
-      AddHistoryRecordState.initial(_animalNumber);
+        _animalRepository = animalRepository,
+        super(AddHistoryRecordState.initial(animalNumber));
 
   @override
   Stream<AddHistoryRecordState> mapEventToState(
@@ -63,7 +60,7 @@ class AddHistoryRecordBloc
       isSaved: state.isSaved,
       seenOn: state.seenOn,
       treatment: state.treatment,
-      );
+    );
   }
 
   Stream<AddHistoryRecordState> _updateDiagnoses(
@@ -130,19 +127,25 @@ class AddHistoryRecordBloc
       diagnosis != Diagnoses.none;
 
   static bool canSaveState(AddHistoryRecordState state) {
-    if(state.cage == null || state.healthStatus == null) {
+    if (state.cage == null || state.healthStatus == null) {
       return false;
     }
 
-    if(state.healthStatus == HealthStates.deceased || state.healthStatus == HealthStates.healthy) {
+    if (state.healthStatus == HealthStates.deceased ||
+        state.healthStatus == HealthStates.healthy) {
       return true;
     }
 
-    if(state.healthStatus == HealthStates.suspicious && state.diagnosis != null && state.diagnosis != Diagnoses.none) {
+    if (state.healthStatus == HealthStates.suspicious &&
+        state.diagnosis != null &&
+        state.diagnosis != Diagnoses.none) {
       return true;
     }
 
-    if(state.healthStatus == HealthStates.ill && state.diagnosis != null && state.diagnosis != Diagnoses.none && state.treatment != Treatments.none) {
+    if (state.healthStatus == HealthStates.ill &&
+        state.diagnosis != null &&
+        state.diagnosis != Diagnoses.none &&
+        state.treatment != Treatments.none) {
       return true;
     }
 

@@ -16,72 +16,56 @@ class RecurringTreatmentCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.fromLTRB(15.0, 0, 15.0, 10),
       child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  AnimalstatNumberBox(
-                    animalNumber: recurringTreatment.animalNumber.toString(),
-                  ),
-                  AnimalstatHealthStatusLabel(
-                    healthStatus: recurringTreatment.healthStatus,
-                  ),
-                ],
-              ),
-              (recurringTreatment.diagnosis != Diagnoses.none)
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 17.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(child: _buildDiagnosesColumn()),
-                          _buildTreatmentColumn(),
-                        ],
-                      ),
-                    )
-                  : Container(),
-            ],
-          ),
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: <Widget>[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                AnimalstatNumberBox(
+                  animalNumber: recurringTreatment.animalNumber.toString(),
+                ),
+                AnimalstatHealthStatusLabel(
+                  healthStatus: recurringTreatment.healthStatus,
+                ),
+              ],
+            ),
+            (recurringTreatment.diagnosis != Diagnoses.none)
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 17.0),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.assignment, color: Colors.grey[700]),
+                        SizedBox(width: 15),
+                        Expanded(child: _buildHealthDetailsColumn())
+                      ],
+                    ),
+                  )
+                : Container(),
+          ],
         ),
-      );
-  }
-
-  Widget _buildDiagnosesColumn() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Diagnose',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 17.0,
-          ),
-        ),
-        Text(
-          EnumConverters.toDiagnosesDisplayValue(recurringTreatment.diagnosis),
-          style: TextStyle(
-            fontSize: 17.0,
-          ),
-        ),
-      ],
+      ),
     );
   }
 
-  Widget _buildTreatmentColumn() {
-    if (recurringTreatment.treatment == Treatments.none) {
-      return Container();
-    }
-
+  Widget _buildHealthDetailsColumn() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        (recurringTreatment.diagnosis != Diagnoses.none)
+            ? Text(
+                EnumConverters.toTreatmentDisplayValue(
+                    recurringTreatment.treatment),
+                style: TextStyle(
+                  fontSize: 17.0,
+                ),
+              )
+            : Container(),
         Text(
-          EnumConverters.toTreatmentDisplayValue(recurringTreatment.treatment),
+          EnumConverters.toDiagnosesDisplayValue(recurringTreatment.diagnosis),
           style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 17.0,
+            fontSize: 14.0,
           ),
         ),
       ],

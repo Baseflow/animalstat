@@ -12,10 +12,8 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
   SearchAnimalBloc({
     @required AnimalRepository animalRepository,
   })  : assert(animalRepository != null),
-        this._animalRepository = animalRepository;
-
-  @override
-  SearchAnimalState get initialState => SearchAnimalState.empty();
+        this._animalRepository = animalRepository,
+        super(SearchAnimalState.empty());
 
   @override
   Stream<SearchAnimalState> mapEventToState(
@@ -29,11 +27,11 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
   }
 
   Stream<SearchAnimalState> _mapQueryChangedToState(QueryChanged event) async* {
-    if(event.query.length == 0) {
+    if (event.query.length == 0) {
       yield SearchAnimalState.empty();
       return;
     }
-    
+
     var animalNumber = int.tryParse(event.query);
 
     if (animalNumber == null) {

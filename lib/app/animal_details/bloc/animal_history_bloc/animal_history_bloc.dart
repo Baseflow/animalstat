@@ -15,12 +15,8 @@ class AnimalHistoryBloc extends Bloc<AnimalHistoryEvent, AnimalHistoryState> {
     @required AnimalRepository animalRepository,
   })  : assert(animalRepository != null),
         this._animalNumber = animalNumber,
-        this._animalRepository = animalRepository;
-
-  @override
-  AnimalHistoryState get initialState => InitialHistoryState(
-        animalNumber: _animalNumber,
-      );
+        this._animalRepository = animalRepository,
+        super(InitialHistoryState(animalNumber: animalNumber));
 
   @override
   Stream<AnimalHistoryState> mapEventToState(
@@ -41,20 +37,20 @@ class AnimalHistoryBloc extends Bloc<AnimalHistoryEvent, AnimalHistoryState> {
     _animalHistoryRecordsSubscription = _animalRepository
         .findAnimalHistory(animalNumber)
         .listen((historyRecords) {
-          final historyCardStates = historyRecords.map((entity) {
-            return AnimalHistoryCardState(
-              animalNumber: animalNumber,
-              cage: entity.cage,
-              diagnosis: entity.diagnosis,
-              healthStatus: entity.healthStatus,
-              seenOn: entity.seenOn,
-              treatment: entity.treatment,
-            );
-          }).toList();
+      final historyCardStates = historyRecords.map((entity) {
+        return AnimalHistoryCardState(
+          animalNumber: animalNumber,
+          cage: entity.cage,
+          diagnosis: entity.diagnosis,
+          healthStatus: entity.healthStatus,
+          seenOn: entity.seenOn,
+          treatment: entity.treatment,
+        );
+      }).toList();
 
-          add(HistoryChanged(
-            animalNumber: animalNumber, history: historyCardStates));
-        });
+      add(HistoryChanged(
+          animalNumber: animalNumber, history: historyCardStates));
+    });
   }
 
   Stream<AnimalHistoryState> _mapHistoryUpdatedToState(

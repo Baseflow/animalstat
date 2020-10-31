@@ -17,10 +17,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   })  : assert(userRepository != null),
         assert(validators != null),
         _userRepository = userRepository,
-        _validators = validators;
-
-  @override
-  LoginState get initialState => LoginState.empty();
+        _validators = validators,
+        super(LoginState.empty());
 
   @override
   Stream<Transition<LoginEvent, LoginState>> transformEvents(
@@ -38,7 +36,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       transitionFn,
     );
   }
-  
+
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is EmailChanged) {

@@ -20,11 +20,8 @@ class RecurringTreatmentsBloc
   RecurringTreatmentsBloc({
     @required RecurringTreatmentsRepository recurringTreatmentsRepository,
   })  : assert(recurringTreatmentsRepository != null),
-        _recurringTreatmentsRepository = recurringTreatmentsRepository;
-
-  @override
-  RecurringTreatmentsState get initialState =>
-      RecurringTreatmentsState.initial();
+        _recurringTreatmentsRepository = recurringTreatmentsRepository,
+        super(RecurringTreatmentsState.initial());
 
   @override
   Stream<RecurringTreatmentsState> mapEventToState(

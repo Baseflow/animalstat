@@ -19,6 +19,8 @@ class DiagnosisSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _theme = Theme.of(context);
+
     return AnimalstatToggleButton(
       children: _diagnosisIndexMap.values
           .map((v) => AnimalstatSegmentedButton(
@@ -31,7 +33,7 @@ class DiagnosisSelectionWidget extends StatelessWidget {
       onPressed: (index) => onChanged(_diagnosisIndexMap[index]),
       selectedChildren: _diagnosisIndexMap.values
           .map((v) => AnimalstatSegmentedButton(
-                backgroundColor: Color.fromRGBO(99, 99, 99, 1),
+                backgroundColor: _theme.buttonColor,
                 text: EnumConverters.toDiagnosesDisplayValue(v),
                 textColor: Colors.white,
               ))
@@ -41,8 +43,6 @@ class DiagnosisSelectionWidget extends StatelessWidget {
   }
 
   int _findKey(Diagnoses diagnosis) {
-    return _diagnosisIndexMap.keys.firstWhere(
-        (k) => _diagnosisIndexMap[k] == diagnosis,
-        orElse: () => null);
+    return _diagnosisIndexMap.keys.firstWhere((k) => _diagnosisIndexMap[k] == diagnosis, orElse: () => null);
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_health_status_label.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_toggle_button.dart';
+
 import 'package:animalstat_repository/animalstat_repository.dart';
+
+import 'package:animalstat/src/ui/widgets/animalstat_health_status_selectable_label.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_toggle_button.dart';
 
 class HealthStatusSelectionWidget extends StatelessWidget {
   HealthStatusSelectionWidget({this.onChanged, this.selectedHealthStatus});
@@ -20,13 +22,13 @@ class HealthStatusSelectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimalstatToggleButton(
       children: _healthStatusIndexMap.values
-          .map((v) => AnimalstatHealthStatusLabel(
+          .map((v) => AnimalstatHealthStatusSelectableLabel(
                 healthStatus: v,
               ))
           .toList(),
       onPressed: (index) => onChanged(_healthStatusIndexMap[index]),
       selectedChildren: _healthStatusIndexMap.values
-          .map((v) => AnimalstatHealthStatusLabel(
+          .map((v) => AnimalstatHealthStatusSelectableLabel(
                 healthStatus: v,
                 isSelected: true,
               ))
@@ -36,8 +38,7 @@ class HealthStatusSelectionWidget extends StatelessWidget {
   }
 
   int _findKey(HealthStates healthStatus) {
-    return _healthStatusIndexMap.keys.firstWhere(
-        (k) => _healthStatusIndexMap[k] == healthStatus,
-        orElse: () => null);
+    return _healthStatusIndexMap.keys
+        .firstWhere((k) => _healthStatusIndexMap[k] == healthStatus, orElse: () => null);
   }
 }

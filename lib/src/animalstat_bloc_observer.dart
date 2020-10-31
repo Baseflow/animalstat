@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AnimalstatBlocDelegate extends BlocDelegate {
+class AnimalstatBlocObserver extends BlocObserver {
   @override
   void onError(Bloc bloc, Object error, StackTrace stacktrace) {
     super.onError(bloc, error, stacktrace);

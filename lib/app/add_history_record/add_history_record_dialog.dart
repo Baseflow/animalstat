@@ -1,3 +1,4 @@
+import 'package:animalstat/src/ui/widgets/animalstat_secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -34,8 +35,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     _cageEditingController.value = TextEditingValue(
       text: _animalDetailsBloc.state.cage?.toString() ?? '',
       selection: TextSelection.fromPosition(
-        TextPosition(
-            offset: _animalDetailsBloc.state.cage.toString().length ?? 0),
+        TextPosition(offset: _animalDetailsBloc.state.cage.toString().length ?? 0),
       ),
     );
   }
@@ -115,11 +115,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
 
   Widget _buildBottomBar(AddHistoryRecordState state) {
     var saveAction = state.canSave
-        ? () => context.bloc<AddHistoryRecordBloc>().add(
-              SaveAnimalHistoryRecord(
-                stateToSave: state,
-              ),
-            )
+        ? () => context.bloc<AddHistoryRecordBloc>().add(SaveAnimalHistoryRecord(stateToSave: state))
         : null;
 
     return Column(
@@ -128,14 +124,19 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
         Divider(),
         Padding(
           padding: const EdgeInsets.only(top: 15.0),
-          child: AnimalstatPrimaryButton(
-            text: 'Opslaan',
-            onPressed: saveAction,
-            icon: Icon(
-              FontAwesomeIcons.plus,
-              color: Colors.white,
-              size: 16,
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              AnimalstatSecondaryButton(
+                text: 'Annuleren',
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              SizedBox(width: 15.0),
+              AnimalstatPrimaryButton(
+                text: 'Opslaan',
+                onPressed: saveAction,
+              ),
+            ],
           ),
         ),
       ],
@@ -177,7 +178,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
               ],
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   'Hok',
@@ -219,8 +220,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     ];
   }
 
-  List<Widget> _buildDiagnosisSelectionRow(
-      AddHistoryRecordState animalDetailState) {
+  List<Widget> _buildDiagnosisSelectionRow(AddHistoryRecordState animalDetailState) {
     if (!animalDetailState.allowDiagnosisSelection) {
       return <Widget>[];
     }
@@ -228,8 +228,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     return _buildDialogRow(
       title: 'Diagnose',
       child: DiagnosisSelectionWidget(
-        onChanged: (diagnosis) =>
-            BlocProvider.of<AddHistoryRecordBloc>(context).add(
+        onChanged: (diagnosis) => BlocProvider.of<AddHistoryRecordBloc>(context).add(
           UpdateDiagnosis(
             diagnosis: diagnosis,
             previousState: animalDetailState,
@@ -240,13 +239,11 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     );
   }
 
-  List<Widget> _buildHealthStatusSelectionRow(
-      AddHistoryRecordState animalDetailState) {
+  List<Widget> _buildHealthStatusSelectionRow(AddHistoryRecordState animalDetailState) {
     return _buildDialogRow(
       title: 'Gezondheidsstatus',
       child: HealthStatusSelectionWidget(
-        onChanged: (healthStatus) =>
-            BlocProvider.of<AddHistoryRecordBloc>(context).add(
+        onChanged: (healthStatus) => BlocProvider.of<AddHistoryRecordBloc>(context).add(
           UpdateHealthStatus(
             healthStatus: healthStatus,
             previousState: animalDetailState,
@@ -303,8 +300,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     return _buildDialogRow(
       title: 'Behandeling',
       child: TreatmentSelectionWidget(
-        onChanged: (treatment) =>
-            BlocProvider.of<AddHistoryRecordBloc>(context).add(
+        onChanged: (treatment) => BlocProvider.of<AddHistoryRecordBloc>(context).add(
           UpdateTreatment(
             treatment: treatment,
             previousState: recordState,

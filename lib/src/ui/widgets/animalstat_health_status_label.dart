@@ -5,11 +5,9 @@ import 'package:animalstat/src/utilities/enum_converters.dart';
 
 class AnimalstatHealthStatusLabel extends StatelessWidget {
   final HealthStates healthStatus;
-  final bool isSelected;
 
   const AnimalstatHealthStatusLabel({
     @required this.healthStatus,
-    this.isSelected = false,
   });
 
   @override
@@ -19,7 +17,6 @@ class AnimalstatHealthStatusLabel extends StatelessWidget {
     }
 
     return AnimalstatSegmentedButton(
-      borderColor: isSelected ? EnumConverters.toHealthStatusTextColor(healthStatus) : null,
       backgroundColor: EnumConverters.toHealthStatusBackgroundColor(healthStatus),
       text: EnumConverters.toHealthStatusDisplayValue(healthStatus),
       textColor: EnumConverters.toHealthStatusTextColor(healthStatus),

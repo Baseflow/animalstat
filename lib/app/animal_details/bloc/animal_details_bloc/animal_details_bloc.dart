@@ -15,12 +15,8 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
     @required AnimalRepository animalRepository,
   })  : assert(animalRepository != null),
         this._animalNumber = animalNumber,
-        this._animalRepository = animalRepository;
-
-  @override
-  AnimalDetailsState get initialState => AnimalDetailsState.loading(
-        _animalNumber,
-      );
+        this._animalRepository = animalRepository,
+        super(AnimalDetailsState.loading(animalNumber));
 
   @override
   Stream<AnimalDetailsState> mapEventToState(
@@ -42,8 +38,7 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
     _animalDetailSubscription?.cancel();
     _animalDetailSubscription = _animalRepository
         .findAnimalByNumber(event.animalNumber)
-        .listen(
-            (animalDetail) => add(AnimalChanged(animal: animalDetail)));
+        .listen((animalDetail) => add(AnimalChanged(animal: animalDetail)));
   }
 
   Stream<AnimalDetailsState> _mapAnimalChangedToState(

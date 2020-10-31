@@ -19,6 +19,7 @@ class TreatmentSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _theme = Theme.of(context);
     return AnimalstatToggleButton(
       children: _treatmentIndexMap.values
           .map((v) => AnimalstatSegmentedButton(
@@ -31,7 +32,7 @@ class TreatmentSelectionWidget extends StatelessWidget {
       onPressed: (index) => onChanged(_treatmentIndexMap[index]),
       selectedChildren: _treatmentIndexMap.values
           .map((v) => AnimalstatSegmentedButton(
-                backgroundColor: Color.fromRGBO(99, 99, 99, 1),
+                backgroundColor: _theme.buttonColor,
                 text: EnumConverters.toTreatmentDisplayValue(v),
                 textColor: Colors.white,
               ))
@@ -41,8 +42,6 @@ class TreatmentSelectionWidget extends StatelessWidget {
   }
 
   int _findKey(Treatments treatment) {
-    return _treatmentIndexMap.keys.firstWhere(
-        (k) => _treatmentIndexMap[k] == treatment,
-        orElse: () => null);
+    return _treatmentIndexMap.keys.firstWhere((k) => _treatmentIndexMap[k] == treatment, orElse: () => null);
   }
 }

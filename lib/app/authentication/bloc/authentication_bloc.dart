@@ -4,15 +4,14 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import './bloc.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository _userRepository;
 
   AuthenticationBloc({@required UserRepository userRepository})
-    : assert(userRepository != null),
-    _userRepository = userRepository;
-
-  @override
-  AuthenticationState get initialState => Uninitialized();
+      : assert(userRepository != null),
+        _userRepository = userRepository,
+        super(Uninitialized());
 
   @override
   Stream<AuthenticationState> mapEventToState(

@@ -52,13 +52,13 @@ class EnumConverters {
   static Color toHealthStatusBackgroundColor(HealthStates healthStatus) {
     switch (healthStatus) {
       case HealthStates.healthy:
-        return Color.fromRGBO(153, 241, 166, 1);
+        return Color.fromRGBO(165, 214, 167, 1);
       case HealthStates.ill:
-        return Color.fromRGBO(169, 233, 255, 1);
+        return Color.fromRGBO(179, 229, 252, 1);
       case HealthStates.suspicious:
-        return Color.fromRGBO(255, 239, 200, 1);
+        return Color.fromRGBO(255, 204, 188, 1);
       case HealthStates.deceased:
-        return Color.fromRGBO(194, 147, 147, 1);
+        return Color.fromRGBO(225, 190, 231, 1);
       case HealthStates.unknown:
       default:
         return null;
@@ -68,13 +68,13 @@ class EnumConverters {
   static Color toHealthStatusTextColor(HealthStates healthStatus) {
     switch (healthStatus) {
       case HealthStates.healthy:
-        return Color.fromRGBO(3, 105, 38, 1);
+        return Color.fromRGBO(27, 94, 32, 1);
       case HealthStates.ill:
-        return Color.fromRGBO(21, 98, 124, 1);
+        return Color.fromRGBO(1, 87, 155, 1);
       case HealthStates.suspicious:
-        return Color.fromRGBO(125, 89, 1, 1);
+        return Color.fromRGBO(191, 54, 12, 1);
       case HealthStates.deceased:
-        return Color.fromRGBO(54, 12, 8, 1);
+        return Color.fromRGBO(106, 27, 154, 1);
       case HealthStates.unknown:
       default:
         return null;

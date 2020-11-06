@@ -11,7 +11,9 @@ class AnimalstatNumberBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(7.0)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(7.0),
+        ),
         color: kAnimalNumberBackgroundColor,
       ),
       child: Padding(
@@ -24,7 +26,11 @@ class AnimalstatNumberBox extends StatelessWidget {
         child: Text(
           animalNumber,
           style: const TextStyle(
-              color: kWhite, fontSize: 22.0, fontFamily: 'Courier'),
+            color: kWhite,
+            fontSize: 22.0,
+            fontFamily: 'Courier',
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

@@ -19,6 +19,7 @@ class AnimalstatSearchTextField extends StatelessWidget {
     this.prefixIcon,
     this.style,
     this.textInputAction,
+    this.height,
   });
 
   /// {@macro flutter.widgets.editableText.autocorrect}
@@ -65,23 +66,30 @@ class AnimalstatSearchTextField extends StatelessWidget {
   /// [TextInputType.multiline] and [TextInputAction.done] otherwise.
   final TextInputAction textInputAction;
 
+  /// The widget's height.
+  final double height;
+
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return Container(
+      height: height,
+      child: TextField(
         autocorrect: autocorrect,
         autofocus: autofocus,
         controller: controller,
-        decoration: decoration ?? DecorationFactory.searchTextFieldDecoration(
-          hintText: hintText,
-          labelText: labelText,
-          prefixIcon: prefixIcon,
-        ),
+        decoration: decoration ??
+            DecorationFactory.searchTextFieldDecoration(
+              hintText: hintText,
+              labelText: labelText,
+              prefixIcon: prefixIcon,
+            ),
         keyboardType: keyboardType,
         maxLength: maxLength,
         maxLengthEnforced: maxLengthEnforced,
         obscureText: obscureText,
         onChanged: onChanged,
         textInputAction: textInputAction,
+      ),
     );
   }
 }

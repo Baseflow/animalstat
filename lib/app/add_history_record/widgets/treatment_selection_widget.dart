@@ -42,6 +42,8 @@ class TreatmentSelectionWidget extends StatelessWidget {
   }
 
   int _findKey(Treatments treatment) {
-    return _treatmentIndexMap.keys.firstWhere((k) => _treatmentIndexMap[k] == treatment, orElse: () => null);
+    return _treatmentIndexMap.keys.firstWhere(
+        (k) => _treatmentIndexMap[k] == treatment,
+        orElse: () => null);
   }
 }

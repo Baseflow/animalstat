@@ -44,9 +44,11 @@ extension DocumentSnapshotExtension on DocumentSnapshot {
       animalNumber: this.data['animal_number'],
       cageNumber: this.data['cage_number'],
       diagnosis: FirestoreDiagnosesConverter.toEnum(this.data['diagnosis']),
-      healthStatus: FirestoreHealthStatesConverter.toEnum(this.data['health_status']),
+      healthStatus:
+          FirestoreHealthStatesConverter.toEnum(this.data['health_status']),
       treatment: FirestoreTreatmentsConverter.toEnum(this.data['treatment']),
-      treatmentStatus: FirestoreTreatmentStatesConverter.toEnum(this.data['treatment_status']),
+      treatmentStatus: FirestoreTreatmentStatesConverter.toEnum(
+          this.data['treatment_status']),
     );
   }
 }

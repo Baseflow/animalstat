@@ -17,7 +17,8 @@ class AnimalstatHealthStatusLabel extends StatelessWidget {
     }
 
     return AnimalstatSegmentedButton(
-      backgroundColor: EnumConverters.toHealthStatusBackgroundColor(healthStatus),
+      backgroundColor:
+          EnumConverters.toHealthStatusBackgroundColor(healthStatus),
       text: EnumConverters.toHealthStatusDisplayValue(healthStatus),
       textColor: EnumConverters.toHealthStatusTextColor(healthStatus),
     );

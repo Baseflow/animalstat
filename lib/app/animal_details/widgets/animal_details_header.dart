@@ -73,8 +73,7 @@ class AnimalDetailsHeader extends StatelessWidget
                   child: Container(),
                 ),
                 AnimalstatHealthStatusLabel(
-                    healthStatus:
-                        state.currentHealthStatus)
+                    healthStatus: state.currentHealthStatus)
               ],
             ),
           );

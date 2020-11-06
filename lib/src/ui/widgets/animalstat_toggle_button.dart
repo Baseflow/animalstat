@@ -16,19 +16,16 @@ class AnimalstatToggleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-            runSpacing: 15,
-            spacing: 15,
-            children: List<Widget>.generate(
-              children.length,
-              (int index) {
-                return _ToggleButton(
-                  child: index == selectedIndex
-                      ? selectedChildren[index]
-                      : children[index],
-                  onPressed: onPressed != null ? () => onPressed(index) : null,
-                );
-              }
-            ),
+      runSpacing: 15,
+      spacing: 15,
+      children: List<Widget>.generate(children.length, (int index) {
+        return _ToggleButton(
+          child: index == selectedIndex
+              ? selectedChildren[index]
+              : children[index],
+          onPressed: onPressed != null ? () => onPressed(index) : null,
+        );
+      }),
     );
   }
 }

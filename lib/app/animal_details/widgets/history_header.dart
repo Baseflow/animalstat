@@ -61,7 +61,9 @@ class HistoryHeader extends StatelessWidget {
             value: animalRepository,
             child: MultiBlocProvider(
               providers: [
-                BlocProvider.value(value: animalDetailsBloc,),
+                BlocProvider.value(
+                  value: animalDetailsBloc,
+                ),
                 BlocProvider(
                   create: (context) => AddHistoryRecordBloc(
                     animalNumber: animalNumber,

@@ -24,9 +24,12 @@ class AnimalstatHealthStatusSelectableLabel extends StatelessWidget {
       borderColor: isSelected
           ? EnumConverters.toHealthStatusTextColor(healthStatus)
           : EnumConverters.toHealthStatusBackgroundColor(healthStatus),
-      backgroundColor:
-          isSelected ? EnumConverters.toHealthStatusTextColor(healthStatus) : _theme.dialogBackgroundColor,
-      textColor: isSelected ? _theme.dialogBackgroundColor : EnumConverters.toHealthStatusTextColor(healthStatus),
+      backgroundColor: isSelected
+          ? EnumConverters.toHealthStatusTextColor(healthStatus)
+          : _theme.dialogBackgroundColor,
+      textColor: isSelected
+          ? _theme.dialogBackgroundColor
+          : EnumConverters.toHealthStatusTextColor(healthStatus),
       text: EnumConverters.toHealthStatusDisplayValue(healthStatus),
     );
   }

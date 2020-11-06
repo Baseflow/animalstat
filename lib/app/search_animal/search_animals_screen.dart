@@ -1,3 +1,4 @@
+import 'package:animalstat/src/ui/widgets/animalstat_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animalstat/app/animal_details/animal_details_screen.dart';
@@ -39,11 +40,20 @@ class SearchAnimalScreen extends StatelessWidget {
           ),
         ],
         brightness: Brightness.dark,
-        leading: Container(),
-        bottom: _buildAppBarBottom(context),
-        elevation: 0.0,
         titleSpacing: 0.0,
-        title: Text('animalstat'),
+        title: Padding(
+          padding: const EdgeInsets.all(9.0),
+          child: AnimalstatSearchTextField(
+            autofocus: true,
+            keyboardType: TextInputType.number,
+            onChanged: (value) => context
+                .bloc<SearchAnimalBloc>()
+                .add(QueryChanged(query: value)),
+            hintText: 'Zoeken...',
+            height: 40,
+          ),
+        ),
+        leadingWidth: 0,
       ),
       body: BlocBuilder<SearchAnimalBloc, SearchAnimalState>(
         builder: (BuildContext context, SearchAnimalState state) {
@@ -78,22 +88,9 @@ class SearchAnimalScreen extends StatelessWidget {
             itemBuilder: (context, index) =>
                 _buildResultRow(context, state.searchResults[index]),
             itemCount: state.searchResults.length,
+            padding: EdgeInsets.all(8.0),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildAppBarBottom(BuildContext context) {
-    return AnimalstatAppBarBottom(
-      child: Padding(
-        padding: const EdgeInsets.all(9.0),
-        child: AnimalstatSearchTextField(
-          autofocus: true,
-          keyboardType: TextInputType.number,
-          onChanged: (value) =>
-              context.bloc<SearchAnimalBloc>().add(QueryChanged(query: value)),
-        ),
       ),
     );
   }
@@ -128,15 +125,8 @@ class SearchAnimalScreen extends StatelessWidget {
           ),
         );
       },
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: kBorderColor,
-            ),
-          ),
-          color: kWhite,
-        ),
+      child: AnimalStatCard(
+        margin: EdgeInsets.symmetric(vertical: 4),
         child: Padding(
           padding: const EdgeInsets.only(
             left: 20.0,
@@ -161,9 +151,6 @@ class SearchAnimalScreen extends StatelessWidget {
                   healthStatus: searchResult.currentHealthStatus,
                 ),
               ),
-              Icon(
-                Icons.chevron_right,
-              )
             ],
           ),
         ),

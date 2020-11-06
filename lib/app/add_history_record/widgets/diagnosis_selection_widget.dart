@@ -43,6 +43,8 @@ class DiagnosisSelectionWidget extends StatelessWidget {
   }
 
   int _findKey(Diagnoses diagnosis) {
-    return _diagnosisIndexMap.keys.firstWhere((k) => _diagnosisIndexMap[k] == diagnosis, orElse: () => null);
+    return _diagnosisIndexMap.keys.firstWhere(
+        (k) => _diagnosisIndexMap[k] == diagnosis,
+        orElse: () => null);
   }
 }

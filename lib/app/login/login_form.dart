@@ -76,9 +76,9 @@ class _LoginFormState extends State<LoginForm> {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 50),
                     child: Center(
-                        child: Image.asset(
-                            'assets/images/animalstat_banner.png',
-                        ),
+                      child: Image.asset(
+                        'assets/images/animalstat_banner.png',
+                      ),
                     ),
                   ),
                   AnimalstatTextFormField(
@@ -114,7 +114,7 @@ class _LoginFormState extends State<LoginForm> {
                       children: <Widget>[
                         AnimalstatPrimaryButton(
                             onPressed: () {
-                              if(_formKey.currentState.validate()) {
+                              if (_formKey.currentState.validate()) {
                                 _submitForm();
                               }
                             },

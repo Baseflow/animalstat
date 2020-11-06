@@ -44,8 +44,10 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen> {
           appBar: _buildAppBar(context),
           body: Padding(
             padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-            child: BlocBuilder<RecurringTreatmentsBloc, RecurringTreatmentsState>(
-                builder: (BuildContext context, RecurringTreatmentsState state) {
+            child:
+                BlocBuilder<RecurringTreatmentsBloc, RecurringTreatmentsState>(
+                    builder:
+                        (BuildContext context, RecurringTreatmentsState state) {
               if (state.notFound) {
                 return _buildMessage(
                   context,

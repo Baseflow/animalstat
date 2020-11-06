@@ -90,7 +90,8 @@ class LoginState extends Equatable {
   }
 
   @override
-  List<Object> get props => [isEmailValid, isPasswordValid, isSubmitting, isSuccess, isFailure];
+  List<Object> get props =>
+      [isEmailValid, isPasswordValid, isSubmitting, isSuccess, isFailure];
 
   @override
   String toString() {

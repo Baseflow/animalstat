@@ -7,7 +7,7 @@ abstract class AuthenticationState extends Equatable {
   const AuthenticationState();
 }
 
-class Uninitialized extends AuthenticationState {  
+class Uninitialized extends AuthenticationState {
   @override
   List<Object> get props => null;
 
@@ -30,7 +30,7 @@ class Authenticated extends AuthenticationState {
 class Unauthenticated extends AuthenticationState {
   @override
   List<Object> get props => null;
-  
+
   @override
   String toString() => 'Unauthenticated';
 }

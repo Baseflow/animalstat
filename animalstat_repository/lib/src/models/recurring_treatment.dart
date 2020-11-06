@@ -10,7 +10,16 @@ class RecurringTreatment {
   final Treatments treatment;
   final TreatmentStates treatmentStatus;
 
-  RecurringTreatment({this.id, this.administrationDate, this.animalNumber, this.cageNumber, this.diagnosis, this.healthStatus, this.treatment, this.treatmentStatus,});
+  RecurringTreatment({
+    this.id,
+    this.administrationDate,
+    this.animalNumber,
+    this.cageNumber,
+    this.diagnosis,
+    this.healthStatus,
+    this.treatment,
+    this.treatmentStatus,
+  });
 
   @override
   int get hashCode =>

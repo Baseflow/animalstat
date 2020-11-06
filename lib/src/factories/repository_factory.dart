@@ -9,7 +9,8 @@ class RepositoryFactory {
     return FirestoreAnimalRepository(user);
   }
 
-  static RecurringTreatmentsRepository createRecurringTreatmentsRepository(BuildContext context) {
+  static RecurringTreatmentsRepository createRecurringTreatmentsRepository(
+      BuildContext context) {
     var user = _getUser(context);
     return FirestoreRecurringTreatmentsRepository(user);
   }

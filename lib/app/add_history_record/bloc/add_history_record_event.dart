@@ -9,15 +9,17 @@ abstract class AddHistoryRecordEvent extends Equatable {
 
 class SaveAnimalHistoryRecord extends AddHistoryRecordEvent {
   SaveAnimalHistoryRecord({@required this.stateToSave});
-  
+
   final AddHistoryRecordState stateToSave;
-  
+
   @override
   List<Object> get props => [stateToSave];
 }
 
 class UpdateCageNumber extends AddHistoryRecordEvent {
-  UpdateCageNumber({@required this.cage,});
+  UpdateCageNumber({
+    @required this.cage,
+  });
 
   final String cage;
 
@@ -26,8 +28,11 @@ class UpdateCageNumber extends AddHistoryRecordEvent {
 }
 
 class UpdateDiagnosis extends AddHistoryRecordEvent {
-  UpdateDiagnosis({@required this.previousState, @required this.diagnosis,});
-  
+  UpdateDiagnosis({
+    @required this.previousState,
+    @required this.diagnosis,
+  });
+
   final AddHistoryRecordState previousState;
   final Diagnoses diagnosis;
 
@@ -36,8 +41,11 @@ class UpdateDiagnosis extends AddHistoryRecordEvent {
 }
 
 class UpdateHealthStatus extends AddHistoryRecordEvent {
-  UpdateHealthStatus({@required this.previousState, @required this.healthStatus,});
-  
+  UpdateHealthStatus({
+    @required this.previousState,
+    @required this.healthStatus,
+  });
+
   final AddHistoryRecordState previousState;
   final HealthStates healthStatus;
 
@@ -46,8 +54,11 @@ class UpdateHealthStatus extends AddHistoryRecordEvent {
 }
 
 class UpdateTreatment extends AddHistoryRecordEvent {
-  UpdateTreatment({@required this.previousState, @required this.treatment,});
-  
+  UpdateTreatment({
+    @required this.previousState,
+    @required this.treatment,
+  });
+
   final AddHistoryRecordState previousState;
   final Treatments treatment;
 

@@ -2,8 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 
-class AnimalHistoryCardState extends Equatable
-{
+class AnimalHistoryCardState extends Equatable {
   AnimalHistoryCardState({
     this.animalNumber,
     this.cage,
@@ -22,15 +21,14 @@ class AnimalHistoryCardState extends Equatable
 
   String get seenOnDisplayValue => '${DateFormat('dd-MM-yyyy').format(seenOn)}';
   String get cageDisplayValue => 'hok: $cage';
-  
-  AnimalHistoryCardState copyWith({
-    int animalNumber, 
-    int cage,
-    Diagnoses diagnosis,
-    HealthStates healthStatus,
-    DateTime seenOn,
-    Treatments treatment
-  }) {
+
+  AnimalHistoryCardState copyWith(
+      {int animalNumber,
+      int cage,
+      Diagnoses diagnosis,
+      HealthStates healthStatus,
+      DateTime seenOn,
+      Treatments treatment}) {
     return AnimalHistoryCardState(
       animalNumber: animalNumber ?? this.animalNumber,
       cage: cage ?? this.cage,
@@ -43,11 +41,11 @@ class AnimalHistoryCardState extends Equatable
 
   @override
   List<Object> get props => [
-    animalNumber,
-    cage,
-    diagnosis,
-    healthStatus,
-    seenOn,
-    treatment,
-  ];
+        animalNumber,
+        cage,
+        diagnosis,
+        healthStatus,
+        seenOn,
+        treatment,
+      ];
 }

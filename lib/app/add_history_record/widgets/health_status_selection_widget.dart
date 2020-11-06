@@ -38,7 +38,8 @@ class HealthStatusSelectionWidget extends StatelessWidget {
   }
 
   int _findKey(HealthStates healthStatus) {
-    return _healthStatusIndexMap.keys
-        .firstWhere((k) => _healthStatusIndexMap[k] == healthStatus, orElse: () => null);
+    return _healthStatusIndexMap.keys.firstWhere(
+        (k) => _healthStatusIndexMap[k] == healthStatus,
+        orElse: () => null);
   }
 }

@@ -6,7 +6,8 @@ class AnimalstatSegmentedButton extends StatelessWidget {
   final Color textColor;
   final String text;
 
-  const AnimalstatSegmentedButton({this.backgroundColor, this.borderColor, this.textColor, this.text});
+  const AnimalstatSegmentedButton(
+      {this.backgroundColor, this.borderColor, this.textColor, this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,8 @@ class AnimalstatSegmentedButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: TextStyle(color: textColor, fontSize: 15.0, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: textColor, fontSize: 15.0, fontWeight: FontWeight.bold),
         ),
       ),
     );

@@ -46,7 +46,9 @@ class SearchAnimalScreen extends StatelessWidget {
           child: AnimalstatSearchTextField(
             autofocus: true,
             keyboardType: TextInputType.number,
-            onChanged: (value) => context.bloc<SearchAnimalBloc>().add(QueryChanged(query: value)),
+            onChanged: (value) => context
+                .bloc<SearchAnimalBloc>()
+                .add(QueryChanged(query: value)),
             hintText: 'Zoeken...',
             height: 40,
           ),
@@ -83,7 +85,8 @@ class SearchAnimalScreen extends StatelessWidget {
           }
 
           return ListView.builder(
-            itemBuilder: (context, index) => _buildResultRow(context, state.searchResults[index]),
+            itemBuilder: (context, index) =>
+                _buildResultRow(context, state.searchResults[index]),
             itemCount: state.searchResults.length,
             padding: EdgeInsets.all(8.0),
           );

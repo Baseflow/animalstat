@@ -91,10 +91,13 @@ class App extends StatelessWidget {
             return MultiRepositoryProvider(
               providers: [
                 RepositoryProvider(
-                  create: (context) => RepositoryFactory.createAnimalRepository(context),
+                  create: (context) =>
+                      RepositoryFactory.createAnimalRepository(context),
                 ),
                 RepositoryProvider(
-                  create: (context) => RepositoryFactory.createRecurringTreatmentsRepository(context),
+                  create: (context) =>
+                      RepositoryFactory.createRecurringTreatmentsRepository(
+                          context),
                 ),
               ],
               child: RecurringTreatmentsScreen(),

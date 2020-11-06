@@ -1,7 +1,6 @@
 part of 'recurring_treatments_bloc.dart';
 
-class RecurringTreatmentCardState extends Equatable
-{
+class RecurringTreatmentCardState extends Equatable {
   RecurringTreatmentCardState({
     this.recurringTreatmentId,
     this.animalNumber,
@@ -19,14 +18,13 @@ class RecurringTreatmentCardState extends Equatable
   final Treatments treatment;
 
   String get cageDisplayValue => 'hok: $cage';
-  
-  RecurringTreatmentCardState copyWith({
-    int animalNumber, 
-    int cage,
-    Diagnoses diagnosis,
-    HealthStates healthStatus,
-    Treatments treatment
-  }) {
+
+  RecurringTreatmentCardState copyWith(
+      {int animalNumber,
+      int cage,
+      Diagnoses diagnosis,
+      HealthStates healthStatus,
+      Treatments treatment}) {
     return RecurringTreatmentCardState(
       recurringTreatmentId: this.recurringTreatmentId,
       animalNumber: animalNumber ?? this.animalNumber,
@@ -39,11 +37,11 @@ class RecurringTreatmentCardState extends Equatable
 
   @override
   List<Object> get props => [
-    recurringTreatmentId,
-    animalNumber,
-    cage,
-    diagnosis,
-    healthStatus,
-    treatment,
-  ];
+        recurringTreatmentId,
+        animalNumber,
+        cage,
+        diagnosis,
+        healthStatus,
+        treatment,
+      ];
 }

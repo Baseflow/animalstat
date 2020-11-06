@@ -10,16 +10,16 @@ class AnimalDetailsState extends Equatable {
   final DateTime dateOfBirth;
   final bool isLoading;
 
-  const AnimalDetailsState({
-    @required this.animalNumber,
-    @required this.cage,
-    @required this.currentHealthStatus,
-    @required this.dateOfBirth,
-    @required this.isLoading
-  });
+  const AnimalDetailsState(
+      {@required this.animalNumber,
+      @required this.cage,
+      @required this.currentHealthStatus,
+      @required this.dateOfBirth,
+      @required this.isLoading});
 
   String get cageDisplayValue => this.cage?.toString() ?? '-';
-  String get dateOfBirthDisplayValue => DateFormat('dd-MM-yyyy').format(dateOfBirth);
+  String get dateOfBirthDisplayValue =>
+      DateFormat('dd-MM-yyyy').format(dateOfBirth);
 
   factory AnimalDetailsState.loading(int animalNumber) {
     return AnimalDetailsState(
@@ -58,5 +58,6 @@ class AnimalDetailsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [animalNumber, cage, currentHealthStatus, dateOfBirth, isLoading];
+  List<Object> get props =>
+      [animalNumber, cage, currentHealthStatus, dateOfBirth, isLoading];
 }

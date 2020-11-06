@@ -78,11 +78,12 @@ class AnimalstatTextField extends StatelessWidget {
         autocorrect: autocorrect,
         autofocus: autofocus,
         controller: controller,
-        decoration: decoration ?? DecorationFactory.defaultTextFieldDecoration(
-          hintText: hintText,
-          labelText: labelText,
-          prefixIcon: prefixIcon,
-        ),
+        decoration: decoration ??
+            DecorationFactory.defaultTextFieldDecoration(
+              hintText: hintText,
+              labelText: labelText,
+              prefixIcon: prefixIcon,
+            ),
         keyboardType: keyboardType,
         maxLength: maxLength,
         maxLengthEnforced: maxLengthEnforced,

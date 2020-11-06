@@ -6,10 +6,11 @@ class RecurringTreatmentsState extends Equatable {
   final List<RecurringTreatmentCardState> openTreatments;
   final List<RecurringTreatmentCardState> appliedTreatments;
   final List<RecurringTreatmentCardState> cancelledTreatments;
-  
-  bool get notFound => (openTreatments?.length ?? 0) == 0 &&
-                       (appliedTreatments?.length ?? 0) == 0 &&
-                       (cancelledTreatments?.length ?? 0) == 0;
+
+  bool get notFound =>
+      (openTreatments?.length ?? 0) == 0 &&
+      (appliedTreatments?.length ?? 0) == 0 &&
+      (cancelledTreatments?.length ?? 0) == 0;
 
   RecurringTreatmentsState({
     this.isLoading,
@@ -21,7 +22,12 @@ class RecurringTreatmentsState extends Equatable {
 
   String get selectedDateDisplayValue => selectedDate.toDisplayValue();
   @override
-  List<Object> get props => [selectedDate, openTreatments, appliedTreatments, cancelledTreatments,];
+  List<Object> get props => [
+        selectedDate,
+        openTreatments,
+        appliedTreatments,
+        cancelledTreatments,
+      ];
 
   factory RecurringTreatmentsState.initial() {
     return RecurringTreatmentsState(
@@ -33,7 +39,9 @@ class RecurringTreatmentsState extends Equatable {
     );
   }
 
-  factory RecurringTreatmentsState.loading(DateTime selectedDate,) {
+  factory RecurringTreatmentsState.loading(
+    DateTime selectedDate,
+  ) {
     return RecurringTreatmentsState(
       isLoading: true,
       selectedDate: selectedDate,

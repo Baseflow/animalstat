@@ -26,7 +26,7 @@ class AnimalstatNumberBox extends StatelessWidget {
         child: Text(
           animalNumber,
           style: const TextStyle(
-            color: kWhite,
+            color: kOnAnimalNumberBackgroundColor,
             fontSize: 22.0,
             fontFamily: 'Courier',
             fontWeight: FontWeight.bold,

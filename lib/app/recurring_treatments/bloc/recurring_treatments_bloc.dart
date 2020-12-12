@@ -21,7 +21,11 @@ class RecurringTreatmentsBloc
     @required RecurringTreatmentsRepository recurringTreatmentsRepository,
   })  : assert(recurringTreatmentsRepository != null),
         _recurringTreatmentsRepository = recurringTreatmentsRepository,
-        super(RecurringTreatmentsState.initial());
+        super(RecurringTreatmentsState.initial()) {
+    add(LoadTreatments(
+      selectedDate: DateTime.now().toDate(),
+    ));
+  }
 
   @override
   Stream<RecurringTreatmentsState> mapEventToState(

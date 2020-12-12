@@ -1,3 +1,4 @@
+import 'package:animalstat/src/ui/theming.dart';
 import 'package:flutter/material.dart';
 
 class AnimalstatPrimaryButton extends StatelessWidget {
@@ -19,28 +20,32 @@ class AnimalstatPrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final label = Text(
       _text.toUpperCase(),
-      style: Theme.of(context).textTheme.button.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-      textAlign: TextAlign.center,
     );
+
     final shape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(5.0),
+      borderRadius: BorderRadius.circular(4.0),
     );
 
     final button = _icon != null
         ? RaisedButton.icon(
-            shape: shape,
             onPressed: _onPressed,
             label: label,
             icon: _icon,
+            // TODO: Create PR to add possibility to make the text white with theming
+            // raised_button.dart:241
+            // button_theme:642
+            textColor: Colors.white,
+            color: kPrimary,
           )
         : RaisedButton(
             shape: shape,
             onPressed: _onPressed,
             child: label,
+            // TODO: Create PR to add possibility to make the text white with theming
+            // raised_button.dart:241
+            // button_theme:642
+            textColor: Colors.white,
+            color: kPrimary,
           );
 
     return SizedBox(

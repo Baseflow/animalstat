@@ -8,13 +8,7 @@ class DecorationFactory {
     Widget prefixIcon,
   }) {
     return InputDecoration(
-      border: const OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-        borderSide: BorderSide.none,
-      ),
       counterText: '',
-      fillColor: kWhite,
-      filled: true,
       hintText: hintText,
       labelText: labelText,
       prefixIcon: prefixIcon,
@@ -27,7 +21,7 @@ class DecorationFactory {
     Widget prefixIcon,
   }) {
     const border = const OutlineInputBorder(
-      borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: const BorderRadius.all(const Radius.circular(4.0)),
       borderSide: const BorderSide(color: kBorderColor, width: 1),
     );
 
@@ -36,8 +30,6 @@ class DecorationFactory {
       enabledBorder: border,
       focusedBorder: border,
       counterText: '',
-      fillColor: Colors.white,
-      filled: true,
       hintText: hintText,
       labelText: labelText,
       contentPadding: EdgeInsets.all(0),
@@ -56,10 +48,10 @@ class DecorationFactory {
   }) {
     return InputDecoration(
       border: const OutlineInputBorder(
-          borderSide: BorderSide.none, borderRadius: BorderRadius.zero),
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.zero,
+      ),
       counterText: '',
-      fillColor: kWhite,
-      filled: true,
       hintText: hintText,
       labelText: labelText,
       prefixIcon: prefixIcon,

@@ -19,7 +19,7 @@ class AnimalstatMenu extends StatelessWidget {
         Icons.more_vert,
         color: kDefaultTextColor,
       ),
-      color: kPrimaryColor,
+      color: Theme.of(context).dialogBackgroundColor,
       onSelected: (option) => _handleMenuOption(context, option),
       itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuOptions>>[
         const PopupMenuItem(

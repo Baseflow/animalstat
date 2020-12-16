@@ -343,13 +343,13 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: 18063d773f5366ff8736a050fe035a28f635fd27
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
-  cloud_firestore: 56ea1a42d4a4b3c9cf22e0e0f73140b5d07376a8
-  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
-  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
+  cloud_firestore: 2a4f8f802fb0b701cf809b283b6bec7477ebaa6f
+  Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
+  Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
   Firebase: 585ae467b3edda6a5444e788fda6888f024d8d6f
-  firebase_auth: f8287325aae894aff045dff38bf0667cbeb49563
-  firebase_core: 0d8be0e0d14c4902953aeb5ac5d7316d1fe4b978
-  firebase_crashlytics: 6b8e7358dbac1359c1e29e0796adf48eddef99c9
+  firebase_auth: af8784c4d8d87c36f730a305f97bfbcb24db024b
+  firebase_core: 335c02abd48672b7c83c683df833d0488a72e73e
+  firebase_crashlytics: cc468e94e5a637364aeeeec5c8a96d92ea75ec7b
   FirebaseAnalytics: 558f7a03d19de451093032c806f39d5f9dff096e
   FirebaseAuth: e50319ecc114acf93c2b9581e15d6604ddd7eeb2
   FirebaseAuthInterop: a0f37ae05833af156e72028f648d313f7e7592e9

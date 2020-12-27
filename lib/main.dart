@@ -1,20 +1,19 @@
+import 'package:animalstat/app/app_screen.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:animalstat_repository/animalstat_repository.dart';
-
-import './app/login/login_screen.dart';
-import './app/recurring_treatments/recurring_treatments_screen.dart';
-import './app/splash/splash_screen.dart';
-import './src/factories/repository_factory.dart';
-import './src/ui/theming.dart';
-import './src/bloc_providers.dart';
-import './src/providers/multi_utility_provider.dart';
-import './src/utility_providers.dart';
 import './app/authentication/bloc/bloc.dart';
+import './app/login/login_screen.dart';
+import './app/splash/splash_screen.dart';
 import './src/animalstat_bloc_observer.dart';
+import './src/bloc_providers.dart';
+import './src/factories/repository_factory.dart';
+import './src/providers/multi_utility_provider.dart';
+import './src/ui/theming.dart';
+import './src/utility_providers.dart';
 
 void main() {
   Bloc.observer = AnimalstatBlocObserver();
@@ -79,7 +78,7 @@ class App extends StatelessWidget {
                           context),
                 ),
               ],
-              child: RecurringTreatmentsScreen(),
+              child: AppScreen(),
             );
           }
 

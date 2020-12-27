@@ -45,6 +45,8 @@ ThemeData getTheme(BuildContext context) {
   );
 
   return ThemeData(
+    primaryColor: kPrimary,
+    accentColor: kAccentColor,
     colorScheme: colorScheme,
     fontFamily: 'SF Pro Text',
     scaffoldBackgroundColor: kBackgroundColor,
@@ -64,7 +66,7 @@ ThemeData getTheme(BuildContext context) {
       ),
     ),
     bottomAppBarTheme: BottomAppBarTheme(
-      color: kAccentColor,
+      color: kPrimary,
     ),
     buttonTheme: ButtonThemeData(
       textTheme: ButtonTextTheme.primary,

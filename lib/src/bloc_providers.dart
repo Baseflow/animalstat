@@ -1,4 +1,5 @@
 import 'package:animalstat/app/authentication/bloc/bloc.dart';
+import 'package:animalstat/app/bottom_navigation/bloc/bottom_navigation_bloc.dart';
 import 'package:animalstat/app/login/bloc/bloc.dart';
 import 'package:animalstat/app/login/bloc/login_bloc.dart';
 import 'package:animalstat/src/providers/utility_provider.dart';
@@ -19,6 +20,9 @@ class BlocProviders {
             userRepository: RepositoryProvider.of<UserRepository>(context),
             validators: UtilityProvider.of<Validators>(context),
           ),
+        ),
+        BlocProvider<BottomNavigationBloc>(
+          create: (_) => BottomNavigationBloc(),
         ),
       ];
 }

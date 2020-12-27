@@ -18,7 +18,7 @@ class _LoginFormState extends State<LoginForm> {
   LoginBloc _loginBloc;
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
 
     _loginBloc = context.read<LoginBloc>();

@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animalstat/app/animal_details/bloc/bloc.dart';
 import 'package:animalstat/app/animal_details/widgets/animal_details_header.dart';
 import 'package:animalstat/app/animal_details/widgets/history_card.dart';
 import 'package:animalstat/app/animal_details/widgets/history_header.dart';
 import 'package:animalstat/src/ui/widgets/animalstat_number_box.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AnimalDetailsScreen extends StatelessWidget {
   static MaterialPageRoute route(
@@ -20,7 +20,7 @@ class AnimalDetailsScreen extends StatelessWidget {
             BlocProvider<AnimalHistoryBloc>(
               create: (context) => AnimalHistoryBloc(
                 animalNumber: animalNumber,
-                animalRepository: context.repository<AnimalRepository>(),
+                animalRepository: context.read<AnimalRepository>(),
               )..add(
                   LoadHistory(
                     animalNumber: animalNumber,
@@ -30,7 +30,7 @@ class AnimalDetailsScreen extends StatelessWidget {
             BlocProvider<AnimalDetailsBloc>(
               create: (context) => AnimalDetailsBloc(
                 animalNumber: animalNumber,
-                animalRepository: context.repository<AnimalRepository>(),
+                animalRepository: context.read<AnimalRepository>(),
               )..add(
                   LoadAnimalDetails(
                     animalNumber: animalNumber,

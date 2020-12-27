@@ -1,9 +1,9 @@
-import 'package:animalstat_repository/animalstat_repository.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animalstat/app/authentication/bloc/bloc.dart';
 import 'package:animalstat/app/search_animal/search_animals_screen.dart';
 import 'package:animalstat/src/ui/theming.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum MenuOptions {
   help,
@@ -43,10 +43,10 @@ class AnimalstatMenu extends StatelessWidget {
       case MenuOptions.help:
         break;
       case MenuOptions.logout:
-        context.bloc<AuthenticationBloc>().add(LoggedOut());
+        context.read<AuthenticationBloc>().add(LoggedOut());
         break;
       case MenuOptions.search:
-        final animalRepository = context.repository<AnimalRepository>();
+        final animalRepository = context.read<AnimalRepository>();
         Navigator.of(context).push(
           SearchAnimalScreen.route(animalRepository),
         );

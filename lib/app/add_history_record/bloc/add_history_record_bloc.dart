@@ -1,12 +1,13 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
+
 import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+
 import './bloc.dart';
 
 class AddHistoryRecordBloc
     extends Bloc<AddHistoryRecordEvent, AddHistoryRecordState> {
-  final int _animalNumber;
   final AnimalRepository _animalRepository;
 
   AddHistoryRecordBloc({
@@ -14,7 +15,6 @@ class AddHistoryRecordBloc
     @required AnimalRepository animalRepository,
   })  : assert(animalNumber != null),
         assert(animalRepository != null),
-        _animalNumber = animalNumber,
         _animalRepository = animalRepository,
         super(AddHistoryRecordState.initial(animalNumber));
 

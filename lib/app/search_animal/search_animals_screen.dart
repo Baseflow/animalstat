@@ -1,15 +1,13 @@
-import 'package:animalstat/src/ui/widgets/animalstat_card.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animalstat/app/animal_details/animal_details_screen.dart';
 import 'package:animalstat/app/search_animal/bloc/bloc.dart';
 import 'package:animalstat/app/search_animal/bloc/search_animal_state.dart';
-import 'package:animalstat/src/ui/theming.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_appbar_bottom.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_card.dart';
 import 'package:animalstat/src/ui/widgets/animalstat_health_status_label.dart';
 import 'package:animalstat/src/ui/widgets/animalstat_number_box.dart';
 import 'package:animalstat/src/ui/widgets/animalstat_search_text_field.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchAnimalScreen extends StatelessWidget {
   static MaterialPageRoute route(AnimalRepository animalRepository) {
@@ -18,7 +16,7 @@ class SearchAnimalScreen extends StatelessWidget {
         value: animalRepository,
         child: BlocProvider<SearchAnimalBloc>(
           create: (context) => SearchAnimalBloc(
-            animalRepository: context.repository<AnimalRepository>(),
+            animalRepository: context.read<AnimalRepository>(),
           ),
           child: SearchAnimalScreen(),
         ),
@@ -35,7 +33,7 @@ class SearchAnimalScreen extends StatelessWidget {
             icon: Icon(Icons.close),
             onPressed: () {
               Navigator.pop(context);
-              context.bloc<SearchAnimalBloc>().add(QueryChanged(query: ''));
+              context.read<SearchAnimalBloc>().add(QueryChanged(query: ''));
             },
           ),
         ],
@@ -47,7 +45,7 @@ class SearchAnimalScreen extends StatelessWidget {
             autofocus: true,
             keyboardType: TextInputType.number,
             onChanged: (value) => context
-                .bloc<SearchAnimalBloc>()
+                .read<SearchAnimalBloc>()
                 .add(QueryChanged(query: value)),
             hintText: 'Zoeken...',
             height: 40,
@@ -117,7 +115,7 @@ class SearchAnimalScreen extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        var animalRepository = context.repository<AnimalRepository>();
+        var animalRepository = context.read<AnimalRepository>();
         Navigator.of(context).push(
           AnimalDetailsScreen.route(
             animalRepository,

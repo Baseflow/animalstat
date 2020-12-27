@@ -1,7 +1,7 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animalstat/app/authentication/bloc/bloc.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RepositoryFactory {
   static AnimalRepository createAnimalRepository(BuildContext context) {
@@ -16,7 +16,7 @@ class RepositoryFactory {
   }
 
   static User _getUser(BuildContext context) {
-    var authenticationState = context.bloc<AuthenticationBloc>().state;
+    var authenticationState = context.read<AuthenticationBloc>().state;
     if (authenticationState is Authenticated) {
       return authenticationState.user;
     }

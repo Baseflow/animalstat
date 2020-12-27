@@ -1,9 +1,8 @@
-import 'package:animalstat/src/ui/theming.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_text_form_field.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_primary_button.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_secondary_button.dart';
 import 'package:animalstat/app/authentication/bloc/bloc.dart';
 import 'package:animalstat/app/login/bloc/bloc.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_primary_button.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_secondary_button.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,10 +18,10 @@ class _LoginFormState extends State<LoginForm> {
   LoginBloc _loginBloc;
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
 
-    _loginBloc = context.bloc<LoginBloc>();
+    _loginBloc = context.read<LoginBloc>();
     _emailController.addListener(_onEmailChanged);
     _passwordController.addListener(_onPasswordChanged);
   }
@@ -62,7 +61,7 @@ class _LoginFormState extends State<LoginForm> {
         }
 
         if (state.isSuccess) {
-          context.bloc<AuthenticationBloc>().add(LoggedIn());
+          context.read<AuthenticationBloc>().add(LoggedIn());
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
@@ -85,7 +84,7 @@ class _LoginFormState extends State<LoginForm> {
                     controller: _emailController,
                     prefixIcon: Icon(Icons.email),
                     labelText: 'Email',
-                    autovalidate: true,
+                    autovalidateMode: AutovalidateMode.always,
                     autocorrect: false,
                     validator: (_) {
                       return !state.isEmailValid ? 'Invalid Email' : null;
@@ -98,7 +97,7 @@ class _LoginFormState extends State<LoginForm> {
                       prefixIcon: Icon(Icons.lock),
                       labelText: 'Password',
                       obscureText: true,
-                      autovalidate: true,
+                      autovalidateMode: AutovalidateMode.always,
                       autocorrect: false,
                       validator: (_) {
                         return !state.isPasswordValid

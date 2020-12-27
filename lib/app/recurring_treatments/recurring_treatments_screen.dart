@@ -8,7 +8,6 @@ import 'package:animalstat/app/recurring_treatments/widgets/recurring_treatment_
 import 'package:animalstat/src/ui/theming.dart';
 import 'package:animalstat/src/ui/widgets/animalstat_appbar_bottom.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
-import '../../src/extensions/date_time_extensions.dart';
 
 import 'bloc/recurring_treatments_bloc.dart';
 
@@ -31,11 +30,7 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen> {
       create: (context) => RecurringTreatmentsBloc(
         recurringTreatmentsRepository:
             context.repository<RecurringTreatmentsRepository>(),
-      )..add(
-          LoadTreatments(
-            selectedDate: DateTime.now().toDate(),
-          ),
-        ),
+      ),
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
           statusBarColor: kSecondaryColor,
@@ -89,7 +84,7 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen> {
                                     : TreatmentStates.cancelled;
 
                             context
-                                .bloc<RecurringTreatmentsBloc>()
+                                .read<RecurringTreatmentsBloc>()
                                 .add(UpdateTreatment(
                                   treatmentStatus: treatmentStatus,
                                   cardState: state.openTreatments[index],
@@ -137,15 +132,7 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen> {
 
   Widget _buildAppBar(BuildContext context) {
     return AppBar(
-      brightness: Brightness.light,
-      elevation: 0.0,
-      titleSpacing: 0.0,
-      title: Text(
-        'Behandelingen',
-        style: TextStyle(
-          color: kDefaultTextColor,
-        ),
-      ),
+      title: const Text('Behandelingen'),
       actions: <Widget>[
         AnimalstatMenu(),
       ],
@@ -167,7 +154,6 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen> {
                 child: Text(
                   state.selectedDateDisplayValue,
                   style: TextStyle(
-                    color: kWhite,
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
                   ),
@@ -185,7 +171,7 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen> {
                       return;
                     }
 
-                    context.bloc<RecurringTreatmentsBloc>().add(
+                    context.read<RecurringTreatmentsBloc>().add(
                           SelectedDateChanged(
                             selectedDate: selectedDate,
                           ),

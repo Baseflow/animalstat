@@ -1,21 +1,20 @@
-import 'package:flutter/services.dart';
-import 'package:animalstat/app/login/login_screen.dart';
-import 'package:animalstat/app/recurring_treatments/recurring_treatments_screen.dart';
-import 'package:animalstat/app/splash/splash_screen.dart';
-import 'package:animalstat/src/factories/repository_factory.dart';
-import 'package:animalstat/src/ui/theming.dart';
-import 'package:animalstat/src/bloc_providers.dart';
-import 'package:animalstat/src/providers/multi_utility_provider.dart';
-import 'package:animalstat/src/utility_providers.dart';
-import 'package:animalstat/app/authentication/bloc/bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:animalstat_repository/animalstat_repository.dart';
-import 'src/ui/theming.dart';
 
-import 'src/animalstat_bloc_observer.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
+
+import './app/login/login_screen.dart';
+import './app/recurring_treatments/recurring_treatments_screen.dart';
+import './app/splash/splash_screen.dart';
+import './src/factories/repository_factory.dart';
+import './src/ui/theming.dart';
+import './src/bloc_providers.dart';
+import './src/providers/multi_utility_provider.dart';
+import './src/utility_providers.dart';
+import './app/authentication/bloc/bloc.dart';
+import './src/animalstat_bloc_observer.dart';
 
 void main() {
   Bloc.observer = AnimalstatBlocObserver();
@@ -56,27 +55,7 @@ class App extends StatelessWidget {
         }
       },
       child: MaterialApp(
-        theme: ThemeData(
-          brightness: Brightness.light,
-          fontFamily: 'SF Pro Text',
-          primaryColor: kPrimaryColor,
-          accentColor: kAccentColor,
-          buttonColor: kButtonColor,
-          backgroundColor: kBackgroundColor,
-          scaffoldBackgroundColor: kBackgroundColor,
-          dialogBackgroundColor: kWhite,
-          primaryTextTheme: TextTheme(
-            headline6: TextStyle(color: kWhite),
-          ),
-          textTheme: TextTheme(
-            bodyText2: TextStyle(
-              color: kDefaultTextColor,
-            ),
-          ),
-          primaryIconTheme: const IconThemeData.fallback().copyWith(
-            color: kAccentColor,
-          ),
-        ),
+        theme: getTheme(context),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (BuildContext context, AuthenticationState state) {
           if (state is Uninitialized) {

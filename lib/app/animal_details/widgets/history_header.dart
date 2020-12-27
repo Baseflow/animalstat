@@ -39,7 +39,6 @@ class HistoryHeader extends StatelessWidget {
             icon: Icon(
               FontAwesomeIcons.plus,
               size: 16,
-              color: kWhite,
             ),
             text: 'Toevoegen',
             onPressed: () => _addDetailButtonPressed(context),

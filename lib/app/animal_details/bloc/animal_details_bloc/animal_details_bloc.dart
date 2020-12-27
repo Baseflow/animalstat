@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
+
 import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+
 import '../bloc.dart';
 
 class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
-  final int _animalNumber;
   final AnimalRepository _animalRepository;
 
   StreamSubscription _animalDetailSubscription;
@@ -14,7 +15,6 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
     @required int animalNumber,
     @required AnimalRepository animalRepository,
   })  : assert(animalRepository != null),
-        this._animalNumber = animalNumber,
         this._animalRepository = animalRepository,
         super(AnimalDetailsState.loading(animalNumber));
 

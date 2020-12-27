@@ -1,7 +1,3 @@
-import 'package:animalstat/src/ui/widgets/animalstat_secondary_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:animalstat/app/add_history_record/widgets/add_animal_detail_header.dart';
 import 'package:animalstat/app/add_history_record/widgets/diagnosis_selection_widget.dart';
 import 'package:animalstat/app/add_history_record/widgets/health_status_selection_widget.dart';
@@ -9,6 +5,10 @@ import 'package:animalstat/app/add_history_record/widgets/treatment_selection_wi
 import 'package:animalstat/app/animal_details/bloc/bloc.dart';
 import 'package:animalstat/src/ui/theming.dart';
 import 'package:animalstat/src/ui/widgets/animalstat_primary_button.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_secondary_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'bloc/bloc.dart';
 
@@ -28,8 +28,8 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
   void initState() {
     super.initState();
 
-    _addHistoryRecordBloc = context.bloc<AddHistoryRecordBloc>();
-    _animalDetailsBloc = context.bloc<AnimalDetailsBloc>();
+    _addHistoryRecordBloc = context.read<AddHistoryRecordBloc>();
+    _animalDetailsBloc = context.read<AnimalDetailsBloc>();
     _cageEditingController = TextEditingController();
     _cageEditingController.addListener(_onCageNumberChanged);
     _cageEditingController.value = TextEditingValue(
@@ -117,7 +117,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
   Widget _buildBottomBar(AddHistoryRecordState state) {
     var saveAction = state.canSave
         ? () => context
-            .bloc<AddHistoryRecordBloc>()
+            .read<AddHistoryRecordBloc>()
             .add(SaveAnimalHistoryRecord(stateToSave: state))
         : null;
 

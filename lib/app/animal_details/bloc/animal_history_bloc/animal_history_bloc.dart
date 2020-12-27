@@ -1,11 +1,12 @@
 import 'dart:async';
+
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+
 import '../bloc.dart';
 
 class AnimalHistoryBloc extends Bloc<AnimalHistoryEvent, AnimalHistoryState> {
-  final int _animalNumber;
   final AnimalRepository _animalRepository;
 
   StreamSubscription _animalHistoryRecordsSubscription;
@@ -14,7 +15,6 @@ class AnimalHistoryBloc extends Bloc<AnimalHistoryEvent, AnimalHistoryState> {
     @required int animalNumber,
     @required AnimalRepository animalRepository,
   })  : assert(animalRepository != null),
-        this._animalNumber = animalNumber,
         this._animalRepository = animalRepository,
         super(InitialHistoryState(animalNumber: animalNumber));
 

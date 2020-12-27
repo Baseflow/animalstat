@@ -1,0 +1,6 @@
+include: package:effective_dart/analysis_options.yaml
+
+linter:
+  rules:
+    prefer_const_declarations
+    prefer_const_constructors

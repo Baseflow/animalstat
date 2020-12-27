@@ -1,13 +1,13 @@
-import 'package:animalstat/src/ui/widgets/animalstat_menu.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:animalstat/app/recurring_treatments/widgets/recurring_treatment_card.dart';
 import 'package:animalstat/app/recurring_treatments/widgets/recurring_treatment_header.dart';
 import 'package:animalstat/src/ui/theming.dart';
 import 'package:animalstat/src/ui/widgets/animalstat_appbar_bottom.dart';
+import 'package:animalstat/src/ui/widgets/animalstat_menu.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'bloc/recurring_treatments_bloc.dart';
 
@@ -18,7 +18,6 @@ class RecurringTreatmentsScreen extends StatefulWidget {
     );
   }
 
-  @override
   _RecurringTreatmentsScreenState createState() =>
       _RecurringTreatmentsScreenState();
 }
@@ -29,7 +28,7 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen> {
     return BlocProvider<RecurringTreatmentsBloc>(
       create: (context) => RecurringTreatmentsBloc(
         recurringTreatmentsRepository:
-            context.repository<RecurringTreatmentsRepository>(),
+            context.read<RecurringTreatmentsRepository>(),
       ),
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(

@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:animalstat/app/add_history_record/add_history_record_dialog.dart';
 import 'package:animalstat/app/add_history_record/bloc/bloc.dart';
 import 'package:animalstat/app/animal_details/bloc/animal_details_bloc/animal_details_bloc.dart';
-import 'package:animalstat/src/ui/theming.dart';
 import 'package:animalstat/src/ui/widgets/animalstat_primary_button.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HistoryHeader extends StatelessWidget {
   HistoryHeader({@required this.animalNumber});
@@ -49,9 +48,9 @@ class HistoryHeader extends StatelessWidget {
   }
 
   void _addDetailButtonPressed(BuildContext context) {
-    var animalRepository = context.repository<AnimalRepository>();
+    var animalRepository = context.read<AnimalRepository>();
     //ignore: close_sinks
-    var animalDetailsBloc = context.bloc<AnimalDetailsBloc>();
+    var animalDetailsBloc = context.read<AnimalDetailsBloc>();
     showDialog(
         barrierDismissible: true,
         context: context,
@@ -66,7 +65,7 @@ class HistoryHeader extends StatelessWidget {
                 BlocProvider(
                   create: (context) => AddHistoryRecordBloc(
                     animalNumber: animalNumber,
-                    animalRepository: context.repository<AnimalRepository>(),
+                    animalRepository: context.read<AnimalRepository>(),
                   ),
                 ),
               ],

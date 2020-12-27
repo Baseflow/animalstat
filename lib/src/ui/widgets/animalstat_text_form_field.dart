@@ -8,7 +8,7 @@ class AnimalstatTextFormField extends StatelessWidget {
     Key key,
     this.autocorrect = true,
     this.autofocus = false,
-    this.autovalidate,
+    this.autovalidateMode,
     this.controller,
     this.decoration,
     this.hintText,
@@ -28,8 +28,9 @@ class AnimalstatTextFormField extends StatelessWidget {
   /// {@macro flutter.widgets.editableText.autofocus}
   final bool autofocus;
 
-  /// If true, this form field will validate and update its error text immediately after every change. Otherwise, you must call FormFieldState.validate to validate. If part of a Form that auto-validates, this value will be ignored.
-  final bool autovalidate;
+  /// Used to enable/disable this form field auto validation and update its
+  /// error text.
+  final AutovalidateMode autovalidateMode;
 
   /// Controls the text being edited.
   final TextEditingController controller;
@@ -85,7 +86,7 @@ class AnimalstatTextFormField extends StatelessWidget {
       child: TextFormField(
         autocorrect: autocorrect,
         autofocus: autofocus,
-        autovalidate: autovalidate,
+        autovalidateMode: autovalidateMode,
         controller: controller,
         decoration: decoration ??
             DecorationFactory.defaultTextFieldDecoration(

@@ -6,6 +6,22 @@ class AppScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
+          builder: (context, state) {
+            switch (state.currentPage) {
+              case BottomNavigationEvent.TreatmentsPage:
+                return Text('Behandelingen');
+              case BottomNavigationEvent.AnimalsPage:
+                return Text('Dieren');
+              case BottomNavigationEvent.StatisticsPage:
+                return Text('Statistieken');
+            }
+
+            return Container();
+          },
+        ),
+      ),
       bottomNavigationBar:
           BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
               builder: (context, state) {

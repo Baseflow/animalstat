@@ -33,14 +33,6 @@ class RecurringTreatmentsScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: BlocBuilder<RecurringTreatmentsBloc,
                     RecurringTreatmentsState>(builder: (context, state) {
-                  if (state.notFound) {
-                    return _buildMessage(
-                      context,
-                      // ignore: lines_longer_than_80_chars
-                      'Geen behandelingen voor ${state.selectedDateDisplayValue.toLowerCase()}.',
-                    );
-                  }
-
                   if (state.isLoading) {
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -57,6 +49,15 @@ class RecurringTreatmentsScreen extends StatelessWidget {
                         listItems = state.appliedTreatments;
                       } else if (tab.text.toUpperCase() == 'GESTOPT') {
                         listItems = state.cancelledTreatments;
+                      }
+
+                      if (listItems.isEmpty) {
+                        return Center(
+                          child: Text(
+                            // ignore: lines_longer_than_80_chars
+                            'Er zijn ${state.selectedDateDisplayValue.toLowerCase()} geen behandelingen met de status "${tab.text.toLowerCase()}".',
+                          ),
+                        );
                       }
 
                       return ListView.builder(

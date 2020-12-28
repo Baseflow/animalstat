@@ -1,9 +1,10 @@
-import 'package:animalstat/app/recurring_treatments/bloc/recurring_treatments_bloc.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_number_box.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_health_status_label.dart';
-import 'package:animalstat/src/utilities/enum_converters.dart';
+
+import '../../../src/ui/widgets/animalstat_health_status_label.dart';
+import '../../../src/ui/widgets/animalstat_number_box.dart';
+import '../../../src/utilities/enum_converters.dart';
+import '../bloc/recurring_treatments_bloc.dart';
 
 class RecurringTreatmentCard extends StatelessWidget {
   final RecurringTreatmentCardState recurringTreatment;
@@ -14,7 +15,7 @@ class RecurringTreatmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.fromLTRB(15.0, 0, 15.0, 10),
+      margin: const EdgeInsets.fromLTRB(15.0, 0, 15.0, 10),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -37,7 +38,7 @@ class RecurringTreatmentCard extends StatelessWidget {
                     child: Row(
                       children: <Widget>[
                         Icon(Icons.assignment, color: Colors.grey[700]),
-                        SizedBox(width: 15),
+                        const SizedBox(width: 15),
                         Expanded(child: _buildHealthDetailsColumn())
                       ],
                     ),
@@ -57,14 +58,14 @@ class RecurringTreatmentCard extends StatelessWidget {
             ? Text(
                 EnumConverters.toTreatmentDisplayValue(
                     recurringTreatment.treatment),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 17.0,
                 ),
               )
             : Container(),
         Text(
           EnumConverters.toDiagnosesDisplayValue(recurringTreatment.diagnosis),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14.0,
           ),
         ),

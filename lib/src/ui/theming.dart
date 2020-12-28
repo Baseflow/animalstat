@@ -54,36 +54,51 @@ ThemeData getTheme(BuildContext context) {
     iconTheme: const IconThemeData.fallback().copyWith(
       color: kAccentColor,
     ),
+    tabBarTheme: const TabBarTheme(
+        labelColor: kPrimary,
+        labelStyle: TextStyle(
+          color: kPrimary,
+          fontWeight: FontWeight.bold,
+        ),
+        unselectedLabelColor: kAccentColor,
+        unselectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+        indicator: UnderlineTabIndicator(
+            borderSide: BorderSide(
+          color: kPrimary,
+          width: 2.0,
+        ))),
     appBarTheme: AppBarTheme(
       color: Colors.white,
       elevation: 10,
       textTheme: textTheme,
-      iconTheme: IconThemeData(
+      iconTheme: const IconThemeData(
         color: kDefaultTextColor,
       ),
-      actionsIconTheme: IconThemeData(
+      actionsIconTheme: const IconThemeData(
         color: kDefaultTextColor,
       ),
     ),
-    bottomAppBarTheme: BottomAppBarTheme(
-      color: kPrimary,
+    bottomAppBarTheme: const BottomAppBarTheme(
+      color: Colors.white,
     ),
-    buttonTheme: ButtonThemeData(
+    buttonTheme: const ButtonThemeData(
       textTheme: ButtonTextTheme.primary,
     ),
-    cardTheme: CardTheme(
+    cardTheme: const CardTheme(
       elevation: 0.0,
       shape: RoundedRectangleBorder(
-        borderRadius: const BorderRadius.all(const Radius.circular(4.0)),
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
         side: BorderSide(
           color: kBorderColor,
           width: 1,
         ),
       ),
     ),
-    inputDecorationTheme: InputDecorationTheme(
-      border: const OutlineInputBorder(
-        borderRadius: const BorderRadius.all(const Radius.circular(5.0)),
+    inputDecorationTheme: const InputDecorationTheme(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
         borderSide: BorderSide.none,
       ),
       fillColor: kInputDecorationFillColor,

@@ -15,7 +15,7 @@ class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {
     @required int animalNumber,
     @required AnimalRepository animalRepository,
   })  : assert(animalRepository != null),
-        this._animalRepository = animalRepository,
+        _animalRepository = animalRepository,
         super(AnimalDetailsState.loading(animalNumber));
 
   @override

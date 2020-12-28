@@ -1,4 +1,3 @@
-import 'package:animalstat/app/app_screen.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -14,6 +13,7 @@ import './src/factories/repository_factory.dart';
 import './src/providers/multi_utility_provider.dart';
 import './src/ui/theming.dart';
 import './src/utility_providers.dart';
+import 'app/app_screen.dart';
 
 void main() {
   Bloc.observer = AnimalstatBlocObserver();
@@ -29,11 +29,11 @@ void main() {
 
   runApp(
     MultiUtilityProvider(
-      providers: UtilityProviders.providers,
+      providers: utilityProviders,
       child: RepositoryProvider<UserRepository>(
         create: (context) => FirestoreUserRepository(),
         child: MultiBlocProvider(
-          providers: BlocProviders.providers,
+          providers: blocProviders,
           child: App(),
         ),
       ),
@@ -47,7 +47,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
+        final currentFocus = FocusScope.of(context);
 
         if (!currentFocus.hasPrimaryFocus) {
           currentFocus.unfocus();
@@ -56,7 +56,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         theme: getTheme(context),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-            builder: (BuildContext context, AuthenticationState state) {
+            builder: (context, state) {
           if (state is Uninitialized) {
             return SplashScreen();
           }
@@ -69,13 +69,10 @@ class App extends StatelessWidget {
             return MultiRepositoryProvider(
               providers: [
                 RepositoryProvider(
-                  create: (context) =>
-                      RepositoryFactory.createAnimalRepository(context),
+                  create: RepositoryFactory.createAnimalRepository,
                 ),
                 RepositoryProvider(
-                  create: (context) =>
-                      RepositoryFactory.createRecurringTreatmentsRepository(
-                          context),
+                  create: RepositoryFactory.createRecurringTreatmentsRepository,
                 ),
               ],
               child: AppScreen(),

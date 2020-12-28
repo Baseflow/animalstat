@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'animal_repository.dart';
 import 'extensions/extensions.dart';
 import 'models/models.dart';
-import 'animal_repository.dart';
 
 class FirestoreAnimalRepository implements AnimalRepository {
   final CollectionReference _animalCollection;
@@ -17,13 +17,13 @@ class FirestoreAnimalRepository implements AnimalRepository {
   @override
   Stream<List<Animal>> findAnimals(int animalNumber) {
     if (animalNumber == null) {
-      return Stream.empty();
+      return const Stream.empty();
     }
 
-    int amountOfDigits = animalNumber.toString().length;
-    int factor = pow(10, 5 - amountOfDigits);
-    int start = animalNumber * factor;
-    int end = (animalNumber + 1) * factor;
+    final amountOfDigits = animalNumber.toString().length;
+    final factor = pow(10, 5 - amountOfDigits);
+    final start = animalNumber * factor;
+    final end = (animalNumber + 1) * factor;
 
     return _animalCollection
         .where('animal_number', isGreaterThanOrEqualTo: start)
@@ -35,7 +35,7 @@ class FirestoreAnimalRepository implements AnimalRepository {
   @override
   Stream<List<AnimalHistoryRecord>> findAnimalHistory(int animalNumber) {
     if (animalNumber == null) {
-      return Stream.empty();
+      return const Stream.empty();
     }
 
     return _animalCollection

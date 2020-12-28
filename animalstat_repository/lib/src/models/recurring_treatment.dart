@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
+
 import '../../animalstat_repository.dart';
 
+@immutable
 class RecurringTreatment {
   final String id;
   final DateTime administrationDate;
@@ -48,6 +51,7 @@ class RecurringTreatment {
 
   @override
   String toString() {
+    // ignore: lines_longer_than_80_chars
     return 'RecurringTreatment{id: $id, administrationDate: $administrationDate, animalNumber: $animalNumber, cageNumber: $cageNumber, diagnosis: $diagnosis, healthStatus: $healthStatus, treatment: $treatment, treatmentStatus: $treatmentStatus}';
   }
 }

@@ -8,7 +8,7 @@ abstract class BottomNavigationState {
 }
 
 class BottomNavigationInitial extends BottomNavigationState {
-  BottomNavigationInitial() : super(BottomNavigationEvent.TreatmentsPage);
+  BottomNavigationInitial() : super(BottomNavigationEvent.treatmentsPage);
 }
 
 class BottomNavigationCurrent extends BottomNavigationState {

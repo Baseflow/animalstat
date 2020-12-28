@@ -15,7 +15,7 @@ class AnimalHistoryBloc extends Bloc<AnimalHistoryEvent, AnimalHistoryState> {
     @required int animalNumber,
     @required AnimalRepository animalRepository,
   })  : assert(animalRepository != null),
-        this._animalRepository = animalRepository,
+        _animalRepository = animalRepository,
         super(InitialHistoryState(animalNumber: animalNumber));
 
   @override
@@ -55,7 +55,7 @@ class AnimalHistoryBloc extends Bloc<AnimalHistoryEvent, AnimalHistoryState> {
 
   Stream<AnimalHistoryState> _mapHistoryUpdatedToState(
       HistoryChanged event) async* {
-    if (event.history == null || event.history.length == 0) {
+    if (event.history == null || event.history.isEmpty) {
       yield NoHistory(animalNumber: event.animalNumber);
     } else {
       yield HistoryUpdated(

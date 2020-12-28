@@ -1,20 +1,20 @@
-import 'package:animalstat/app/animal_details/animal_details_screen.dart';
-import 'package:animalstat/app/search_animal/bloc/bloc.dart';
-import 'package:animalstat/app/search_animal/bloc/search_animal_state.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_card.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_health_status_label.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_number_box.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../src/ui/widgets/animalstat_card.dart';
+import '../../src/ui/widgets/animalstat_health_status_label.dart';
+import '../../src/ui/widgets/animalstat_number_box.dart';
+import '../animal_details/animal_details_screen.dart';
+import 'bloc/bloc.dart';
 
 class SearchAnimalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchAnimalBloc, SearchAnimalState>(
-      builder: (BuildContext context, SearchAnimalState state) {
+      builder: (context, state) {
         if (state.isSearching) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -44,7 +44,7 @@ class SearchAnimalScreen extends StatelessWidget {
           itemBuilder: (context, index) =>
               _buildResultRow(context, state.searchResults[index]),
           itemCount: state.searchResults.length,
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
         );
       },
     );
@@ -57,7 +57,7 @@ class SearchAnimalScreen extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Text(
           message,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.normal,
             fontSize: 16.0,
           ),
@@ -81,7 +81,7 @@ class SearchAnimalScreen extends StatelessWidget {
         );
       },
       child: AnimalStatCard(
-        margin: EdgeInsets.symmetric(vertical: 4),
+        margin: const EdgeInsets.symmetric(vertical: 4),
         child: Padding(
           padding: const EdgeInsets.only(
             left: 20.0,

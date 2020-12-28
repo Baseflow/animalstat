@@ -1,7 +1,8 @@
-import 'package:animalstat/src/ui/decoration_factory.dart';
-import 'package:animalstat/src/ui/theming.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../decoration_factory.dart';
+import '../theming.dart';
 
 class AnimalstatTextField extends StatelessWidget {
   const AnimalstatTextField({
@@ -41,7 +42,8 @@ class AnimalstatTextField extends StatelessWidget {
   /// Text that describes the input field.
   final String labelText;
 
-  /// The maximum number of characters (Unicode scalar values) to allow in the text field.
+  /// The maximum number of characters (Unicode scalar values) to allow in the
+  /// text field.
   final int maxLength;
 
   /// If true, prevents the field from allowing more than maxLength characters.
@@ -50,7 +52,8 @@ class AnimalstatTextField extends StatelessWidget {
   /// {@macro flutter.widgets.editableText.obscureText}
   final bool obscureText;
 
-  /// An icon that appears before the prefix or prefixText and before the editable part of the text field, within the decoration's container.
+  /// An icon that appears before the prefix or prefixText and before the
+  /// editable part of the text field, within the decoration's container.
   final Widget prefixIcon;
 
   /// The type of action button to use for the keyboard.
@@ -62,8 +65,8 @@ class AnimalstatTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(
           Radius.circular(5.0),
         ),
         boxShadow: [

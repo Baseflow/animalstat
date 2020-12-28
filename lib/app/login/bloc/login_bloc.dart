@@ -1,11 +1,13 @@
 import 'dart:async';
+
 import 'package:animalstat_repository/animalstat_repository.dart';
-import 'package:animalstat/src/utilities/utilities.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
 import './bloc.dart';
+// ignore: directives_ordering
+import '../../../src/utilities/utilities.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final UserRepository _userRepository;
@@ -30,7 +32,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     });
     final debounceStream = events.where((event) {
       return (event is EmailChanged || event is PasswordChanged);
-    }).debounceTime(Duration(milliseconds: 300));
+    }).debounceTime(const Duration(milliseconds: 300));
     return super.transformEvents(
       nonDebounceStream.mergeWith([debounceStream]),
       transitionFn,
@@ -71,7 +73,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _userRepository.signInWithCredentials(email, password);
       yield LoginState.success();
-    } catch (ex) {
+      // ignore: avoid_catches_without_on_clauses
+    } catch (_) {
       yield LoginState.failure();
     }
   }

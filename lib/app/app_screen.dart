@@ -1,12 +1,13 @@
-import 'package:animalstat/app/bottom_navigation/bloc/bottom_navigation_bloc.dart';
-import 'package:animalstat/app/recurring_treatments/recurring_treatments_screen.dart';
-import 'package:animalstat/app/search_animal/bloc/bloc.dart';
-import 'package:animalstat/app/search_animal/search_animals_screen.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_search_text_field.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../src/ui/widgets/animalstat_search_text_field.dart';
+import 'bottom_navigation/bloc/bottom_navigation_bloc.dart';
+import 'recurring_treatments/recurring_treatments_screen.dart';
+import 'search_animal/bloc/bloc.dart';
+import 'search_animal/search_animals_screen.dart';
 
 class AppScreen extends StatelessWidget {
   @override
@@ -23,9 +24,9 @@ class AppScreen extends StatelessWidget {
           title: BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
             builder: (context, state) {
               switch (state.currentPage) {
-                case BottomNavigationEvent.TreatmentsPage:
-                  return Text('Behandelingen');
-                case BottomNavigationEvent.AnimalsPage:
+                case BottomNavigationEvent.treatmentsPage:
+                  return const Text('Behandelingen');
+                case BottomNavigationEvent.animalsPage:
                   return Padding(
                     padding: const EdgeInsets.all(9.0),
                     child: AnimalstatSearchTextField(
@@ -38,8 +39,8 @@ class AppScreen extends StatelessWidget {
                       height: 40,
                     ),
                   );
-                case BottomNavigationEvent.StatisticsPage:
-                  return Text('Statistieken');
+                case BottomNavigationEvent.statisticsPage:
+                  return const Text('Statistieken');
               }
 
               return Container();
@@ -49,12 +50,12 @@ class AppScreen extends StatelessWidget {
         body: BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
           builder: (context, state) {
             switch (state.currentPage) {
-              case BottomNavigationEvent.TreatmentsPage:
+              case BottomNavigationEvent.treatmentsPage:
                 return RecurringTreatmentsScreen();
-              case BottomNavigationEvent.AnimalsPage:
+              case BottomNavigationEvent.animalsPage:
                 return SearchAnimalScreen();
-              case BottomNavigationEvent.StatisticsPage:
-                return Text('Statistieken');
+              case BottomNavigationEvent.statisticsPage:
+                return const Text('Statistieken');
             }
 
             return Container();
@@ -66,15 +67,15 @@ class AppScreen extends StatelessWidget {
           return BottomNavigationBar(
             currentIndex: state.currentPage.index,
             items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(Icons.assignment),
                 label: 'Behandelingen',
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Dieren',
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(Icons.timeline),
                 label: 'Statistieken',
               ),

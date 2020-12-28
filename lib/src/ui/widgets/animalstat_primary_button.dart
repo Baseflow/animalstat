@@ -1,5 +1,6 @@
-import 'package:animalstat/src/ui/theming.dart';
 import 'package:flutter/material.dart';
+
+import '../theming.dart';
 
 class AnimalstatPrimaryButton extends StatelessWidget {
   final Icon _icon;
@@ -31,7 +32,7 @@ class AnimalstatPrimaryButton extends StatelessWidget {
             onPressed: _onPressed,
             label: label,
             icon: _icon,
-            // TODO: Create PR to add possibility to make the text white with theming
+            // TODO: Create PR to add option to make the text white with theming
             // raised_button.dart:241
             // button_theme:642
             textColor: Colors.white,
@@ -41,7 +42,7 @@ class AnimalstatPrimaryButton extends StatelessWidget {
             shape: shape,
             onPressed: _onPressed,
             child: label,
-            // TODO: Create PR to add possibility to make the text white with theming
+            // TODO: Create PR to add option to make the text white with theming
             // raised_button.dart:241
             // button_theme:642
             textColor: Colors.white,

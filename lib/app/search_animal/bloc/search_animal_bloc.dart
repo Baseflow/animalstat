@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
-import 'package:animalstat_repository/animalstat_repository.dart';
 
+import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+
 import './bloc.dart';
 
 class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
@@ -12,7 +13,7 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
   SearchAnimalBloc({
     @required AnimalRepository animalRepository,
   })  : assert(animalRepository != null),
-        this._animalRepository = animalRepository,
+        _animalRepository = animalRepository,
         super(SearchAnimalState.empty());
 
   @override
@@ -27,7 +28,7 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
   }
 
   Stream<SearchAnimalState> _mapQueryChangedToState(QueryChanged event) async* {
-    if (event.query.length == 0) {
+    if (event.query.isEmpty) {
       yield SearchAnimalState.empty();
       return;
     }

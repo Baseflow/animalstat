@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_segmented_button.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
-import 'package:animalstat/src/utilities/enum_converters.dart';
+import 'package:flutter/material.dart';
+
+import '../../utilities/enum_converters.dart';
+import 'animalstat_segmented_button.dart';
 
 class AnimalstatHealthStatusSelectableLabel extends StatelessWidget {
   final HealthStates healthStatus;

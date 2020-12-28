@@ -1,16 +1,19 @@
-import 'package:animalstat/src/providers/utility_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
+import 'utility_provider.dart';
+
 class MultiUtilityProvider extends StatelessWidget {
-  /// The [UtilityProvider] list which is converted into a tree of [UtilityProvider] widgets.
-  /// The tree of [UtilityProvider] widgets is created in order meaning the first [UtilityProvider]
-  /// will be the top-most [UtilityProvider] and the last [UtilityProvider] will be a direct ancestor
+  /// The [UtilityProvider] list which is converted into a tree of
+  /// [UtilityProvider] widgets. The tree of [UtilityProvider] widgets is
+  /// created in order meaning the first [UtilityProvider] will be the top-most
+  /// [UtilityProvider] and the last [UtilityProvider] will be a direct ancestor
   /// of the `child` [Widget].
   final List<UtilityProvider> providers;
 
-  /// The [Widget] and its descendants which will have access to every value provided by `providers`.
-  /// This [Widget] will be a direct descendent of the last [UtilityProvider] in `providers`.
+  /// The [Widget] and its descendants which will have access to every value
+  /// provided by `providers`. This [Widget] will be a direct descendent of the
+  /// last [UtilityProvider] in `providers`.
   final Widget child;
 
   /// Merges multiple [UtilityProvider] widgets into one widget tree.
@@ -48,8 +51,8 @@ class MultiUtilityProvider extends StatelessWidget {
   ///
   /// [MultiUtilityProvider] converts the [UtilityProvider] list
   /// into a tree of nested [UtilityProvider] widgets.
-  /// As a result, the only advantage of using [MultiUtilityProvider] is improved
-  /// readability due to the reduction in nesting and boilerplate.
+  /// As a result, the only advantage of using [MultiUtilityProvider] is
+  /// improved readability due to the reduction in nesting and boilerplate.
   const MultiUtilityProvider({
     Key key,
     @required this.providers,

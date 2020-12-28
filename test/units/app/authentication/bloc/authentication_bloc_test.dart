@@ -57,6 +57,7 @@ void main() {
     });
 
     test(
+        // ignore: lines_longer_than_80_chars
         'should emit [Uninitialized, Authenticated] if user is already logged in.',
         () {
       final event = AppStarted();
@@ -77,6 +78,7 @@ void main() {
     });
 
     test(
+        // ignore: lines_longer_than_80_chars
         'should call \'getUser\' method on UserRepository if user is already logged in.',
         () {
       final event = AppStarted();
@@ -94,6 +96,7 @@ void main() {
     });
 
     test(
+        // ignore: lines_longer_than_80_chars
         'should emit [Uninitialized, Unauthenticated] when user is not logged in.',
         () {
       final event = AppStarted();
@@ -111,6 +114,7 @@ void main() {
     });
 
     test(
+        // ignore: lines_longer_than_80_chars
         'should not call \'getUser\' method on UserRepository if user is not logged in.',
         () {
       final event = AppStarted();
@@ -128,6 +132,7 @@ void main() {
     });
 
     test(
+        // ignore: lines_longer_than_80_chars
         'should emit [Uninitialized, Unauthenticated] if an exception is thrown.',
         () {
       final event = AppStarted();
@@ -162,6 +167,7 @@ void main() {
     });
 
     test(
+        // ignore: lines_longer_than_80_chars
         'should call \'getUser\' method on the supplied UserRepository exactly once',
         () {
       final event = LoggedIn();
@@ -191,6 +197,7 @@ void main() {
     });
 
     test(
+        // ignore: lines_longer_than_80_chars
         'should call \'signOut\' method on the supplied UserRepository exactly once.',
         () {
       final event = LoggedOut();

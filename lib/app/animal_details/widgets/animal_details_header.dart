@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:animalstat/src/ui/theming.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_health_status_label.dart';
-import 'package:animalstat/app/animal_details/bloc/bloc.dart';
+
+import '../../../src/ui/theming.dart';
+import '../../../src/ui/widgets/animalstat_health_status_label.dart';
+import '../bloc/bloc.dart';
 
 class AnimalDetailsHeader extends StatelessWidget
     implements PreferredSizeWidget {
   static const double _height = 79.0;
 
   @override
-  Size get preferredSize => Size.fromHeight(_height);
+  Size get preferredSize => const Size.fromHeight(_height);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class AnimalDetailsHeader extends StatelessWidget
       child: DefaultTextStyle(
         style: theme.primaryTextTheme.bodyText2,
         child: BlocBuilder<AnimalDetailsBloc, AnimalDetailsState>(
-            builder: (BuildContext context, AnimalDetailsState state) {
+            builder: (context, state) {
           if (!state.isLoading) {
             return Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -33,7 +34,7 @@ class AnimalDetailsHeader extends StatelessWidget
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      Text(
+                      const Text(
                         'Geboortedatum',
                         style: TextStyle(
                           fontSize: 15.0,
@@ -41,7 +42,7 @@ class AnimalDetailsHeader extends StatelessWidget
                       ),
                       Text(
                         state.dateOfBirthDisplayValue,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18.0,
                         ),
@@ -54,7 +55,7 @@ class AnimalDetailsHeader extends StatelessWidget
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Hok',
                           style: TextStyle(
                             fontSize: 15.0,
@@ -62,7 +63,7 @@ class AnimalDetailsHeader extends StatelessWidget
                         ),
                         Text(
                           '${state.cageDisplayValue}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
                           ),

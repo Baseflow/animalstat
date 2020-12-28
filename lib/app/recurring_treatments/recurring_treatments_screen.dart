@@ -1,14 +1,19 @@
-import 'package:animalstat/app/recurring_treatments/widgets/recurring_treatment_card.dart';
-import 'package:animalstat/app/recurring_treatments/widgets/recurring_treatment_header.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_appbar_bottom.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../src/ui/widgets/animalstat_appbar_bottom.dart';
 import 'bloc/recurring_treatments_bloc.dart';
+import 'widgets/recurring_treatment_card.dart';
 
 class RecurringTreatmentsScreen extends StatelessWidget {
+  final List<Tab> _tabs = <Tab>[
+    const Tab(text: 'TE DOEN'),
+    const Tab(text: 'GEDAAN'),
+    const Tab(text: 'GESTOPT'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RecurringTreatmentsBloc>(
@@ -16,144 +21,70 @@ class RecurringTreatmentsScreen extends StatelessWidget {
         recurringTreatmentsRepository:
             context.read<RecurringTreatmentsRepository>(),
       ),
-      child: Column(
-        children: [
-          _buildAppBarBottom(context),
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-            child:
-                BlocBuilder<RecurringTreatmentsBloc, RecurringTreatmentsState>(
-                    builder:
-                        (BuildContext context, RecurringTreatmentsState state) {
-              if (state.notFound) {
-                return _buildMessage(
-                  context,
-                  'Geen behandelingen voor ${state.selectedDateDisplayValue.toLowerCase()}.',
-                );
-              }
+      child: DefaultTabController(
+        length: _tabs.length,
+        child: Column(
+          children: [
+            _buildTabBar(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                child: BlocBuilder<RecurringTreatmentsBloc,
+                    RecurringTreatmentsState>(builder: (context, state) {
+                  if (state.notFound) {
+                    return _buildMessage(
+                      context,
+                      // ignore: lines_longer_than_80_chars
+                      'Geen behandelingen voor ${state.selectedDateDisplayValue.toLowerCase()}.',
+                    );
+                  }
 
-              if (state.isLoading) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+                  if (state.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-              return CustomScrollView(
-                slivers: <Widget>[
-                  RecurringTreatmentHeader(
-                    title: 'Openstaande behandelingen',
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return Dismissible(
-                          key: Key("dismissible_widget"),
-                          child: RecurringTreatmentCard(
-                            recurringTreatment: state.openTreatments[index],
-                          ),
-                          background: Container(
-                            child: Icon(FontAwesomeIcons.timesCircle),
-                            color: Colors.red,
-                          ),
-                          secondaryBackground: Container(
-                            child: Icon(FontAwesomeIcons.checkCircle),
-                            color: Colors.green,
-                          ),
-                          onDismissed: (direction) {
-                            final treatmentStatus =
-                                direction == DismissDirection.endToStart
-                                    ? TreatmentStates.done
-                                    : TreatmentStates.cancelled;
+                  return TabBarView(
+                    children: _tabs.map((tab) {
+                      var treatments = <RecurringTreatmentCardState>[];
 
-                            context
-                                .read<RecurringTreatmentsBloc>()
-                                .add(UpdateTreatment(
-                                  treatmentStatus: treatmentStatus,
-                                  cardState: state.openTreatments[index],
-                                ));
-                          },
-                        );
-                      },
-                      childCount: state.openTreatments.length,
-                    ),
-                  ),
-                  RecurringTreatmentHeader(
-                    title: 'Uitgevoerde behandelingen',
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return RecurringTreatmentCard(
-                          recurringTreatment: state.appliedTreatments[index],
-                        );
-                      },
-                      childCount: state.appliedTreatments.length,
-                    ),
-                  ),
-                  RecurringTreatmentHeader(
-                    title: 'Gestopte behandelingen',
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return RecurringTreatmentCard(
-                          recurringTreatment: state.cancelledTreatments[index],
-                        );
-                      },
-                      childCount: state.cancelledTreatments.length,
-                    ),
-                  ),
-                ],
-              );
-            }),
-          ),
-        ],
+                      if (tab.text.toUpperCase() == 'TE DOEN') {
+                        treatments = state.openTreatments;
+                      } else if (tab.text.toUpperCase() == 'GEDAAN') {
+                        treatments = state.appliedTreatments;
+                      } else if (tab.text.toUpperCase() == 'GESTOPT') {
+                        treatments = state.cancelledTreatments;
+                      }
+
+                      return ListView.builder(
+                        itemCount: treatments.length,
+                        itemBuilder: (context, index) {
+                          if (tab.text.toUpperCase() == 'TE DOEN') {
+                            return _buildDismissableTreatmentCard(
+                              context,
+                              treatments[index],
+                            );
+                          }
+
+                          return _buildTreatmentCard(treatments[index]);
+                        },
+                      );
+                    }).toList(),
+                  );
+                }),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildAppBarBottom(BuildContext context) {
+  Widget _buildTabBar() {
     return AnimalstatAppBarBottom(
-      child: Padding(
-        padding: const EdgeInsets.all(9.0),
-        child: BlocBuilder<RecurringTreatmentsBloc, RecurringTreatmentsState>(
-            builder: (context, state) {
-          return Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              GestureDetector(
-                child: Text(
-                  state.selectedDateDisplayValue,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                  ),
-                ),
-                onTap: () => showDatePicker(
-                  context: context,
-                  initialDate: state.selectedDate,
-                  firstDate: DateTime(DateTime.now().year - 2),
-                  lastDate: DateTime.now().add(
-                    Duration(days: 360),
-                  ),
-                ).then(
-                  (selectedDate) {
-                    if (selectedDate == null) {
-                      return;
-                    }
-
-                    context.read<RecurringTreatmentsBloc>().add(
-                          SelectedDateChanged(
-                            selectedDate: selectedDate,
-                          ),
-                        );
-                  },
-                ),
-              ),
-            ],
-          );
-        }),
+      child: TabBar(
+        tabs: _tabs,
       ),
     );
   }
@@ -165,7 +96,7 @@ class RecurringTreatmentsScreen extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Text(
           message,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.normal,
             fontSize: 16.0,
           ),
@@ -174,5 +105,39 @@ class RecurringTreatmentsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildDismissableTreatmentCard(
+    BuildContext context,
+    RecurringTreatmentCardState treatmentCardState,
+  ) {
+    return Dismissible(
+      key: const Key("dismissible_widget"),
+      child: RecurringTreatmentCard(
+        recurringTreatment: treatmentCardState,
+      ),
+      background: Container(
+        child: const Icon(FontAwesomeIcons.timesCircle),
+        color: Colors.red,
+      ),
+      secondaryBackground: Container(
+        child: const Icon(FontAwesomeIcons.checkCircle),
+        color: Colors.green,
+      ),
+      onDismissed: (direction) {
+        final treatmentStatus = direction == DismissDirection.endToStart
+            ? TreatmentStates.done
+            : TreatmentStates.cancelled;
+
+        context.read<RecurringTreatmentsBloc>().add(UpdateTreatment(
+              treatmentStatus: treatmentStatus,
+              cardState: treatmentCardState,
+            ));
+      },
+    );
+  }
+
+  Widget _buildTreatmentCard(RecurringTreatmentCardState treatmentCardState) {
+    return RecurringTreatmentCard(recurringTreatment: treatmentCardState);
   }
 }

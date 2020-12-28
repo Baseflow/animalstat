@@ -1,11 +1,12 @@
-import 'package:animalstat/app/add_history_record/add_history_record_dialog.dart';
-import 'package:animalstat/app/add_history_record/bloc/bloc.dart';
-import 'package:animalstat/app/animal_details/bloc/animal_details_bloc/animal_details_bloc.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_primary_button.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../../src/ui/widgets/animalstat_primary_button.dart';
+import '../../add_history_record/add_history_record_dialog.dart';
+import '../../add_history_record/bloc/bloc.dart';
+import '../bloc/animal_details_bloc/animal_details_bloc.dart';
 
 class HistoryHeader extends StatelessWidget {
   HistoryHeader({@required this.animalNumber});
@@ -26,7 +27,7 @@ class HistoryHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(
+          const Expanded(
             child: Text(
               'Registraties',
               style: TextStyle(
@@ -35,7 +36,7 @@ class HistoryHeader extends StatelessWidget {
             ),
           ),
           AnimalstatPrimaryButton(
-            icon: Icon(
+            icon: const Icon(
               FontAwesomeIcons.plus,
               size: 16,
             ),
@@ -54,7 +55,7 @@ class HistoryHeader extends StatelessWidget {
     showDialog(
         barrierDismissible: true,
         context: context,
-        builder: (BuildContext context) {
+        builder: (context) {
           return RepositoryProvider.value(
             value: animalRepository,
             child: MultiBlocProvider(

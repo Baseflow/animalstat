@@ -3,9 +3,10 @@ import 'package:provider/provider.dart';
 
 class UtilityProvider<T> extends Provider<T> {
   /// Takes a [ValueBuilder] that is responsible for
-  /// building the utility class and a child which will have access to the utility class via `UtilityProvider.of(context)`.
-  /// It is used as a dependency injection (DI) widget so that a single instance of a utility class can be provided
-  /// to multiple widgets within a subtree.
+  /// building the utility class and a child which will have access to the
+  /// utility class via `UtilityProvider.of(context)`. It is used as a
+  /// dependency injection (DI) widget so that a single instance of a utility
+  /// class can be provided to multiple widgets within a subtree.
   ///
   /// ```dart
   /// UtilityProvider(
@@ -26,7 +27,8 @@ class UtilityProvider<T> extends Provider<T> {
 
   /// Takes a utility and a child which will have access to the utility.
   /// A new utility should not be created in `UtilityProvider.value`.
-  /// Utilities should always be created using the default constructor within the `builder`.
+  /// Utilities should always be created using the default constructor within
+  /// the `builder`.
   UtilityProvider.value({
     Key key,
     @required T value,
@@ -37,11 +39,12 @@ class UtilityProvider<T> extends Provider<T> {
           child: child,
         );
 
-  /// Method that allows widgets to access a utility instance as long as their `BuildContext`
-  /// contains a [UtilityProvider] instance.
+  /// Method that allows widgets to access a utility instance as long as their
+  /// `BuildContext` contains a [UtilityProvider] instance.
   static T of<T>(BuildContext context) {
     try {
       return Provider.of<T>(context, listen: false);
+      // ignore: avoid_catches_without_on_clauses
     } catch (_) {
       throw FlutterError(
         """

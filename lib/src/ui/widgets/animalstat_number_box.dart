@@ -10,8 +10,8 @@ class AnimalstatNumberBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(
           Radius.circular(7.0),
         ),
         color: kAnimalNumberBackgroundColor,

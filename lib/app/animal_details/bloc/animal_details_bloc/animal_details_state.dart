@@ -1,6 +1,6 @@
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
-import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:meta/meta.dart';
 
 class AnimalDetailsState extends Equatable {
@@ -17,7 +17,7 @@ class AnimalDetailsState extends Equatable {
       @required this.dateOfBirth,
       @required this.isLoading});
 
-  String get cageDisplayValue => this.cage?.toString() ?? '-';
+  String get cageDisplayValue => cage?.toString() ?? '-';
   String get dateOfBirthDisplayValue =>
       DateFormat('dd-MM-yyyy').format(dateOfBirth);
 

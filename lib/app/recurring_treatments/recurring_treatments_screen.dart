@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../src/ui/widgets/animalstat_appbar_bottom.dart';
+import 'bloc/recurring_treatment_list_item.dart';
 import 'bloc/recurring_treatments_bloc.dart';
 import 'widgets/recurring_treatment_card.dart';
+import 'widgets/recurring_treatment_header.dart';
 
 class RecurringTreatmentsScreen extends StatelessWidget {
   final List<Tab> _tabs = <Tab>[
@@ -47,27 +49,36 @@ class RecurringTreatmentsScreen extends StatelessWidget {
 
                   return TabBarView(
                     children: _tabs.map((tab) {
-                      var treatments = <RecurringTreatmentCardState>[];
+                      var listItems = <RecurringTreatmentListItem>[];
 
                       if (tab.text.toUpperCase() == 'TE DOEN') {
-                        treatments = state.openTreatments;
+                        listItems = state.openTreatments;
                       } else if (tab.text.toUpperCase() == 'GEDAAN') {
-                        treatments = state.appliedTreatments;
+                        listItems = state.appliedTreatments;
                       } else if (tab.text.toUpperCase() == 'GESTOPT') {
-                        treatments = state.cancelledTreatments;
+                        listItems = state.cancelledTreatments;
                       }
 
                       return ListView.builder(
-                        itemCount: treatments.length,
+                        itemCount: listItems.length,
                         itemBuilder: (context, index) {
+                          final listItem = listItems[index];
+                          if (listItem.type ==
+                              RecurringTreatmentListItemTypes.header) {
+                            return RecurringTreatmentHeader(
+                                title: 'Hok ${listItem.cageId}');
+                          }
+
                           if (tab.text.toUpperCase() == 'TE DOEN') {
                             return _buildDismissableTreatmentCard(
                               context,
-                              treatments[index],
+                              listItem.recurringTreatment,
                             );
                           }
 
-                          return _buildTreatmentCard(treatments[index]);
+                          return _buildTreatmentCard(
+                            listItem.recurringTreatment,
+                          );
                         },
                       );
                     }).toList(),

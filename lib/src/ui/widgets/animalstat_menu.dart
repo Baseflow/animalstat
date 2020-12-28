@@ -1,14 +1,11 @@
 import 'package:animalstat/app/authentication/bloc/bloc.dart';
-import 'package:animalstat/app/search_animal/search_animals_screen.dart';
 import 'package:animalstat/src/ui/theming.dart';
-import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum MenuOptions {
   help,
   logout,
-  search,
 }
 
 class AnimalstatMenu extends StatelessWidget {
@@ -27,10 +24,6 @@ class AnimalstatMenu extends StatelessWidget {
           child: Text('Help'),
         ),
         const PopupMenuItem(
-          value: MenuOptions.search,
-          child: Text('Zoeken'),
-        ),
-        const PopupMenuItem(
           value: MenuOptions.logout,
           child: Text('Uitloggen'),
         ),
@@ -44,12 +37,6 @@ class AnimalstatMenu extends StatelessWidget {
         break;
       case MenuOptions.logout:
         context.read<AuthenticationBloc>().add(LoggedOut());
-        break;
-      case MenuOptions.search:
-        final animalRepository = context.read<AnimalRepository>();
-        Navigator.of(context).push(
-          SearchAnimalScreen.route(animalRepository),
-        );
         break;
     }
   }

@@ -1,5 +1,6 @@
-import 'package:animalstat/src/ui/theming.dart';
 import 'package:flutter/material.dart';
+
+import 'theming.dart';
 
 class DecorationFactory {
   static InputDecoration defaultTextFieldDecoration({
@@ -20,9 +21,9 @@ class DecorationFactory {
     String labelText,
     Widget prefixIcon,
   }) {
-    const border = const OutlineInputBorder(
-      borderRadius: const BorderRadius.all(const Radius.circular(4.0)),
-      borderSide: const BorderSide(color: kBorderColor, width: 1),
+    const border = OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderSide: BorderSide(color: kBorderColor, width: 1),
     );
 
     return InputDecoration(
@@ -32,9 +33,9 @@ class DecorationFactory {
       counterText: '',
       hintText: hintText,
       labelText: labelText,
-      contentPadding: EdgeInsets.all(0),
+      contentPadding: const EdgeInsets.all(0),
       prefixIcon: prefixIcon ??
-          Icon(
+          const Icon(
             Icons.search,
             color: kDefaultTextColor,
           ),

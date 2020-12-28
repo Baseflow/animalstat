@@ -2,8 +2,8 @@ import 'package:animalstat/app/login/bloc/bloc.dart';
 import 'package:animalstat/app/login/bloc/login_event.dart';
 import 'package:animalstat/app/login/bloc/login_state.dart';
 import 'package:animalstat/src/utilities/validators.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 class MockUserRepository extends Mock implements UserRepository {}
@@ -46,6 +46,7 @@ void main() {
 
   group('when \'LoginBloc\' is constructed', () {
     test(
+        // ignore: lines_longer_than_80_chars
         'should assert when no intance of the UserRespository class is supplied',
         () {
       expect(
@@ -73,7 +74,7 @@ void main() {
 
   group('when receiving an \'emailChanged\' event', () {
     test('should emit LoginState where isValidEmail is true.', () {
-      final email = '';
+      const email = '';
       final currentState = LoginState.empty();
       final event = EmailChanged(email: email);
       final expected = [currentState];
@@ -86,9 +87,10 @@ void main() {
     });
 
     test(
+        // ignore: lines_longer_than_80_chars
         'should emit an empty LoginState and updated state where isValidEmail is false.',
         () {
-      final email = '';
+      const email = '';
       final currentState = LoginState.empty();
       final event = EmailChanged(email: email);
       final expected = [
@@ -106,7 +108,7 @@ void main() {
 
   group('when receiving an \'passwordChanged\' event', () {
     test('should emit LoginState where isValidPassword is true.', () {
-      final password = '';
+      const password = '';
       final currentState = LoginState.empty();
       final event = PasswordChanged(password: password);
       final expected = [currentState];
@@ -119,9 +121,10 @@ void main() {
     });
 
     test(
+        // ignore: lines_longer_than_80_chars
         'should emit an empty LoginState and updated state where isValidPassword is false.',
         () {
-      final password = '';
+      const password = '';
       final currentState = LoginState.empty();
       final event = PasswordChanged(password: password);
       final expected = [
@@ -148,10 +151,11 @@ void main() {
     });
 
     test(
+        // ignore: lines_longer_than_80_chars
         'should emit \'LoginState.loading()\' state and call \'UserRepository.signInWithCredentials\' exactly once.',
         () {
-      final email = '';
-      final password = '';
+      const email = '';
+      const password = '';
       final event =
           LoginWithCredentialsPressed(email: email, password: password);
       final expected = [LoginState.empty(), LoginState.loading()];
@@ -167,10 +171,11 @@ void main() {
     });
 
     test(
+        // ignore: lines_longer_than_80_chars
         'with valid credentials, should emit an [LoginState.empty(), LoginState.loading(), LoginState.success()].',
         () {
-      final email = '';
-      final password = '';
+      const email = '';
+      const password = '';
       final event =
           LoginWithCredentialsPressed(email: email, password: password);
       final expected = [
@@ -188,10 +193,11 @@ void main() {
     });
 
     test(
+        // ignore: lines_longer_than_80_chars
         'with invalid credentials, should emit an [LoginState.empty(), LoginState.loading(), LoginState.failure()].',
         () {
-      final email = '';
-      final password = '';
+      const email = '';
+      const password = '';
       final event =
           LoginWithCredentialsPressed(email: email, password: password);
       final expected = [
@@ -201,7 +207,7 @@ void main() {
       ];
 
       when(mockUserRepository.signInWithCredentials(email, password))
-          .thenThrow(new Error());
+          .thenThrow(Error());
 
       expectLater(loginBloc.state, emitsInOrder(expected));
 

@@ -1,6 +1,7 @@
-import 'package:animalstat/src/ui/theming.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../theming.dart';
 
 /// A animal stat design card: a panel with slightly rounded corners.
 ///
@@ -100,7 +101,8 @@ class AnimalStatCard extends StatelessWidget {
   /// {@macro flutter.widgets.Clip}
   ///
   /// If this property is null then [CardTheme.clipBehavior] of
-  /// [ThemeData.cardTheme] is used. If that's null then the behavior will be [Clip.none].
+  /// [ThemeData.cardTheme] is used. If that's null then the behavior will be
+  /// [Clip.none].
   final Clip clipBehavior;
 
   /// The empty space that surrounds the card.
@@ -132,8 +134,8 @@ class AnimalStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final CardTheme cardTheme = CardTheme.of(context);
+    final theme = Theme.of(context);
+    final cardTheme = CardTheme.of(context);
 
     return Semantics(
       container: semanticContainer,
@@ -141,7 +143,7 @@ class AnimalStatCard extends StatelessWidget {
         margin: margin ?? cardTheme.margin ?? const EdgeInsets.all(4.0),
         decoration: BoxDecoration(
           border: Border.all(color: color ?? kBorderColor),
-          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
         ),
         child: Material(
           type: MaterialType.card,

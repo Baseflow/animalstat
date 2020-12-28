@@ -1,7 +1,9 @@
 import 'dart:async';
+
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+
 import './bloc.dart';
 
 class AuthenticationBloc
@@ -35,6 +37,7 @@ class AuthenticationBloc
       } else {
         yield Unauthenticated();
       }
+      // ignore: avoid_catches_without_on_clauses
     } catch (_) {
       yield Unauthenticated();
     }

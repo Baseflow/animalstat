@@ -1,11 +1,12 @@
-import 'package:animalstat/app/animal_details/bloc/bloc.dart';
-import 'package:animalstat/app/animal_details/widgets/animal_details_header.dart';
-import 'package:animalstat/app/animal_details/widgets/history_card.dart';
-import 'package:animalstat/app/animal_details/widgets/history_header.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_number_box.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../src/ui/widgets/animalstat_number_box.dart';
+import 'bloc/bloc.dart';
+import 'widgets/animal_details_header.dart';
+import 'widgets/history_card.dart';
+import 'widgets/history_header.dart';
 
 class AnimalDetailsScreen extends StatelessWidget {
   static MaterialPageRoute route(
@@ -49,7 +50,7 @@ class AnimalDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: BlocBuilder<AnimalHistoryBloc, AnimalHistoryState>(
-          builder: (BuildContext context, AnimalHistoryState state) {
+          builder: (context, state) {
         return CustomScrollView(
           slivers: <Widget>[
             SliverToBoxAdapter(
@@ -58,7 +59,7 @@ class AnimalDetailsScreen extends StatelessWidget {
             if (state is HistoryUpdated)
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
+                  (context, index) {
                     return HistoryCard(
                       historyCardState: state.history[index],
                     );
@@ -78,17 +79,17 @@ class AnimalDetailsScreen extends StatelessWidget {
       bottom: AnimalDetailsHeader(),
       elevation: 0.0,
       leading: IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () => Navigator.of(context).pop(),
       ),
       titleSpacing: 0.0,
       title: BlocBuilder<AnimalDetailsBloc, AnimalDetailsState>(
-          builder: (BuildContext context, AnimalDetailsState state) {
+          builder: (context, state) {
         return (state is AnimalDetailsState)
             ? AnimalstatNumberBox(
                 animalNumber: state.animalNumber.toString(),
               )
-            : Text('animalstat');
+            : const Text('animalstat');
       }),
     );
   }

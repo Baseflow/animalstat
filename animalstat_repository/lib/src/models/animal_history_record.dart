@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
+
 import 'diagnoses.dart';
 import 'health_states.dart';
 import 'treatments.dart';
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 @immutable
 class AnimalHistoryRecord extends Equatable {
@@ -34,6 +35,7 @@ class AnimalHistoryRecord extends Equatable {
 
   @override
   String toString() {
-    return 'AnimalHistoryRecord{diagnosis: $diagnosis, healthStaus: $healthStatus, treatment: $treatment, seenOn: $seenOn, endDate: $treatmentEndDate}';
+    // ignore: lines_longer_than_80_chars
+    return 'AnimalHistoryRecord{diagnosis: $diagnosis, healthStatus: $healthStatus, treatment: $treatment, seenOn: $seenOn, endDate: $treatmentEndDate}';
   }
 }

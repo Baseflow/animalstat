@@ -1,7 +1,8 @@
-import 'package:animalstat/src/ui/decoration_factory.dart';
-import 'package:animalstat/src/ui/theming.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../decoration_factory.dart';
+import '../theming.dart';
 
 class AnimalstatTextFormField extends StatelessWidget {
   const AnimalstatTextFormField({
@@ -47,7 +48,8 @@ class AnimalstatTextFormField extends StatelessWidget {
   /// Text that describes the input field.
   final String labelText;
 
-  /// The maximum number of characters (Unicode scalar values) to allow in the text field.
+  /// The maximum number of characters (Unicode scalar values) to allow in the
+  /// text field.
   final int maxLength;
 
   /// If true, prevents the field from allowing more than maxLength characters.
@@ -56,7 +58,8 @@ class AnimalstatTextFormField extends StatelessWidget {
   /// {@macro flutter.widgets.editableText.obscureText}
   final bool obscureText;
 
-  /// An icon that appears before the prefix or prefixText and before the editable part of the text field, within the decoration's container.
+  /// An icon that appears before the prefix or prefixText and before the
+  /// editable part of the text field, within the decoration's container.
   final Icon prefixIcon;
 
   /// The type of action button to use for the keyboard.
@@ -65,14 +68,15 @@ class AnimalstatTextFormField extends StatelessWidget {
   /// [TextInputType.multiline] and [TextInputAction.done] otherwise.
   final TextInputAction textInputAction;
 
-  /// An optional method that validates an input. Returns an error string to display if the input is invalid, or null otherwise.
+  /// An optional method that validates an input. Returns an error string to
+  /// display if the input is invalid, or null otherwise.
   final FormFieldValidator<String> validator;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(
           Radius.circular(5.0),
         ),
         boxShadow: [

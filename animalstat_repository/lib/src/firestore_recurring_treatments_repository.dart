@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../animalstat_repository.dart';
 import 'extensions/document_snapshot_extensions.dart';
 
@@ -17,7 +18,8 @@ class FirestoreRecurringTreatmentsRepository
   ) {
     return _recurringTreatmentsCollection
         .where('administration_date', isGreaterThanOrEqualTo: date)
-        .where('administration_date', isLessThan: date.add(Duration(days: 1)))
+        .where('administration_date',
+            isLessThan: date.add(const Duration(days: 1)))
         .snapshots()
         .map((snap) =>
             snap.documents.map((doc) => doc.toRecurringTreatment()).toList());

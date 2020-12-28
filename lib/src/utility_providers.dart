@@ -1,10 +1,8 @@
-import 'package:animalstat/src/providers/utility_provider.dart';
-import 'package:animalstat/src/utilities/utilities.dart';
+import 'providers/utility_provider.dart';
+import 'utilities/utilities.dart';
 
-class UtilityProviders {
-  static List<UtilityProvider> get providers => [
-        UtilityProvider<Validators>(
-          create: (context) => Validators(),
-        )
-      ];
-}
+List<UtilityProvider> get utilityProviders => [
+      UtilityProvider<Validators>(
+        create: (context) => Validators(),
+      )
+    ];

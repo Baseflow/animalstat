@@ -1,9 +1,8 @@
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 
-import 'package:animalstat_repository/animalstat_repository.dart';
-
-import 'package:animalstat/src/ui/widgets/animalstat_health_status_selectable_label.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_toggle_button.dart';
+import '../../../src/ui/widgets/animalstat_health_status_selectable_label.dart';
+import '../../../src/ui/widgets/animalstat_toggle_button.dart';
 
 class HealthStatusSelectionWidget extends StatelessWidget {
   HealthStatusSelectionWidget({this.onChanged, this.selectedHealthStatus});

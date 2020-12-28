@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AnimalDetailsViewModel {
@@ -16,10 +16,10 @@ class AnimalDetailsViewModel {
   });
 
   AnimalDetailsViewModel.fromModel(Animal animal)
-      : this.animalNumber = animal.animalNumber,
-        this.cage = animal.currentCageNumber,
-        this.currentHealthStatus = animal.currentHealthStatus,
-        this.dateOfBirth = DateFormat('dd-MM-yyyy').format(animal.dateOfBirth);
+      : animalNumber = animal.animalNumber,
+        cage = animal.currentCageNumber,
+        currentHealthStatus = animal.currentHealthStatus,
+        dateOfBirth = DateFormat('dd-MM-yyyy').format(animal.dateOfBirth);
 
   AnimalDetailsViewModel copyWith({
     int animalNumber,

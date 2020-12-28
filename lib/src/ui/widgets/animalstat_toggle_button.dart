@@ -18,7 +18,7 @@ class AnimalstatToggleButton extends StatelessWidget {
     return Wrap(
       runSpacing: 15,
       spacing: 15,
-      children: List<Widget>.generate(children.length, (int index) {
+      children: List<Widget>.generate(children.length, (index) {
         return _ToggleButton(
           child: index == selectedIndex
               ? selectedChildren[index]

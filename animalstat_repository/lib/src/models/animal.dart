@@ -1,5 +1,6 @@
-import 'health_states.dart';
 import 'package:meta/meta.dart';
+
+import 'health_states.dart';
 
 @immutable
 class Animal {
@@ -34,6 +35,7 @@ class Animal {
 
   @override
   String toString() {
+    // ignore: lines_longer_than_80_chars
     return 'Animal{animalNumber: $animalNumber, dateOfBirth: $dateOfBirth, currentCageNumber: $currentCageNumber, currentHealthStatus: $currentHealthStatus}';
   }
 }

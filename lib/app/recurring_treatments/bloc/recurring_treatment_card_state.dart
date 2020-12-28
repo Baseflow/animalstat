@@ -26,7 +26,7 @@ class RecurringTreatmentCardState extends Equatable {
       HealthStates healthStatus,
       Treatments treatment}) {
     return RecurringTreatmentCardState(
-      recurringTreatmentId: this.recurringTreatmentId,
+      recurringTreatmentId: recurringTreatmentId,
       animalNumber: animalNumber ?? this.animalNumber,
       cage: cage ?? this.cage,
       diagnosis: diagnosis ?? this.diagnosis,

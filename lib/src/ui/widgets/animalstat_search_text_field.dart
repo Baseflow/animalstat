@@ -1,6 +1,7 @@
-import 'package:animalstat/src/ui/decoration_factory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../decoration_factory.dart';
 
 class AnimalstatSearchTextField extends StatelessWidget {
   const AnimalstatSearchTextField({
@@ -43,7 +44,8 @@ class AnimalstatSearchTextField extends StatelessWidget {
   /// Text that describes the input field.
   final String labelText;
 
-  /// The maximum number of characters (Unicode scalar values) to allow in the text field.
+  /// The maximum number of characters (Unicode scalar values) to allow in the
+  /// text field.
   final int maxLength;
 
   /// If true, prevents the field from allowing more than maxLength characters.
@@ -52,12 +54,14 @@ class AnimalstatSearchTextField extends StatelessWidget {
   /// {@macro flutter.widgets.editableText.obscureText}
   final bool obscureText;
 
-  /// Called when the user initiates a change to the TextField's value: when they have inserted or deleted text.
+  /// Called when the user initiates a change to the TextField's value: when
+  /// they have inserted or deleted text.
   final ValueChanged<String> onChanged;
 
   final TextStyle style;
 
-  /// An icon that appears before the prefix or prefixText and before the editable part of the text field, within the decoration's container.
+  /// An icon that appears before the prefix or prefixText and before the
+  /// editable part of the text field, within the decoration's container.
   final Widget prefixIcon;
 
   /// The type of action button to use for the keyboard.

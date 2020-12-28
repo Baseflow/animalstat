@@ -2,23 +2,24 @@ import 'package:intl/intl.dart';
 
 extension DateTimeExtensions on DateTime {
   static DateTime get today => DateTime.now().toDate();
-  DateTime get tomorrow => DateTime.now().add(Duration(days: 1)).toDate();
-  DateTime get yesterday => DateTime.now().subtract(Duration(days: 1)).toDate();
+  DateTime get tomorrow => DateTime.now().add(const Duration(days: 1)).toDate();
+  DateTime get yesterday =>
+      DateTime.now().subtract(const Duration(days: 1)).toDate();
 
-  DateTime toDate() => DateTime(this.year, this.month, this.day);
+  DateTime toDate() => DateTime(year, month, day);
 
   String toDisplayValue() {
-    DateTime now = DateTime.now();
+    var now = DateTime.now();
 
-    if (this.toDate() == now.toDate()) {
+    if (toDate() == now.toDate()) {
       return 'Vandaag';
     }
 
-    if (this.toDate() == now.yesterday) {
+    if (toDate() == now.yesterday) {
       return 'Gisteren';
     }
 
-    if (this.toDate() == now.tomorrow) {
+    if (toDate() == now.tomorrow) {
       return 'Morgen';
     }
 

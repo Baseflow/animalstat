@@ -1,9 +1,10 @@
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
-import 'package:animalstat/app/add_history_record/bloc/bloc.dart';
-import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:meta/meta.dart';
+
 import '../../../src/extensions/date_time_extensions.dart';
+import 'bloc.dart';
 
 class AddHistoryRecordState extends Equatable {
   AddHistoryRecordState({
@@ -77,7 +78,7 @@ class AddHistoryRecordState extends Equatable {
       diagnosis: diagnosis ?? this.diagnosis,
       healthStatus: healthStatus ?? this.healthStatus,
       isSaved: isSaved ?? this.isSaved,
-      seenOn: registrationDate ?? this.seenOn,
+      seenOn: registrationDate ?? seenOn,
       treatment: treatment ?? this.treatment,
       treatmentEndDate: treatmentEndDate ?? this.treatmentEndDate,
     );

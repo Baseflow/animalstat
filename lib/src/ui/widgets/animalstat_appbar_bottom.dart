@@ -11,9 +11,17 @@ class AnimalstatAppBarBottom extends StatelessWidget
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
+      decoration:
+          BoxDecoration(color: theme.bottomAppBarTheme.color, boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 5,
+          blurRadius: 7,
+          offset: Offset(0, 3),
+        ),
+      ]),
       height: _height,
       width: MediaQuery.of(context).size.width,
-      color: theme.bottomAppBarTheme.color,
       child: DefaultTextStyle(
         style: theme.primaryTextTheme.bodyText2,
         child: child,

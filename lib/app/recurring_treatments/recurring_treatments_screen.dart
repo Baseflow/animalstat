@@ -1,28 +1,14 @@
 import 'package:animalstat/app/recurring_treatments/widgets/recurring_treatment_card.dart';
 import 'package:animalstat/app/recurring_treatments/widgets/recurring_treatment_header.dart';
-import 'package:animalstat/src/ui/theming.dart';
 import 'package:animalstat/src/ui/widgets/animalstat_appbar_bottom.dart';
-import 'package:animalstat/src/ui/widgets/animalstat_menu.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'bloc/recurring_treatments_bloc.dart';
 
-class RecurringTreatmentsScreen extends StatefulWidget {
-  static MaterialPageRoute route() {
-    return MaterialPageRoute(
-      builder: (context) => RecurringTreatmentsScreen(),
-    );
-  }
-
-  _RecurringTreatmentsScreenState createState() =>
-      _RecurringTreatmentsScreenState();
-}
-
-class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen> {
+class RecurringTreatmentsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RecurringTreatmentsBloc>(
@@ -30,13 +16,10 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen> {
         recurringTreatmentsRepository:
             context.read<RecurringTreatmentsRepository>(),
       ),
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-          statusBarColor: kSecondaryColor,
-        ),
-        child: Scaffold(
-          appBar: _buildAppBar(context),
-          body: Padding(
+      child: Column(
+        children: [
+          _buildAppBarBottom(context),
+          Padding(
             padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
             child:
                 BlocBuilder<RecurringTreatmentsBloc, RecurringTreatmentsState>(
@@ -124,18 +107,8 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen> {
               );
             }),
           ),
-        ),
+        ],
       ),
-    );
-  }
-
-  Widget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: const Text('Behandelingen'),
-      actions: <Widget>[
-        AnimalstatMenu(),
-      ],
-      bottom: _buildAppBarBottom(context),
     );
   }
 

@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as FireAuth;
+import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
 
 import '../animalstat_repository.dart';
 
 class FirestoreUserRepository implements UserRepository {
-  final FireAuth.FirebaseAuth _firebaseAuth;
+  final fire_auth.FirebaseAuth _firebaseAuth;
   final CollectionReference _userCollection =
       FirebaseFirestore.instance.collection('users');
 
   FirestoreUserRepository({
-    FireAuth.FirebaseAuth firebaseAuth,
-  }) : _firebaseAuth = firebaseAuth ?? FireAuth.FirebaseAuth.instance;
+    fire_auth.FirebaseAuth firebaseAuth,
+  }) : _firebaseAuth = firebaseAuth ?? fire_auth.FirebaseAuth.instance;
 
   Future<void> signInWithCredentials(String email, String password) {
     return _firebaseAuth.signInWithEmailAndPassword(

@@ -81,7 +81,7 @@ void main() {
 
       when(mockValidators.isValidEmail(email)).thenAnswer((_) => true);
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
@@ -94,13 +94,12 @@ void main() {
       final currentState = LoginState.empty();
       final event = EmailChanged(email: email);
       final expected = [
-        currentState,
         currentState.update(isEmailValid: false),
       ];
 
       when(mockValidators.isValidEmail(email)).thenAnswer((_) => false);
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
@@ -115,7 +114,7 @@ void main() {
 
       when(mockValidators.isValidPassword(password)).thenAnswer((_) => true);
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
@@ -128,13 +127,12 @@ void main() {
       final currentState = LoginState.empty();
       final event = PasswordChanged(password: password);
       final expected = [
-        currentState,
         currentState.update(isPasswordValid: false),
       ];
 
       when(mockValidators.isValidPassword(password)).thenAnswer((_) => false);
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
@@ -143,9 +141,9 @@ void main() {
   group('when receiving an \'LoginWithCredentialsPressed\' event', () {
     test('should emit LoadingState.', () {
       final event = LoginWithCredentialsPressed(email: '', password: '');
-      final expected = [LoginState.empty(), LoginState.loading()];
+      final expected = [LoginState.loading()];
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
@@ -158,12 +156,12 @@ void main() {
       const password = '';
       final event =
           LoginWithCredentialsPressed(email: email, password: password);
-      final expected = [LoginState.empty(), LoginState.loading()];
+      final expected = [LoginState.loading()];
 
       when(mockUserRepository.signInWithCredentials(email, password))
           .thenAnswer((_) => Future.value());
 
-      expectLater(loginBloc.state, emitsInOrder(expected)).then((_) =>
+      expectLater(loginBloc, emitsInOrder(expected)).then((_) =>
           verify(mockUserRepository.signInWithCredentials(email, password))
               .called(1));
 
@@ -179,7 +177,6 @@ void main() {
       final event =
           LoginWithCredentialsPressed(email: email, password: password);
       final expected = [
-        LoginState.empty(),
         LoginState.loading(),
         LoginState.success(),
       ];
@@ -187,7 +184,7 @@ void main() {
       when(mockUserRepository.signInWithCredentials(email, password))
           .thenAnswer((_) => Future.value());
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
@@ -201,7 +198,6 @@ void main() {
       final event =
           LoginWithCredentialsPressed(email: email, password: password);
       final expected = [
-        LoginState.empty(),
         LoginState.loading(),
         LoginState.failure(),
       ];
@@ -209,7 +205,7 @@ void main() {
       when(mockUserRepository.signInWithCredentials(email, password))
           .thenThrow(Error());
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });

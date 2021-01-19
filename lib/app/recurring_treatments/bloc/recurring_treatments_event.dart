@@ -23,9 +23,9 @@ class SelectedDateChanged extends RecurringTreatmentsEvent {
 }
 
 class TreatmentsUpdated extends RecurringTreatmentsEvent {
-  final List<RecurringTreatmentCardState> openTreatments;
-  final List<RecurringTreatmentCardState> appliedTreatments;
-  final List<RecurringTreatmentCardState> cancelledTreatments;
+  final List<RecurringTreatmentListItem> openTreatments;
+  final List<RecurringTreatmentListItem> appliedTreatments;
+  final List<RecurringTreatmentListItem> cancelledTreatments;
 
   TreatmentsUpdated({
     @required this.openTreatments,

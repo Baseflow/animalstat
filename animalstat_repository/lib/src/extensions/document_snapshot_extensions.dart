@@ -9,47 +9,50 @@ import '../models/models.dart';
 extension DocumentSnapshotExtension on DocumentSnapshot {
   /// Converts a Firestore DocumentSnapshot into an AnimalHistoryRecord.
   AnimalHistoryRecord toAnimalHistoryRecord() {
-    final seenOn = data['seen_on'] as Timestamp;
-    final treatmentEndDate = data['treatment_enddate'] as Timestamp;
+    final dataMap = data();
+    final seenOn = dataMap['seen_on'] as Timestamp;
+    final treatmentEndDate = dataMap['treatment_enddate'] as Timestamp;
 
     return AnimalHistoryRecord(
-      data['cage'],
-      FirestoreDiagnosesConverter.toEnum(data['diagnosis']),
-      FirestoreHealthStatesConverter.toEnum(data['health_status']),
+      dataMap['cage'],
+      FirestoreDiagnosesConverter.toEnum(dataMap['diagnosis']),
+      FirestoreHealthStatesConverter.toEnum(dataMap['health_status']),
       seenOn.toDate(),
-      FirestoreTreatmentsConverter.toEnum(data['treatment']),
+      FirestoreTreatmentsConverter.toEnum(dataMap['treatment']),
       treatmentEndDate?.toDate() ?? null,
     );
   }
 
   /// Converts a Firestore DocumentSnapshot into an Animal.
   Animal toAnimal() {
-    final animalNumber = int.parse(documentID);
-    final dateOfBirth = data['date_of_birth'] as Timestamp;
+    final dataMap = data();
+    final animalNumber = int.parse(id);
+    final dateOfBirth = dataMap['date_of_birth'] as Timestamp;
 
     return Animal(
       animalNumber,
       dateOfBirth.toDate(),
-      data['current_cage_number'],
-      FirestoreHealthStatesConverter.toEnum(data['current_health_status']),
+      dataMap['current_cage_number'],
+      FirestoreHealthStatesConverter.toEnum(dataMap['current_health_status']),
     );
   }
 
   /// Converts a Firestore DocumentSnapshot into a RecurringTreatment.
   RecurringTreatment toRecurringTreatment() {
-    final administrationDate = data['administration_date'] as Timestamp;
+    final dataMap = data();
+    final administrationDate = dataMap['administration_date'] as Timestamp;
 
     return RecurringTreatment(
-      id: documentID,
+      id: id,
       administrationDate: administrationDate.toDate(),
-      animalNumber: data['animal_number'],
-      cageNumber: data['cage_number'],
-      diagnosis: FirestoreDiagnosesConverter.toEnum(data['diagnosis']),
+      animalNumber: dataMap['animal_number'],
+      cageNumber: dataMap['cage_number'],
+      diagnosis: FirestoreDiagnosesConverter.toEnum(dataMap['diagnosis']),
       healthStatus:
-          FirestoreHealthStatesConverter.toEnum(data['health_status']),
-      treatment: FirestoreTreatmentsConverter.toEnum(data['treatment']),
+          FirestoreHealthStatesConverter.toEnum(dataMap['health_status']),
+      treatment: FirestoreTreatmentsConverter.toEnum(dataMap['treatment']),
       treatmentStatus:
-          FirestoreTreatmentStatesConverter.toEnum(data['treatment_status']),
+          FirestoreTreatmentStatesConverter.toEnum(dataMap['treatment_status']),
     );
   }
 }

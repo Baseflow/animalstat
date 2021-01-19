@@ -14,7 +14,9 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
+
+publish_to: none
 
 dependencies:
   flutter:
@@ -27,20 +29,24 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   intl: ^0.16.0
   flutter_slidable: ^0.5.4
+  date_picker:
+    git:
+      url: https://github.com/baseflow/flutter_date_picker
+      ref: master
 
   # Add dependencies to repository packages
   animalstat_repository:
     path: animalstat_repository
 
   # Add Firebase plugins
-  firebase_crashlytics: ^0.1.0+3
+  firebase_crashlytics: ^0.4.0+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons: ^1.0.0
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.7.4
+  flutter_launcher_icons: ^0.8.1
 
   effective_dart: ^1.3.0
 
@@ -49,8 +55,8 @@ dev_dependencies:
   mockito: ^4.1.1
 
 flutter_icons:
-  image_path: 'assets/images/animalstat_icon.png'
-  android: true
+  image_path: "assets/images/animalstat_logo.png"
+  android: "launcher_icon"
   ios: true
 
 # For information on the generic Dart part of this file, see the

@@ -1,15 +1,17 @@
 import 'dart:async';
 
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:meta/meta.dart';
 
 import '../../../src/extensions/date_time_extensions.dart';
+import '../../../src/extensions/iterables_extensions.dart';
+import 'recurring_treatment_list_item.dart';
 
+part 'recurring_treatment_card_state.dart';
 part 'recurring_treatments_event.dart';
 part 'recurring_treatments_state.dart';
-part 'recurring_treatment_card_state.dart';
 
 class RecurringTreatmentsBloc
     extends Bloc<RecurringTreatmentsEvent, RecurringTreatmentsState> {
@@ -83,15 +85,16 @@ class RecurringTreatmentsBloc
     );
   }
 
-  List<RecurringTreatmentCardState> _filterByState(
+  List<RecurringTreatmentListItem> _filterByState(
     List<RecurringTreatment> treatments,
     TreatmentStates status,
   ) {
     if (treatments == null) {
-      return <RecurringTreatmentCardState>[];
+      return <RecurringTreatmentListItem>[];
     }
 
-    return treatments.where((t) => t.treatmentStatus == status).map((t) {
+    final filteredTreatments =
+        treatments.where((t) => t.treatmentStatus == status).map((t) {
       return RecurringTreatmentCardState(
         recurringTreatmentId: t.id,
         animalNumber: t.animalNumber,
@@ -101,6 +104,18 @@ class RecurringTreatmentsBloc
         treatment: t.treatment,
       );
     }).toList();
+
+    final groupedTreatments = filteredTreatments.groupBy((item) => item.cage);
+    final recurringTreatmentList = <RecurringTreatmentListItem>[];
+    for (final key in groupedTreatments.keys) {
+      recurringTreatmentList.add(RecurringTreatmentListItem(
+          RecurringTreatmentListItemTypes.header, key, null));
+      recurringTreatmentList.addAll(groupedTreatments[key].map((card) =>
+          RecurringTreatmentListItem(
+              RecurringTreatmentListItemTypes.card, key, card)));
+    }
+
+    return recurringTreatmentList;
   }
 
   Stream<RecurringTreatmentsState> _mapUpdateTreatmentToState(
@@ -114,5 +129,11 @@ class RecurringTreatmentsBloc
     );
 
     add(LoadTreatments(selectedDate: state.selectedDate));
+  }
+
+  @override
+  Future<void> close() {
+    _recurringTreatmentsSubscription?.cancel();
+    return super.close();
   }
 }

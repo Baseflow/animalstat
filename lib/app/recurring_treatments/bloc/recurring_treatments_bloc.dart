@@ -130,4 +130,10 @@ class RecurringTreatmentsBloc
 
     add(LoadTreatments(selectedDate: state.selectedDate));
   }
+
+  @override
+  Future<void> close() {
+    _recurringTreatmentsSubscription?.cancel();
+    return super.close();
+  }
 }

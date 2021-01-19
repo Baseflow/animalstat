@@ -1,3 +1,4 @@
+import 'package:animalstat/app/recurring_treatments/bloc/recurring_treatments_bloc.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,10 +13,20 @@ import 'search_animal/search_animals_screen.dart';
 class AppScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SearchAnimalBloc>(
-      create: (context) => SearchAnimalBloc(
-        animalRepository: context.read<AnimalRepository>(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SearchAnimalBloc>(
+          create: (context) => SearchAnimalBloc(
+            animalRepository: context.read<AnimalRepository>(),
+          ),
+        ),
+        BlocProvider<RecurringTreatmentsBloc>(
+          create: (context) => RecurringTreatmentsBloc(
+            recurringTreatmentsRepository:
+                context.read<RecurringTreatmentsRepository>(),
+          ),
+        ),
+      ],
       child: GestureDetector(
         onTap: () {
           final currentFocus = FocusScope.of(context);

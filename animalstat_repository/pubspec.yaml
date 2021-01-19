@@ -10,9 +10,9 @@ dependencies:
     sdk: flutter
 
   pedantic: ^1.8.0
-  equatable: ^1.1.1
+  equatable: ^1.2.5
 
   # Add Firebase plugins
-  firebase_core: ^0.4.4
-  cloud_firestore: ^0.13.5
-  firebase_auth: ^0.16.0
+  firebase_core: ^0.7.0
+  cloud_firestore: ^0.16.0
+  firebase_auth: ^0.20.0+1

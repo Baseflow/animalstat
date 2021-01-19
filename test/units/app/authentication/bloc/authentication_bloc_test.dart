@@ -68,8 +68,7 @@ void main() {
         Authenticated(user),
       ];
 
-      when(mockUserRepository.isSignedIn())
-          .thenAnswer((_) => Future.value(true));
+      when(mockUserRepository.isSignedIn()).thenAnswer((_) => true);
       when(mockUserRepository.getUser()).thenAnswer((_) => Future.value(user));
 
       expectLater(authenticationBloc.state, emitsInOrder(expected));
@@ -85,8 +84,7 @@ void main() {
       final user =
           User(id: '12345', email: 'test@example.com', companyId: 'my_company');
 
-      when(mockUserRepository.isSignedIn())
-          .thenAnswer((_) => Future.value(true));
+      when(mockUserRepository.isSignedIn()).thenAnswer((_) => true);
       when(mockUserRepository.getUser()).thenAnswer((_) => Future.value(user));
 
       expectLater(authenticationBloc.state, mayEmit(Authenticated(user)))
@@ -105,8 +103,7 @@ void main() {
         Unauthenticated(),
       ];
 
-      when(mockUserRepository.isSignedIn())
-          .thenAnswer((_) => Future.value(true));
+      when(mockUserRepository.isSignedIn()).thenAnswer((_) => true);
 
       expectLater(authenticationBloc.state, emitsInOrder(expected));
 
@@ -121,8 +118,7 @@ void main() {
       final user =
           User(id: '12345', email: 'test@example.com', companyId: 'my_company');
 
-      when(mockUserRepository.isSignedIn())
-          .thenAnswer((_) => Future.value(false));
+      when(mockUserRepository.isSignedIn()).thenAnswer((_) => false);
       when(mockUserRepository.getUser()).thenAnswer((_) => Future.value(user));
 
       expectLater(authenticationBloc.state, mayEmit(Authenticated(user)))

@@ -5,7 +5,7 @@ abstract class UserRepository {
 
   Future<void> signOut();
 
-  Future<bool> isSignedIn();
+  bool isSignedIn();
 
   Future<User> getUser();
 }

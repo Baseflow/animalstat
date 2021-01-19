@@ -9,7 +9,7 @@ class FirestoreRecurringTreatmentsRepository
 
   FirestoreRecurringTreatmentsRepository(User user)
       : assert(user != null),
-        _recurringTreatmentsCollection = Firestore.instance
+        _recurringTreatmentsCollection = FirebaseFirestore.instance
             .collection('companies/${user.companyId}/recurring_treatments');
 
   @override
@@ -22,7 +22,7 @@ class FirestoreRecurringTreatmentsRepository
             isLessThan: date.add(const Duration(days: 1)))
         .snapshots()
         .map((snap) =>
-            snap.documents.map((doc) => doc.toRecurringTreatment()).toList());
+            snap.docs.map((doc) => doc.toRecurringTreatment()).toList());
   }
 
   Future updateStatus(
@@ -33,6 +33,6 @@ class FirestoreRecurringTreatmentsRepository
       'treatment_status': treatmentStatus.index,
     };
 
-    return _recurringTreatmentsCollection.document(id).updateData(status);
+    return _recurringTreatmentsCollection.doc(id).update(status);
   }
 }

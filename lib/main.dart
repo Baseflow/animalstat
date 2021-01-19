@@ -1,6 +1,6 @@
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,17 +15,10 @@ import './src/ui/theming.dart';
 import './src/utility_providers.dart';
 import 'app/app_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   Bloc.observer = AnimalstatBlocObserver();
-
-  // Set `enableInDevMode` to true to see reports while in debug mode
-  // This is only to be used for confirming that reports are being
-  // submitted as expected. It is not intended to be used for everyday
-  // development.
-  Crashlytics.instance.enableInDevMode = false;
-
-  // Pass all uncaught errors from the framework to Crashlytics.
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
 
   runApp(
     MultiUtilityProvider(
@@ -42,9 +35,39 @@ void main() {
 }
 
 class App extends StatelessWidget {
+  // Create the initialization Future outside of `build`:
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      // Initialize FlutterFire:
+      future: _initialization,
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text(
+              'Error initializing Firebase.',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+          );
+        }
+
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          return _buildMainApp(context);
+        }
+
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+
+  Widget _buildMainApp(BuildContext context) {
     return GestureDetector(
       onTap: () {
         final currentFocus = FocusScope.of(context);

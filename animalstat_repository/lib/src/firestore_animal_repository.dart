@@ -11,7 +11,7 @@ class FirestoreAnimalRepository implements AnimalRepository {
 
   FirestoreAnimalRepository(User user)
       : assert(user != null),
-        _animalCollection = Firestore.instance
+        _animalCollection = FirebaseFirestore.instance
             .collection('companies/${user.companyId}/animals');
 
   @override
@@ -29,7 +29,7 @@ class FirestoreAnimalRepository implements AnimalRepository {
         .where('animal_number', isGreaterThanOrEqualTo: start)
         .where('animal_number', isLessThan: end)
         .snapshots()
-        .map((snap) => snap.documents.map((doc) => doc.toAnimal()).toList());
+        .map((snap) => snap.docs.map((doc) => doc.toAnimal()).toList());
   }
 
   @override
@@ -39,12 +39,12 @@ class FirestoreAnimalRepository implements AnimalRepository {
     }
 
     return _animalCollection
-        .document(animalNumber.toString())
+        .doc(animalNumber.toString())
         .collection('history')
         .orderBy('seen_on', descending: true)
         .snapshots()
         .map((snap) =>
-            snap.documents.map((doc) => doc.toAnimalHistoryRecord()).toList());
+            snap.docs.map((doc) => doc.toAnimalHistoryRecord()).toList());
   }
 
   @override
@@ -54,7 +54,7 @@ class FirestoreAnimalRepository implements AnimalRepository {
     }
 
     return _animalCollection
-        .document(animalNumber.toString())
+        .doc(animalNumber.toString())
         .snapshots()
         .map((snap) => snap.toAnimal());
   }
@@ -76,9 +76,9 @@ class FirestoreAnimalRepository implements AnimalRepository {
     final historyRecordJson = animalHistoryRecord.toJson();
 
     return _animalCollection
-        .document(animalNumber.toString())
+        .doc(animalNumber.toString())
         .collection('history')
-        .document(timestamp.millisecondsSinceEpoch.toString())
-        .setData(historyRecordJson);
+        .doc(timestamp.millisecondsSinceEpoch.toString())
+        .set(historyRecordJson);
   }
 }

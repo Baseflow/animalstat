@@ -21,8 +21,10 @@ class RecurringTreatmentsState extends Equatable {
   });
 
   String get selectedDateDisplayValue => selectedDate.toDisplayValue();
+
   @override
   List<Object> get props => [
+        isLoading,
         selectedDate,
         openTreatments,
         appliedTreatments,

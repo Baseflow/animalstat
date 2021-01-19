@@ -1,8 +1,10 @@
 import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:date_picker/date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../src/ui/theming.dart';
 import '../../src/ui/widgets/animalstat_appbar_bottom.dart';
 import 'bloc/recurring_treatment_list_item.dart';
 import 'bloc/recurring_treatments_bloc.dart';
@@ -18,78 +20,127 @@ class RecurringTreatmentsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<RecurringTreatmentsBloc>(
-      create: (context) => RecurringTreatmentsBloc(
-        recurringTreatmentsRepository:
-            context.read<RecurringTreatmentsRepository>(),
-      ),
-      child: DefaultTabController(
-        length: _tabs.length,
-        child: Column(
-          children: [
-            _buildTabBar(),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                child: BlocBuilder<RecurringTreatmentsBloc,
-                    RecurringTreatmentsState>(builder: (context, state) {
+    return DefaultTabController(
+      length: _tabs.length,
+      child: Column(
+        children: [
+          _buildTabBar(),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0, top: 16.0),
+            child: _buildDatePicker(context),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: BlocBuilder<RecurringTreatmentsBloc,
+                  RecurringTreatmentsState>(
+                builder: (context, state) {
                   if (state.isLoading) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
 
-                  return TabBarView(
-                    children: _tabs.map((tab) {
-                      var listItems = <RecurringTreatmentListItem>[];
-
-                      if (tab.text.toUpperCase() == 'TE DOEN') {
-                        listItems = state.openTreatments;
-                      } else if (tab.text.toUpperCase() == 'GEDAAN') {
-                        listItems = state.appliedTreatments;
-                      } else if (tab.text.toUpperCase() == 'GESTOPT') {
-                        listItems = state.cancelledTreatments;
-                      }
-
-                      if (listItems.isEmpty) {
-                        return Center(
-                          child: Text(
-                            // ignore: lines_longer_than_80_chars
-                            'Er zijn ${state.selectedDateDisplayValue.toLowerCase()} geen behandelingen met de status "${tab.text.toLowerCase()}".',
-                          ),
-                        );
-                      }
-
-                      return ListView.builder(
-                        itemCount: listItems.length,
-                        itemBuilder: (context, index) {
-                          final listItem = listItems[index];
-                          if (listItem.type ==
-                              RecurringTreatmentListItemTypes.header) {
-                            return RecurringTreatmentHeader(
-                                title: 'Hok ${listItem.cageId}');
-                          }
-
-                          if (tab.text.toUpperCase() == 'TE DOEN') {
-                            return _buildDismissableTreatmentCard(
-                              context,
-                              listItem.recurringTreatment,
-                            );
-                          }
-
-                          return _buildTreatmentCard(
-                            listItem.recurringTreatment,
-                          );
-                        },
-                      );
-                    }).toList(),
-                  );
-                }),
+                  return _buildTabBarView(state);
+                },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildDatePicker(BuildContext context) {
+    final baseDate = DateTime.now();
+    const defaultTextStyle = TextStyle(
+      fontSize: 12,
+    );
+    const defaultSelectedTextStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 12,
+    );
+
+    final firstDate = baseDate.subtract(const Duration(days: 7));
+    final lastDate = baseDate.add(const Duration(days: 30));
+
+    return DatePicker(
+      dateStyle: const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+      elementBackground: Colors.white,
+      elementBorder: Border.all(
+        color: kBorderColor,
+        width: 1,
+        style: BorderStyle.solid,
+      ),
+      elementBorderRadius: BorderRadius.circular(4),
+      elementMargin: const EdgeInsets.only(left: 5, right: 5),
+      firstDate: firstDate,
+      monthStyle: defaultTextStyle,
+      lastDate: lastDate,
+      onDateSelected: (date) => context
+          .read<RecurringTreatmentsBloc>()
+          .add(SelectedDateChanged(selectedDate: date)),
+      selectedDateStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+      selectedElementBackground: Theme.of(context).primaryColor,
+      selectedElementBorder: null,
+      selectedMonthStyle: defaultSelectedTextStyle,
+      selectedWeekDayStyle: defaultSelectedTextStyle,
+      showDateSelector: true,
+      weekDayStyle: defaultTextStyle,
+      width: double.infinity,
+    );
+  }
+
+  Widget _buildTabBarView(RecurringTreatmentsState state) {
+    return TabBarView(
+      children: _tabs.map((tab) {
+        var listItems = <RecurringTreatmentListItem>[];
+
+        if (tab.text.toUpperCase() == 'TE DOEN') {
+          listItems = state.openTreatments;
+        } else if (tab.text.toUpperCase() == 'GEDAAN') {
+          listItems = state.appliedTreatments;
+        } else if (tab.text.toUpperCase() == 'GESTOPT') {
+          listItems = state.cancelledTreatments;
+        }
+
+        if (listItems.isEmpty) {
+          return Center(
+            child: Text(
+              // ignore: lines_longer_than_80_chars
+              'Er zijn ${state.selectedDateDisplayValue.toLowerCase()} geen behandelingen met de status "${tab.text.toLowerCase()}".',
+            ),
+          );
+        }
+
+        return ListView.builder(
+          itemCount: listItems.length,
+          itemBuilder: (context, index) {
+            final listItem = listItems[index];
+            if (listItem.type == RecurringTreatmentListItemTypes.header) {
+              return RecurringTreatmentHeader(title: 'Hok ${listItem.cageId}');
+            }
+
+            if (tab.text.toUpperCase() == 'TE DOEN') {
+              return _buildDismissibleTreatmentCard(
+                context,
+                listItem.recurringTreatment,
+              );
+            }
+
+            return _buildTreatmentCard(
+              listItem.recurringTreatment,
+            );
+          },
+        );
+      }).toList(),
     );
   }
 
@@ -101,25 +152,7 @@ class RecurringTreatmentsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMessage(BuildContext context, String message) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Text(
-          message,
-          style: const TextStyle(
-            fontWeight: FontWeight.normal,
-            fontSize: 16.0,
-          ),
-          maxLines: 2,
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDismissableTreatmentCard(
+  Widget _buildDismissibleTreatmentCard(
     BuildContext context,
     RecurringTreatmentCardState treatmentCardState,
   ) {

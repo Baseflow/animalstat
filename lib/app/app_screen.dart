@@ -1,4 +1,3 @@
-import 'package:animalstat/app/recurring_treatments/bloc/recurring_treatments_bloc.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../src/ui/widgets/animalstat_search_text_field.dart';
 import 'bottom_navigation/bloc/bottom_navigation_bloc.dart';
+import 'recurring_treatments/bloc/recurring_treatments_bloc.dart';
 import 'recurring_treatments/recurring_treatments_screen.dart';
 import 'search_animal/bloc/bloc.dart';
 import 'search_animal/search_animals_screen.dart';

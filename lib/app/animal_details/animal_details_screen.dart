@@ -1,5 +1,7 @@
 import 'package:animalstat/app/add_history_record/add_history_record_dialog.dart';
 import 'package:animalstat/app/add_history_record/bloc/add_history_record_bloc.dart';
+import 'package:animalstat/app/authentication/bloc/authentication_bloc.dart';
+import 'package:animalstat/app/authentication/bloc/authentication_state.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -111,12 +113,16 @@ class AnimalDetailsScreen extends StatelessWidget {
                 BlocProvider.value(
                   value: animalDetailsBloc,
                 ),
-                BlocProvider(
-                  create: (context) => AddHistoryRecordBloc(
+                BlocProvider(create: (context) {
+                  final authenticatedState =
+                      context.read<AuthenticationBloc>().state as Authenticated;
+
+                  return AddHistoryRecordBloc(
                     animalNumber: animalDetailsBloc.state.animalNumber,
+                    user: authenticatedState.user,
                     animalRepository: context.read<AnimalRepository>(),
-                  ),
-                ),
+                  );
+                }),
               ],
               child: AddHistoryRecordDialog(),
             ),

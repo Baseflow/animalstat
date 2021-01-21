@@ -13,10 +13,21 @@ extension DocumentSnapshotExtension on DocumentSnapshot {
     final seenOn = dataMap['seen_on'] as Timestamp;
     final treatmentEndDate = dataMap['treatment_enddate'] as Timestamp;
 
+    final userId = dataMap['seen_by.user_id'];
+    final userName = dataMap['seen_by_user_name'];
+    UserInfo userInfo = null;
+    if (userId != null && userName != null) {
+      userInfo = UserInfo(
+        userId,
+        userName,
+      );
+    }
+
     return AnimalHistoryRecord(
       dataMap['cage'],
       FirestoreDiagnosesConverter.toEnum(dataMap['diagnosis']),
       FirestoreHealthStatesConverter.toEnum(dataMap['health_status']),
+      userInfo,
       seenOn.toDate(),
       FirestoreTreatmentsConverter.toEnum(dataMap['treatment']),
       treatmentEndDate?.toDate() ?? null,

@@ -9,6 +9,7 @@ import 'bloc.dart';
 class AddHistoryRecordState extends Equatable {
   AddHistoryRecordState({
     @required this.animalNumber,
+    @required this.user,
     @required this.seenOn,
     @required this.isSaved,
     this.cage,
@@ -23,6 +24,7 @@ class AddHistoryRecordState extends Equatable {
   final Diagnoses diagnosis;
   final HealthStates healthStatus;
   final bool isSaved;
+  final User user;
   final DateTime seenOn;
   final Treatments treatment;
   final DateTime treatmentEndDate;
@@ -45,12 +47,13 @@ class AddHistoryRecordState extends Equatable {
         diagnosis,
         healthStatus,
         isSaved,
+        user,
         seenOn,
         treatment,
         treatmentEndDate,
       ];
 
-  factory AddHistoryRecordState.initial(int animalNumber) {
+  factory AddHistoryRecordState.initial(int animalNumber, User user) {
     return AddHistoryRecordState(
       animalNumber: animalNumber,
       diagnosis: Diagnoses.none,
@@ -59,6 +62,7 @@ class AddHistoryRecordState extends Equatable {
       seenOn: DateTime.now(),
       treatment: Treatments.none,
       treatmentEndDate: null,
+      user: user,
     );
   }
 
@@ -68,7 +72,8 @@ class AddHistoryRecordState extends Equatable {
     Diagnoses diagnosis,
     HealthStates healthStatus,
     bool isSaved,
-    DateTime registrationDate,
+    User user,
+    DateTime seenOn,
     Treatments treatment,
     DateTime treatmentEndDate,
   }) {
@@ -78,17 +83,24 @@ class AddHistoryRecordState extends Equatable {
       diagnosis: diagnosis ?? this.diagnosis,
       healthStatus: healthStatus ?? this.healthStatus,
       isSaved: isSaved ?? this.isSaved,
-      seenOn: registrationDate ?? seenOn,
+      user: user ?? this.user,
+      seenOn: seenOn ?? this.seenOn,
       treatment: treatment ?? this.treatment,
       treatmentEndDate: treatmentEndDate ?? this.treatmentEndDate,
     );
   }
 
   AnimalHistoryRecord toModel() {
+    final userInfo = UserInfo(
+      user.id,
+      user.email,
+    );
+
     return AnimalHistoryRecord(
       cage,
       diagnosis,
       healthStatus,
+      userInfo,
       seenOn,
       treatment,
       treatmentEndDate,

@@ -6,8 +6,10 @@ extension AnimalHistoryRecordExtension on AnimalHistoryRecord {
       'cage': cage,
       'diagnosis': diagnosis.index,
       'health_status': healthStatus.index,
-      // TODO: Implement support for 'seenBy' parameter...
-      'seen_by': 'Maurits',
+      'seen_by': <String, String>{
+        'user_id': seenBy.userId,
+        'user_name': seenBy.userName,
+      },
       'seen_on': seenOn,
       'treatment': treatment.index,
       'treatment_enddate': treatmentEndDate,

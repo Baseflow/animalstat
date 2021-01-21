@@ -12,11 +12,13 @@ class AddHistoryRecordBloc
 
   AddHistoryRecordBloc({
     @required int animalNumber,
+    @required User user,
     @required AnimalRepository animalRepository,
   })  : assert(animalNumber != null),
         assert(animalRepository != null),
+        assert(user != null),
         _animalRepository = animalRepository,
-        super(AddHistoryRecordState.initial(animalNumber));
+        super(AddHistoryRecordState.initial(animalNumber, user));
 
   @override
   Stream<AddHistoryRecordState> mapEventToState(
@@ -50,17 +52,9 @@ class AddHistoryRecordBloc
   Stream<AddHistoryRecordState> _updateCageNumber(
     UpdateCageNumber event,
   ) async* {
-    var cage = int.tryParse(event.cage);
+    final cage = int.tryParse(event.cage);
 
-    yield AddHistoryRecordState(
-      animalNumber: state.animalNumber,
-      cage: cage,
-      diagnosis: state.diagnosis,
-      healthStatus: state.healthStatus,
-      isSaved: state.isSaved,
-      seenOn: state.seenOn,
-      treatment: state.treatment,
-    );
+    yield state.copyWith(cage: cage);
   }
 
   Stream<AddHistoryRecordState> _updateDiagnoses(
@@ -74,7 +68,7 @@ class AddHistoryRecordBloc
       diagnosis,
     )
         ? Treatments.none
-        : null;
+        : event.previousState.treatment;
 
     yield event.previousState.copyWith(
       diagnosis: diagnosis,

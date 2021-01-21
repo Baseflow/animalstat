@@ -109,10 +109,11 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
   }
 
   Widget _buildBottomBar(AddHistoryRecordState state) {
-    var saveAction = state.canSave
-        ? () => context
-            .read<AddHistoryRecordBloc>()
-            .add(SaveAnimalHistoryRecord(stateToSave: state))
+    final saveAction = state.canSave
+        ? () =>
+            context.read<AddHistoryRecordBloc>().add(SaveAnimalHistoryRecord(
+                  stateToSave: state,
+                ))
         : null;
 
     return Column(

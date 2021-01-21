@@ -9,7 +9,8 @@ abstract class AddHistoryRecordEvent extends Equatable {
 }
 
 class SaveAnimalHistoryRecord extends AddHistoryRecordEvent {
-  SaveAnimalHistoryRecord({@required this.stateToSave});
+  SaveAnimalHistoryRecord({@required this.stateToSave})
+      : assert(stateToSave != null);
 
   final AddHistoryRecordState stateToSave;
 

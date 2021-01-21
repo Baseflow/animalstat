@@ -96,6 +96,9 @@ ThemeData getTheme(BuildContext context) {
         ),
       ),
     ),
+    floatingActionButtonTheme: theme.floatingActionButtonTheme.copyWith(
+      backgroundColor: kPrimary,
+    ),
     inputDecorationTheme: const InputDecorationTheme(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(5.0)),

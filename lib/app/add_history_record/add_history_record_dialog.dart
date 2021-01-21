@@ -33,10 +33,11 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     _cageEditingController = TextEditingController();
     _cageEditingController.addListener(_onCageNumberChanged);
     _cageEditingController.value = TextEditingValue(
-      text: _animalDetailsBloc.state.cage?.toString() ?? '',
+      text: _animalDetailsBloc.state.currentCage?.toString() ?? '',
       selection: TextSelection.fromPosition(
         TextPosition(
-            offset: _animalDetailsBloc.state.cage.toString().length ?? 0),
+          offset: _animalDetailsBloc.state.currentCage.toString().length ?? 0,
+        ),
       ),
     );
   }
@@ -64,13 +65,6 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
                 listener: (context, state) {
                   if (state.isSaved) {
                     Navigator.of(context).pop();
-
-                    _animalDetailsBloc.add(
-                      UpdateDetails(
-                        cage: state.cage,
-                        currentHealthStatus: state.healthStatus,
-                      ),
-                    );
                   }
                 },
                 child: BlocBuilder<AddHistoryRecordBloc, AddHistoryRecordState>(

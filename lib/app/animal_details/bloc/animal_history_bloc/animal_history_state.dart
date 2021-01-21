@@ -1,44 +1,56 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
-import 'animal_history_card_state.dart';
+import '../../models/animal_overview_item.dart';
 
-abstract class AnimalHistoryState extends Equatable {
-  const AnimalHistoryState(this.animalNumber);
+class AnimalHistoryState extends Equatable {
+  const AnimalHistoryState({
+    this.animalNumber,
+    this.isLoading,
+    this.overviewItems,
+  });
 
   final int animalNumber;
-}
+  final bool isLoading;
+  final List<AnimalOverviewItem> overviewItems;
 
-class InitialHistoryState extends AnimalHistoryState {
-  const InitialHistoryState({@required int animalNumber}) : super(animalNumber);
-
-  @override
-  List<Object> get props => [animalNumber];
-}
-
-class LoadingHistory extends AnimalHistoryState {
-  LoadingHistory({@required int animalNumber}) : super(animalNumber);
-
-  @override
-  List<Object> get props => [animalNumber];
-}
-
-class HistoryUpdated extends AnimalHistoryState {
-  final List<AnimalHistoryCardState> history;
-
-  HistoryUpdated({@required int animalNumber, @required this.history})
-      : super(animalNumber);
+  bool get isEmpty => overviewItems == null || overviewItems.isEmpty;
 
   @override
   List<Object> get props => [
         animalNumber,
-        history,
+        isLoading,
+        overviewItems,
       ];
-}
 
-class NoHistory extends AnimalHistoryState {
-  NoHistory({@required int animalNumber}) : super(animalNumber);
+  factory AnimalHistoryState.initial({
+    int animalNumber,
+  }) {
+    return AnimalHistoryState(
+      animalNumber: animalNumber,
+      isLoading: false,
+      overviewItems: null,
+    );
+  }
 
-  @override
-  List<Object> get props => [animalNumber];
+  factory AnimalHistoryState.loading({
+    int animalNumber,
+  }) {
+    return AnimalHistoryState(
+      animalNumber: animalNumber,
+      isLoading: true,
+      overviewItems: null,
+    );
+  }
+
+  AnimalHistoryState copyWith({
+    int animalNumber,
+    bool isLoading,
+    List<AnimalOverviewItem> overviewItems,
+  }) {
+    return AnimalHistoryState(
+      animalNumber: animalNumber ?? this.animalNumber,
+      isLoading: isLoading ?? this.isLoading,
+      overviewItems: overviewItems ?? this.overviewItems,
+    );
+  }
 }

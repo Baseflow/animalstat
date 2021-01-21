@@ -128,16 +128,17 @@ class RecurringTreatmentsScreen extends StatelessWidget {
               return RecurringTreatmentHeader(title: 'Hok ${listItem.cageId}');
             }
 
+            final card = _buildTreatmentCard(listItem.recurringTreatment);
+
             if (tab.text.toUpperCase() == 'TE DOEN') {
               return _buildDismissibleTreatmentCard(
                 context,
+                card,
                 listItem.recurringTreatment,
               );
             }
 
-            return _buildTreatmentCard(
-              listItem.recurringTreatment,
-            );
+            return card;
           },
         );
       }).toList(),
@@ -154,13 +155,12 @@ class RecurringTreatmentsScreen extends StatelessWidget {
 
   Widget _buildDismissibleTreatmentCard(
     BuildContext context,
+    Widget child,
     RecurringTreatmentCardState treatmentCardState,
   ) {
     return Dismissible(
       key: const Key("dismissible_widget"),
-      child: RecurringTreatmentCard(
-        recurringTreatment: treatmentCardState,
-      ),
+      child: child,
       background: Container(
         child: const Icon(FontAwesomeIcons.timesCircle),
         color: Colors.red,

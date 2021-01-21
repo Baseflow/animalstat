@@ -1,63 +1,59 @@
-import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:animalstat/app/animal_details/models/animal_overview_item.dart';
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
 class AnimalDetailsState extends Equatable {
+  const AnimalDetailsState({
+    @required this.animalNumber,
+    @required this.currentCage,
+    @required this.overviewItems,
+    @required this.isLoading,
+  });
+
   final int animalNumber;
-  final int cage;
-  final HealthStates currentHealthStatus;
-  final DateTime dateOfBirth;
+  final int currentCage;
+  final List<AnimalOverviewItem> overviewItems;
   final bool isLoading;
 
-  const AnimalDetailsState(
-      {@required this.animalNumber,
-      @required this.cage,
-      @required this.currentHealthStatus,
-      @required this.dateOfBirth,
-      @required this.isLoading});
+  bool get isEmpty => overviewItems == null || overviewItems.isEmpty;
 
-  String get cageDisplayValue => cage?.toString() ?? '-';
-  String get dateOfBirthDisplayValue =>
-      DateFormat('dd-MM-yyyy').format(dateOfBirth);
+  factory AnimalDetailsState.initial(int animalNumber) {
+    return AnimalDetailsState(
+      animalNumber: animalNumber,
+      currentCage: null,
+      overviewItems: null,
+      isLoading: false,
+    );
+  }
 
   factory AnimalDetailsState.loading(int animalNumber) {
     return AnimalDetailsState(
       animalNumber: animalNumber,
-      cage: null,
-      currentHealthStatus: null,
-      dateOfBirth: null,
+      currentCage: null,
+      overviewItems: null,
       isLoading: true,
-    );
-  }
-
-  AnimalDetailsState update(Animal animal) {
-    return copyWith(
-      animalNumber: animal.animalNumber,
-      cage: animal.currentCageNumber,
-      currentHealthStatus: animal.currentHealthStatus,
-      dateOfBirth: animal.dateOfBirth,
-      isLoading: false,
     );
   }
 
   AnimalDetailsState copyWith({
     int animalNumber,
-    int cage,
-    HealthStates currentHealthStatus,
-    DateTime dateOfBirth,
+    int currentCage,
+    List<AnimalOverviewItem> overviewItems,
     bool isLoading,
   }) {
     return AnimalDetailsState(
       animalNumber: animalNumber ?? this.animalNumber,
-      cage: cage ?? this.cage,
-      currentHealthStatus: currentHealthStatus ?? this.currentHealthStatus,
-      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      currentCage: currentCage ?? this.currentCage,
+      overviewItems: overviewItems ?? this.overviewItems,
       isLoading: isLoading ?? this.isLoading,
     );
   }
 
   @override
-  List<Object> get props =>
-      [animalNumber, cage, currentHealthStatus, dateOfBirth, isLoading];
+  List<Object> get props => [
+        animalNumber,
+        currentCage,
+        overviewItems,
+        isLoading,
+      ];
 }

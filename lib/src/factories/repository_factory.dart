@@ -10,10 +10,20 @@ class RepositoryFactory {
     return FirestoreAnimalRepository(user);
   }
 
+  static DiagnosisRepository createDiagnosisRepository(BuildContext context) {
+    var user = _getUser(context);
+    return FirestoreDiagnosisRepository(user);
+  }
+
   static RecurringTreatmentsRepository createRecurringTreatmentsRepository(
       BuildContext context) {
     var user = _getUser(context);
     return FirestoreRecurringTreatmentsRepository(user);
+  }
+
+  static TreatmentRepository createTreatmentRepository(BuildContext context) {
+    var user = _getUser(context);
+    return FirestoreTreatmentRepository(user);
   }
 
   static User _getUser(BuildContext context) {

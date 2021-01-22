@@ -2,18 +2,18 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import '../../animalstat_repository.dart';
-import 'diagnoses.dart';
+import 'diagnosis.dart';
 import 'health_states.dart';
-import 'treatments.dart';
+import 'treatment.dart';
 
 @immutable
 class AnimalHistoryRecord extends Equatable {
   final int cage;
   final UserInfo seenBy;
   final DateTime seenOn;
-  final Diagnoses diagnosis;
+  final Diagnosis diagnosis;
   final HealthStates healthStatus;
-  final Treatments treatment;
+  final Treatment treatment;
   final DateTime treatmentEndDate;
 
   AnimalHistoryRecord(
@@ -38,10 +38,7 @@ class AnimalHistoryRecord extends Equatable {
       ];
 
   @override
-  String toString() {
-    // ignore: lines_longer_than_80_chars
-    return 'AnimalHistoryRecord{diagnosis: $diagnosis, healthStatus: $healthStatus, treatment: $treatment, seenBy: ${seenBy.userId}, seenOn: $seenOn, endDate: $treatmentEndDate}';
-  }
+  bool get stringify => true;
 }
 
 class UserInfo extends Equatable {

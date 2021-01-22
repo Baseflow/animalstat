@@ -21,12 +21,12 @@ class AddHistoryRecordState extends Equatable {
 
   final int animalNumber;
   final int cage;
-  final Diagnoses diagnosis;
+  final Diagnosis diagnosis;
   final HealthStates healthStatus;
   final bool isSaved;
   final User user;
   final DateTime seenOn;
-  final Treatments treatment;
+  final Treatment treatment;
   final DateTime treatmentEndDate;
 
   bool get allowDiagnosisSelection =>
@@ -56,36 +56,36 @@ class AddHistoryRecordState extends Equatable {
   factory AddHistoryRecordState.initial(int animalNumber, User user) {
     return AddHistoryRecordState(
       animalNumber: animalNumber,
-      diagnosis: Diagnoses.none,
+      diagnosis: null,
       healthStatus: HealthStates.unknown,
       isSaved: false,
       seenOn: DateTime.now(),
-      treatment: Treatments.none,
+      treatment: null,
       treatmentEndDate: null,
       user: user,
     );
   }
 
-  AddHistoryRecordState copyWith({
+  AddHistoryRecordState copyWith(
+    Diagnosis diagnosis,
+    Treatment treatment, {
     int animalNumber,
     int cage,
-    Diagnoses diagnosis,
     HealthStates healthStatus,
     bool isSaved,
     User user,
     DateTime seenOn,
-    Treatments treatment,
     DateTime treatmentEndDate,
   }) {
     return AddHistoryRecordState(
       animalNumber: animalNumber ?? this.animalNumber,
       cage: cage ?? this.cage,
-      diagnosis: diagnosis ?? this.diagnosis,
+      diagnosis: diagnosis,
       healthStatus: healthStatus ?? this.healthStatus,
       isSaved: isSaved ?? this.isSaved,
       user: user ?? this.user,
       seenOn: seenOn ?? this.seenOn,
-      treatment: treatment ?? this.treatment,
+      treatment: treatment,
       treatmentEndDate: treatmentEndDate ?? this.treatmentEndDate,
     );
   }

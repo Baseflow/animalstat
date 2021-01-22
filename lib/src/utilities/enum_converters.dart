@@ -2,22 +2,6 @@ import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 
 class EnumConverters {
-  static String toDiagnosesDisplayValue(Diagnoses diagnoses) {
-    switch (diagnoses) {
-      case Diagnoses.arthritis:
-        return 'Gewrichtsontsteking';
-      case Diagnoses.diarrhea:
-        return 'Diarree';
-      case Diagnoses.lung:
-        return 'Long';
-      case Diagnoses.orf:
-        return 'Orf';
-      case Diagnoses.none:
-      default:
-        return null;
-    }
-  }
-
   static String toHealthStatusDisplayValue(HealthStates healthStatus) {
     switch (healthStatus) {
       case HealthStates.healthy:
@@ -29,21 +13,6 @@ class EnumConverters {
       case HealthStates.deceased:
         return 'Overleden';
       case HealthStates.unknown:
-      default:
-        return null;
-    }
-  }
-
-  static String toTreatmentDisplayValue(Treatments treatment) {
-    switch (treatment) {
-      case Treatments.ampi:
-        return 'Ampi';
-      case Treatments.depo:
-        return 'Depo';
-      case Treatments.novem:
-        return 'Novem';
-      case Treatments.resflor:
-        return 'Restflor';
       default:
         return null;
     }

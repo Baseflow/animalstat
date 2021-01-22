@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../converters/firestore_diagnoses_converter.dart';
 import '../converters/firestore_health_states_converter.dart';
 import '../converters/firestore_treatment_states_converter.dart';
-import '../converters/firestore_treatments_converter.dart';
+import '../extensions/extensions.dart';
 import '../models/models.dart';
 
 extension DocumentSnapshotExtension on DocumentSnapshot {
@@ -25,11 +24,11 @@ extension DocumentSnapshotExtension on DocumentSnapshot {
 
     return AnimalHistoryRecord(
       dataMap['cage'],
-      FirestoreDiagnosesConverter.toEnum(dataMap['diagnosis']),
+      dataMap.toDiagnosis(),
       FirestoreHealthStatesConverter.toEnum(dataMap['health_status']),
       userInfo,
       seenOn.toDate(),
-      FirestoreTreatmentsConverter.toEnum(dataMap['treatment']),
+      dataMap.toTreatment(),
       treatmentEndDate?.toDate() ?? null,
     );
   }
@@ -48,6 +47,16 @@ extension DocumentSnapshotExtension on DocumentSnapshot {
     );
   }
 
+  /// Converts a Firestore DocumentSnapshot into a Diagnosis
+  Diagnosis toDiagnosis() {
+    final dataMap = data();
+
+    return Diagnosis(
+      id,
+      dataMap['name'],
+    );
+  }
+
   /// Converts a Firestore DocumentSnapshot into a RecurringTreatment.
   RecurringTreatment toRecurringTreatment() {
     final dataMap = data();
@@ -58,12 +67,23 @@ extension DocumentSnapshotExtension on DocumentSnapshot {
       administrationDate: administrationDate.toDate(),
       animalNumber: dataMap['animal_number'],
       cageNumber: dataMap['cage_number'],
-      diagnosis: FirestoreDiagnosesConverter.toEnum(dataMap['diagnosis']),
+      diagnosis: dataMap.toDiagnosis(),
       healthStatus:
           FirestoreHealthStatesConverter.toEnum(dataMap['health_status']),
-      treatment: FirestoreTreatmentsConverter.toEnum(dataMap['treatment']),
+      treatment: dataMap.toTreatment(),
       treatmentStatus:
           FirestoreTreatmentStatesConverter.toEnum(dataMap['treatment_status']),
+    );
+  }
+
+  /// Converts a Firestore DocumentSnapshot into a Treatment
+  Treatment toTreatment() {
+    final dataMap = data();
+
+    return Treatment(
+      id,
+      dataMap['diagnosis_id'],
+      dataMap['name'],
     );
   }
 }

@@ -1,12 +1,15 @@
-import 'package:animalstat/app/add_history_record/add_history_record_dialog.dart';
-import 'package:animalstat/app/add_history_record/bloc/add_history_record_bloc.dart';
-import 'package:animalstat/app/authentication/bloc/authentication_bloc.dart';
-import 'package:animalstat/app/authentication/bloc/authentication_state.dart';
+import 'package:animalstat/src/factories/repository_factory.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../src/ui/widgets/animalstat_number_box.dart';
+import '../add_history_record/add_history_record_dialog.dart';
+import '../add_history_record/bloc/add_history_record_bloc.dart';
+import '../add_history_record/bloc/diagnoses_bloc.dart';
+import '../add_history_record/bloc/treatments_bloc.dart';
+import '../authentication/bloc/authentication_bloc.dart';
+import '../authentication/bloc/authentication_state.dart';
 import 'bloc/bloc.dart';
 import 'models/animal_overview_item.dart';
 import 'widgets/history_card.dart';
@@ -93,7 +96,7 @@ class AnimalDetailsScreen extends StatelessWidget {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _addDetailButtonPressed(context),
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -102,6 +105,11 @@ class AnimalDetailsScreen extends StatelessWidget {
     final animalRepository = context.read<AnimalRepository>();
     //ignore: close_sinks
     final animalDetailsBloc = context.read<AnimalDetailsBloc>();
+    final diagnosisRepository =
+        RepositoryFactory.createDiagnosisRepository(context);
+    final treatmentRepository =
+        RepositoryFactory.createTreatmentRepository(context);
+
     showDialog(
         barrierDismissible: true,
         context: context,
@@ -113,16 +121,35 @@ class AnimalDetailsScreen extends StatelessWidget {
                 BlocProvider.value(
                   value: animalDetailsBloc,
                 ),
-                BlocProvider(create: (context) {
-                  final authenticatedState =
-                      context.read<AuthenticationBloc>().state as Authenticated;
+                BlocProvider<AddHistoryRecordBloc>(
+                  create: (context) {
+                    final authenticatedState = context
+                        .read<AuthenticationBloc>()
+                        .state as Authenticated;
 
-                  return AddHistoryRecordBloc(
-                    animalNumber: animalDetailsBloc.state.animalNumber,
-                    user: authenticatedState.user,
-                    animalRepository: context.read<AnimalRepository>(),
-                  );
-                }),
+                    return AddHistoryRecordBloc(
+                      animalNumber: animalDetailsBloc.state.animalNumber,
+                      user: authenticatedState.user,
+                      animalRepository: context.read<AnimalRepository>(),
+                    );
+                  },
+                ),
+                BlocProvider<DiagnosesBloc>(
+                  create: (context) {
+                    return DiagnosesBloc(
+                      diagnosisRepository: diagnosisRepository,
+                    )..add(
+                        const LoadDiagnoses(),
+                      );
+                  },
+                ),
+                BlocProvider<TreatmentsBloc>(
+                  create: (context) {
+                    return TreatmentsBloc(
+                      treatmentRepository: treatmentRepository,
+                    );
+                  },
+                ),
               ],
               child: AddHistoryRecordDialog(),
             ),

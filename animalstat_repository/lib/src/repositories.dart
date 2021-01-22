@@ -1,6 +1,10 @@
 export 'animal_repository.dart';
+export 'diagnoses_repository.dart';
 export 'firestore_animal_repository.dart';
+export 'firestore_diagnosis_repository.dart';
 export 'firestore_recurring_treatments_repository.dart';
+export 'firestore_treatment_repository.dart';
 export 'firestore_user_repository.dart';
 export 'recurring_treatments_repository.dart';
+export 'treatment_repository.dart';
 export 'user_repository.dart';

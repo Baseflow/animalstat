@@ -95,7 +95,13 @@ class App extends StatelessWidget {
                   create: RepositoryFactory.createAnimalRepository,
                 ),
                 RepositoryProvider(
+                  create: RepositoryFactory.createDiagnosisRepository,
+                ),
+                RepositoryProvider(
                   create: RepositoryFactory.createRecurringTreatmentsRepository,
+                ),
+                RepositoryProvider(
+                  create: RepositoryFactory.createTreatmentRepository,
                 ),
               ],
               child: AppScreen(),

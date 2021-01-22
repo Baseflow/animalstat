@@ -1,2 +1,4 @@
+export 'animal_extensions.dart';
 export 'animal_history_record_extensions.dart';
 export 'document_snapshot_extensions.dart';
+export 'map_extensions.dart';

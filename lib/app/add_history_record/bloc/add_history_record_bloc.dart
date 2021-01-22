@@ -46,7 +46,11 @@ class AddHistoryRecordBloc
       event.stateToSave.toModel(),
     );
 
-    yield state.copyWith(isSaved: true);
+    yield state.copyWith(
+      event.stateToSave.diagnosis,
+      event.stateToSave.treatment,
+      isSaved: true,
+    );
   }
 
   Stream<AddHistoryRecordState> _updateCageNumber(
@@ -54,25 +58,29 @@ class AddHistoryRecordBloc
   ) async* {
     final cage = int.tryParse(event.cage);
 
-    yield state.copyWith(cage: cage);
+    yield state.copyWith(
+      state.diagnosis,
+      state.treatment,
+      cage: cage,
+    );
   }
 
   Stream<AddHistoryRecordState> _updateDiagnoses(
     UpdateDiagnosis event,
   ) async* {
     final diagnosis = event.diagnosis == event.previousState.diagnosis
-        ? Diagnoses.none
+        ? null
         : event.diagnosis;
     final treatment = !allowTreatmentSelection(
       event.previousState.healthStatus,
       diagnosis,
     )
-        ? Treatments.none
+        ? null
         : event.previousState.treatment;
 
     yield event.previousState.copyWith(
-      diagnosis: diagnosis,
-      treatment: treatment,
+      diagnosis,
+      treatment,
     );
   }
 
@@ -82,16 +90,17 @@ class AddHistoryRecordBloc
     final healthStatus = event.healthStatus == event.previousState.healthStatus
         ? HealthStates.unknown
         : event.healthStatus;
-    final diagnosis =
-        !allowDiagnosisSelection(healthStatus) ? Diagnoses.none : null;
+    final diagnosis = !allowDiagnosisSelection(healthStatus)
+        ? null
+        : event.previousState.diagnosis;
     final treatment = !allowTreatmentSelection(healthStatus, diagnosis)
-        ? Treatments.none
-        : null;
+        ? null
+        : event.previousState.treatment;
 
     yield event.previousState.copyWith(
-      diagnosis: diagnosis,
+      diagnosis,
+      treatment,
       healthStatus: healthStatus,
-      treatment: treatment,
     );
   }
 
@@ -99,16 +108,20 @@ class AddHistoryRecordBloc
     UpdateTreatment event,
   ) async* {
     final treatment = event.treatment == event.previousState.treatment
-        ? Treatments.none
+        ? null
         : event.treatment;
 
-    yield event.previousState.copyWith(treatment: treatment);
+    yield event.previousState.copyWith(
+      state.diagnosis,
+      treatment,
+    );
   }
 
   Stream<AddHistoryRecordState> _updateTreatmentEndDate(
     UpdateTreatmentEndDate event,
   ) async* {
-    yield state.copyWith(treatmentEndDate: event.endDate);
+    yield state.copyWith(state.diagnosis, state.treatment,
+        treatmentEndDate: event.endDate);
   }
 
   static bool allowDiagnosisSelection(HealthStates healthStatus) =>
@@ -116,9 +129,9 @@ class AddHistoryRecordBloc
       healthStatus == HealthStates.suspicious;
 
   static bool allowTreatmentSelection(
-          HealthStates healthStatus, Diagnoses diagnosis) =>
+          HealthStates healthStatus, Diagnosis diagnosis) =>
       AddHistoryRecordBloc.allowDiagnosisSelection(healthStatus) &&
-      diagnosis != Diagnoses.none;
+      diagnosis != null;
 
   static bool canSaveState(AddHistoryRecordState state) {
     if (state.cage == null || state.healthStatus == null) {
@@ -131,15 +144,13 @@ class AddHistoryRecordBloc
     }
 
     if (state.healthStatus == HealthStates.suspicious &&
-        state.diagnosis != null &&
-        state.diagnosis != Diagnoses.none) {
+        state.diagnosis != null) {
       return true;
     }
 
     if (state.healthStatus == HealthStates.ill &&
         state.diagnosis != null &&
-        state.diagnosis != Diagnoses.none &&
-        state.treatment != Treatments.none) {
+        state.treatment != null) {
       return true;
     }
 

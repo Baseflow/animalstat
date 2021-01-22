@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:animalstat/src/utilities/enum_converters.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:intl/intl.dart';
@@ -13,7 +12,6 @@ import '../bloc.dart';
 class AnimalHistoryBloc extends Bloc<AnimalHistoryEvent, AnimalHistoryState> {
   final AnimalRepository _animalRepository;
 
-  StreamSubscription _animalDetailsSubscription;
   StreamSubscription _animalHistorySubscription;
 
   AnimalHistoryBloc({
@@ -70,9 +68,8 @@ class AnimalHistoryBloc extends Bloc<AnimalHistoryEvent, AnimalHistoryState> {
       overviewItems
           .addAll(groupedRecords[key].map((record) => AnimalOverviewCard(
                 title: 'Hok: ${record.cage}',
-                subtitle:
-                    EnumConverters.toDiagnosesDisplayValue(record.diagnosis),
-                text: EnumConverters.toTreatmentDisplayValue(record.treatment),
+                subtitle: record.diagnosis?.name ?? null,
+                text: record.treatment?.name ?? null,
                 healthStatus: record.healthStatus,
               )));
     }

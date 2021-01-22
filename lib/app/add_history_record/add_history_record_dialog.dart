@@ -1,3 +1,4 @@
+import 'package:animalstat/app/add_history_record/bloc/treatments_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,6 +22,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
   final _formKey = GlobalKey<FormState>();
 
   AddHistoryRecordBloc _addHistoryRecordBloc;
+  TreatmentsBloc _treatmentsBloc;
   AnimalDetailsBloc _animalDetailsBloc;
   TextEditingController _cageEditingController;
 
@@ -30,6 +32,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
 
     _addHistoryRecordBloc = context.read<AddHistoryRecordBloc>();
     _animalDetailsBloc = context.read<AnimalDetailsBloc>();
+    _treatmentsBloc = context.read<TreatmentsBloc>();
     _cageEditingController = TextEditingController();
     _cageEditingController.addListener(_onCageNumberChanged);
     _cageEditingController.value = TextEditingValue(
@@ -227,13 +230,15 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     return _buildDialogRow(
       title: 'Diagnose',
       child: DiagnosisSelectionWidget(
-        onChanged: (diagnosis) =>
-            BlocProvider.of<AddHistoryRecordBloc>(context).add(
-          UpdateDiagnosis(
-            diagnosis: diagnosis,
-            previousState: animalDetailState,
-          ),
-        ),
+        onChanged: (diagnosis) {
+          BlocProvider.of<AddHistoryRecordBloc>(context).add(
+            UpdateDiagnosis(
+              diagnosis: diagnosis,
+              previousState: animalDetailState,
+            ),
+          );
+          _treatmentsBloc.add(LoadTreatments(diagnosisId: diagnosis.id));
+        },
         selectedDiagnosis: animalDetailState.diagnosis,
       ),
     );
@@ -336,6 +341,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
 
   @override
   void dispose() {
+    _treatmentsBloc.close();
     _cageEditingController.dispose();
     super.dispose();
   }

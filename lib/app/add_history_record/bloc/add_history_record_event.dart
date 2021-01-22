@@ -36,7 +36,7 @@ class UpdateDiagnosis extends AddHistoryRecordEvent {
   });
 
   final AddHistoryRecordState previousState;
-  final Diagnoses diagnosis;
+  final Diagnosis diagnosis;
 
   @override
   List<Object> get props => [previousState, diagnosis];
@@ -62,7 +62,7 @@ class UpdateTreatment extends AddHistoryRecordEvent {
   });
 
   final AddHistoryRecordState previousState;
-  final Treatments treatment;
+  final Treatment treatment;
 
   @override
   List<Object> get props => [previousState, treatment];

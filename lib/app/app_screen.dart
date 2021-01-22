@@ -94,10 +94,10 @@ class AppScreen extends StatelessWidget {
                   icon: Icon(Icons.home),
                   label: 'Dieren',
                 ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.timeline),
-                  label: 'Statistieken',
-                ),
+                //const BottomNavigationBarItem(
+                //  icon: Icon(Icons.timeline),
+                //  label: 'Statistieken',
+                //),
               ],
               onTap: (index) => context.read<BottomNavigationBloc>().add(
                     BottomNavigationEvent.values[index],

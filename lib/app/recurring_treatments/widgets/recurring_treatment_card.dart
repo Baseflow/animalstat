@@ -1,9 +1,7 @@
-import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 
 import '../../../src/ui/widgets/animalstat_health_status_label.dart';
 import '../../../src/ui/widgets/animalstat_number_box.dart';
-import '../../../src/utilities/enum_converters.dart';
 import '../bloc/recurring_treatments_bloc.dart';
 
 class RecurringTreatmentCard extends StatelessWidget {
@@ -32,7 +30,7 @@ class RecurringTreatmentCard extends StatelessWidget {
                 ),
               ],
             ),
-            (recurringTreatment.diagnosis != Diagnoses.none)
+            (recurringTreatment.diagnosis != null)
                 ? Padding(
                     padding: const EdgeInsets.only(top: 17.0),
                     child: Row(
@@ -54,17 +52,16 @@ class RecurringTreatmentCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        (recurringTreatment.diagnosis != Diagnoses.none)
+        (recurringTreatment.diagnosis != null)
             ? Text(
-                EnumConverters.toTreatmentDisplayValue(
-                    recurringTreatment.treatment),
+                recurringTreatment.treatment.name,
                 style: const TextStyle(
                   fontSize: 17.0,
                 ),
               )
             : Container(),
         Text(
-          EnumConverters.toDiagnosesDisplayValue(recurringTreatment.diagnosis),
+          recurringTreatment.diagnosis.name,
           style: const TextStyle(
             fontSize: 14.0,
           ),

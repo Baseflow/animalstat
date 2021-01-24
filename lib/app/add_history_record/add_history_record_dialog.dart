@@ -135,7 +135,10 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
               const SizedBox(width: 15.0),
               AnimalstatPrimaryButton(
                 text: 'Opslaan',
-                onPressed: saveAction,
+                onPressed: () {
+                  saveAction();
+                  Navigator.of(context).pop();
+                },
               ),
             ],
           ),

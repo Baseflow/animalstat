@@ -1,3 +1,1 @@
-import { SUPPORTED_REGIONS } from "firebase-functions";
-
-export let REGION = SUPPORTED_REGIONS[3];
+export let REGION = 'europe-west1';

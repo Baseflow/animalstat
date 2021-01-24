@@ -19,29 +19,43 @@ export const createRecurringTreatments = functions
         const healthRecord = snapshot.data();
 
         console.log(`Create recurring treatments based on ${animalId} and ${startDateInMiliseconds}.`);
-                        
-        if(!healthRecord || !healthRecord.treatment_enddate) {
-            console.log(`Not creating recurring treatmenst since no enddate was provided.`);
+                 
+        if(!healthRecord) {
+            console.log(`Not creating recurring treatmenst since healt record was provided.`);
             return;
         }
 
-        const endDate = healthRecord.treatment_enddate.toDate().valueOf() + oneDayInMiliseconds;
-        const amountOfRecurrences : number = Math.floor((endDate - startDateInMiliseconds) / oneDayInMiliseconds);
+        const currentItem = {
+            animal_number: animalId,
+            administration_date: new Date(Date.now()),
+            cage_number: healthRecord.cage,
+            diagnosis: healthRecord.diagnosis,
+            health_status: healthRecord.health_status,
+            treatment: healthRecord.treatment,
+            treatment_status: 1
+        }
 
-        console.log(`Parameters used to calculate period are, Startdate: ${startDateInMiliseconds}, Enddate: ${endDate}, Day in miliseconds: ${oneDayInMiliseconds}, Amount of days difference: ${amountOfRecurrences}`);
+        await atomicFunctions.createRecurringTreatment(companyId, currentItem);
 
-        for(let i = 0; i <= amountOfRecurrences; i++) {
-            const recurringItem = {
-                animal_number: animalId,
-                administration_date: new Date(startDateInMiliseconds + (oneDayInMiliseconds * i)),
-                cage_number: healthRecord.cage,
-                diagnosis: healthRecord.diagnosis,
-                health_status: healthRecord.health_status,
-                treatment: healthRecord.treatment,
-                treatment_status: 0
-            };
+        if (healthRecord.treatment_enddate) {
+            const endDate = healthRecord.treatment_enddate.toDate().valueOf() + oneDayInMiliseconds;
+            const amountOfRecurrences : number = Math.floor((endDate - startDateInMiliseconds) / oneDayInMiliseconds);
 
-            await atomicFunctions.createRecurringTreatment(companyId, recurringItem);
+            console.log(`Parameters used to calculate period are, Startdate: ${startDateInMiliseconds}, Enddate: ${endDate}, Day in miliseconds: ${oneDayInMiliseconds}, Amount of days difference: ${amountOfRecurrences}`);
+
+            for(let i = 0; i <= amountOfRecurrences; i++) {
+                const recurringItem = {
+                    animal_number: animalId,
+                    administration_date: new Date(startDateInMiliseconds + (oneDayInMiliseconds * i)),
+                    cage_number: healthRecord.cage,
+                    diagnosis: healthRecord.diagnosis,
+                    health_status: healthRecord.health_status,
+                    treatment: healthRecord.treatment,
+                    treatment_status: 0
+                };
+
+                await atomicFunctions.createRecurringTreatment(companyId, recurringItem);
+            }
         }
     });
 

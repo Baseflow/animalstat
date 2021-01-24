@@ -113,10 +113,13 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
 
   Widget _buildBottomBar(AddHistoryRecordState state) {
     final saveAction = state.canSave
-        ? () =>
+        ? () {
             context.read<AddHistoryRecordBloc>().add(SaveAnimalHistoryRecord(
                   stateToSave: state,
-                ))
+                ));
+
+            Navigator.of(context).pop();
+          }
         : null;
 
     return Column(
@@ -128,17 +131,18 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              AnimalstatSecondaryButton(
-                text: 'Annuleren',
-                onPressed: () => Navigator.of(context).pop(),
+              Flexible(
+                child: AnimalstatSecondaryButton(
+                  text: 'Annuleren',
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
               ),
-              const SizedBox(width: 15.0),
-              AnimalstatPrimaryButton(
-                text: 'Opslaan',
-                onPressed: () {
-                  saveAction();
-                  Navigator.of(context).pop();
-                },
+              const SizedBox(width: 5.0),
+              Flexible(
+                child: AnimalstatPrimaryButton(
+                  text: 'Opslaan',
+                  onPressed: saveAction,
+                ),
               ),
             ],
           ),

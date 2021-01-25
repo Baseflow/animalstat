@@ -1,18 +1,19 @@
 import 'dart:async';
-import 'package:livestock_repository/livestock_repository.dart';
+
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+
 import './bloc.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository _userRepository;
 
   AuthenticationBloc({@required UserRepository userRepository})
-    : assert(userRepository != null),
-    _userRepository = userRepository;
-
-  @override
-  AuthenticationState get initialState => Uninitialized();
+      : assert(userRepository != null),
+        _userRepository = userRepository,
+        super(Uninitialized());
 
   @override
   Stream<AuthenticationState> mapEventToState(
@@ -32,10 +33,11 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       final isSignedIn = await _userRepository.isSignedIn();
       if (isSignedIn) {
         final user = await _userRepository.getUser();
-        yield Authenticated(user.name);
+        yield Authenticated(user);
       } else {
         yield Unauthenticated();
       }
+      // ignore: avoid_catches_without_on_clauses
     } catch (_) {
       yield Unauthenticated();
     }
@@ -43,7 +45,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   Stream<AuthenticationState> _mapLoggedInToState() async* {
     final user = await _userRepository.getUser();
-    yield Authenticated(user.name ?? user.email);
+    yield Authenticated(user);
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {

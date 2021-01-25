@@ -1,5 +1,6 @@
-import 'package:livestock/src/ui/theming.dart';
 import 'package:flutter/material.dart';
+
+import 'theming.dart';
 
 class DecorationFactory {
   static InputDecoration defaultTextFieldDecoration({
@@ -8,13 +9,7 @@ class DecorationFactory {
     Widget prefixIcon,
   }) {
     return InputDecoration(
-      border: const OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-        borderSide: BorderSide.none,
-      ),
       counterText: '',
-      fillColor: kWhite,
-      filled: true,
       hintText: hintText,
       labelText: labelText,
       prefixIcon: prefixIcon,
@@ -26,17 +21,24 @@ class DecorationFactory {
     String labelText,
     Widget prefixIcon,
   }) {
+    const border = OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderSide: BorderSide(color: kBorderColor, width: 1),
+    );
+
     return InputDecoration(
-      border: const OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-        borderSide: BorderSide.none,
-      ),
+      border: border,
+      enabledBorder: border,
+      focusedBorder: border,
       counterText: '',
-      fillColor: kPrimaryDarkColor,
-      filled: true,
       hintText: hintText,
       labelText: labelText,
-      prefixIcon: prefixIcon,
+      contentPadding: const EdgeInsets.all(0),
+      prefixIcon: prefixIcon ??
+          const Icon(
+            Icons.search,
+            color: kDefaultTextColor,
+          ),
     );
   }
 
@@ -47,10 +49,10 @@ class DecorationFactory {
   }) {
     return InputDecoration(
       border: const OutlineInputBorder(
-          borderSide: BorderSide.none, borderRadius: BorderRadius.zero),
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.zero,
+      ),
       counterText: '',
-      fillColor: kWhite,
-      filled: true,
       hintText: hintText,
       labelText: labelText,
       prefixIcon: prefixIcon,

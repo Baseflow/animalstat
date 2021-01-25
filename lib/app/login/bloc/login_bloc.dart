@@ -1,11 +1,13 @@
 import 'dart:async';
-import 'package:livestock_repository/livestock_repository.dart';
-import 'package:livestock/src/utilities/utilities.dart';
+
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
 import './bloc.dart';
+// ignore: directives_ordering
+import '../../../src/utilities/utilities.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final UserRepository _userRepository;
@@ -17,24 +19,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   })  : assert(userRepository != null),
         assert(validators != null),
         _userRepository = userRepository,
-        _validators = validators;
+        _validators = validators,
+        super(LoginState.empty());
 
   @override
-  LoginState get initialState => LoginState.empty();
-
-  @override
-  Stream<LoginState> transformEvents(
+  Stream<Transition<LoginEvent, LoginState>> transformEvents(
     Stream<LoginEvent> events,
-    Stream<LoginState> Function(LoginEvent event) next,
+    TransitionFunction<LoginEvent, LoginState> transitionFn,
   ) {
     final nonDebounceStream = events.where((event) {
       return (event is! EmailChanged && event is! PasswordChanged);
     });
     final debounceStream = events.where((event) {
       return (event is EmailChanged || event is PasswordChanged);
-    }).debounceTime(Duration(milliseconds: 300));
-    return super
-        .transformEvents(nonDebounceStream.mergeWith([debounceStream]), next);
+    }).debounceTime(const Duration(milliseconds: 300));
+    return super.transformEvents(
+      nonDebounceStream.mergeWith([debounceStream]),
+      transitionFn,
+    );
   }
 
   @override
@@ -71,7 +73,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _userRepository.signInWithCredentials(email, password);
       yield LoginState.success();
-    } catch (ex) {
+      // ignore: avoid_catches_without_on_clauses
+    } catch (_) {
       yield LoginState.failure();
     }
   }

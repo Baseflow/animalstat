@@ -1,48 +1,51 @@
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:livestock/src/ui/widgets/livestock_segmented_button.dart';
-import 'package:livestock/src/ui/widgets/livestock_toggle_button.dart';
-import 'package:livestock/src/utilities/enum_converters.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../src/ui/widgets/animalstat_segmented_button.dart';
+import '../../../src/ui/widgets/animalstat_toggle_button.dart';
+import '../bloc/diagnoses_bloc/diagnoses_bloc.dart';
 
 class DiagnosisSelectionWidget extends StatelessWidget {
   DiagnosisSelectionWidget({this.onChanged, this.selectedDiagnosis});
 
-  final Map<int, Diagnoses> _diagnosisIndexMap = <int, Diagnoses>{
-    0: Diagnoses.arthritis,
-    1: Diagnoses.diarrhea,
-    2: Diagnoses.lung,
-    3: Diagnoses.orf,
-  };
-
-  final void Function(Diagnoses diagnosis) onChanged;
-  final Diagnoses selectedDiagnosis;
+  final void Function(Diagnosis diagnosis) onChanged;
+  final Diagnosis selectedDiagnosis;
 
   @override
   Widget build(BuildContext context) {
-    return LivestockToggleButton(
-      children: _diagnosisIndexMap.values
-          .map((v) => LivestockSegmentedButton(
-                borderColor: Color.fromRGBO(99, 99, 99, 1),
-                backgroundColor: Colors.transparent,
-                text: EnumConverters.toDiagnosesDisplayValue(v),
-                textColor: Color.fromRGBO(99, 99, 99, 1),
-              ))
-          .toList(),
-      onPressed: (index) => onChanged(_diagnosisIndexMap[index]),
-      selectedChildren: _diagnosisIndexMap.values
-          .map((v) => LivestockSegmentedButton(
-                backgroundColor: Color.fromRGBO(99, 99, 99, 1),
-                text: EnumConverters.toDiagnosesDisplayValue(v),
-                textColor: Colors.white,
-              ))
-          .toList(),
-      selectedIndex: _findKey(selectedDiagnosis),
-    );
-  }
+    final _theme = Theme.of(context);
 
-  int _findKey(Diagnoses diagnosis) {
-    return _diagnosisIndexMap.keys.firstWhere(
-        (k) => _diagnosisIndexMap[k] == diagnosis,
-        orElse: () => null);
+    return BlocBuilder<DiagnosesBloc, DiagnosesState>(
+      builder: (context, state) {
+        if (state.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state.isEmpty) {
+          return Container();
+        }
+
+        return AnimalstatToggleButton(
+          children: state.diagnoses
+              .map((diagnosis) => AnimalstatSegmentedButton(
+                    borderColor: const Color.fromRGBO(99, 99, 99, 1),
+                    backgroundColor: Colors.transparent,
+                    text: diagnosis.name,
+                    textColor: const Color.fromRGBO(99, 99, 99, 1),
+                  ))
+              .toList(),
+          onPressed: (index) => onChanged(state.diagnoses[index]),
+          selectedChildren: state.diagnoses
+              .map((diagnosis) => AnimalstatSegmentedButton(
+                    backgroundColor: _theme.buttonColor,
+                    text: diagnosis.name,
+                    textColor: Colors.white,
+                  ))
+              .toList(),
+          selectedIndex: state.diagnoses.indexOf(selectedDiagnosis),
+        );
+      },
+    );
   }
 }

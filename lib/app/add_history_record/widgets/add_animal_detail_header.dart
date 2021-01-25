@@ -13,7 +13,7 @@ class AddAnimalDetailHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Expanded(
+        const Expanded(
           child: Text(
             'Registratie maken',
             style: TextStyle(
@@ -23,7 +23,7 @@ class AddAnimalDetailHeader extends StatelessWidget {
           ),
         ),
         IconButton(
-          icon: Icon(
+          icon: const Icon(
             FontAwesomeIcons.times,
           ),
           onPressed: _onClose,

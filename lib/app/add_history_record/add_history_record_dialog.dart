@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:livestock/app/add_history_record/widgets/add_animal_detail_header.dart';
-import 'package:livestock/app/add_history_record/widgets/diagnosis_selection_widget.dart';
-import 'package:livestock/app/add_history_record/widgets/health_status_selection_widget.dart';
-import 'package:livestock/app/add_history_record/widgets/treatment_selection_widget.dart';
-import 'package:livestock/app/animal_details/bloc/bloc.dart';
-import 'package:livestock/src/ui/theming.dart';
-import 'package:livestock/src/ui/widgets/livestock_primary_button.dart';
 
+import '../../src/ui/theming.dart';
+import '../../src/ui/widgets/animalstat_primary_button.dart';
+import '../../src/ui/widgets/animalstat_secondary_button.dart';
+import '../animal_details/bloc/bloc.dart';
 import 'bloc/bloc.dart';
+import 'widgets/add_animal_detail_header.dart';
+import 'widgets/diagnosis_selection_widget.dart';
+import 'widgets/health_status_selection_widget.dart';
+import 'widgets/treatment_selection_widget.dart';
 
 class AddHistoryRecordDialog extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
   final _formKey = GlobalKey<FormState>();
 
   AddHistoryRecordBloc _addHistoryRecordBloc;
+  TreatmentsBloc _treatmentsBloc;
   AnimalDetailsBloc _animalDetailsBloc;
   TextEditingController _cageEditingController;
 
@@ -27,15 +29,17 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
   void initState() {
     super.initState();
 
-    _addHistoryRecordBloc = context.bloc<AddHistoryRecordBloc>();
-    _animalDetailsBloc = context.bloc<AnimalDetailsBloc>();
+    _addHistoryRecordBloc = context.read<AddHistoryRecordBloc>();
+    _animalDetailsBloc = context.read<AnimalDetailsBloc>();
+    _treatmentsBloc = context.read<TreatmentsBloc>();
     _cageEditingController = TextEditingController();
     _cageEditingController.addListener(_onCageNumberChanged);
     _cageEditingController.value = TextEditingValue(
-      text: _animalDetailsBloc.state.cage?.toString() ?? '',
+      text: _animalDetailsBloc.state.currentCage?.toString() ?? '',
       selection: TextSelection.fromPosition(
         TextPosition(
-            offset: _animalDetailsBloc.state.cage.toString().length ?? 0),
+          offset: _animalDetailsBloc.state.currentCage.toString().length ?? 0,
+        ),
       ),
     );
   }
@@ -63,13 +67,6 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
                 listener: (context, state) {
                   if (state.isSaved) {
                     Navigator.of(context).pop();
-
-                    _animalDetailsBloc.add(
-                      UpdateDetails(
-                        cage: state.cage,
-                        currentHealthStatus: state.healthStatus,
-                      ),
-                    );
                   }
                 },
                 child: BlocBuilder<AddHistoryRecordBloc, AddHistoryRecordState>(
@@ -114,28 +111,39 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
   }
 
   Widget _buildBottomBar(AddHistoryRecordState state) {
-    var saveAction = state.canSave
-        ? () => context.bloc<AddHistoryRecordBloc>().add(
-              SaveAnimalHistoryRecord(
-                stateToSave: state,
-              ),
-            )
+    final saveAction = state.canSave
+        ? () {
+            context.read<AddHistoryRecordBloc>().add(SaveAnimalHistoryRecord(
+                  stateToSave: state,
+                ));
+
+            Navigator.of(context).pop();
+          }
         : null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Divider(),
+        const Divider(),
         Padding(
           padding: const EdgeInsets.only(top: 15.0),
-          child: LivestockPrimaryButton(
-            text: 'Opslaan',
-            onPressed: saveAction,
-            icon: Icon(
-              FontAwesomeIcons.plus,
-              color: Colors.white,
-              size: 16,
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Flexible(
+                child: AnimalstatSecondaryButton(
+                  text: 'Annuleren',
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+              const SizedBox(width: 5.0),
+              Flexible(
+                child: AnimalstatPrimaryButton(
+                  text: 'Opslaan',
+                  onPressed: saveAction,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -144,7 +152,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
 
   List<Widget> _buildDateRow(AddHistoryRecordState state) {
     return <Widget>[
-      Divider(),
+      const Divider(),
       Padding(
         padding: const EdgeInsets.only(
           top: 15.0,
@@ -157,7 +165,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
+                const Text(
                   'Datum',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -168,7 +176,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
                   padding: const EdgeInsets.only(top: 14, bottom: 18),
                   child: Text(
                     state.registrationDateDisplayValue,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18.0,
                     ),
@@ -177,11 +185,11 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
               ],
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
+                const Text(
                   'Hok',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15.0,
                   ),
@@ -193,7 +201,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           style: BorderStyle.solid,
                         ),
                       ),
@@ -228,13 +236,15 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     return _buildDialogRow(
       title: 'Diagnose',
       child: DiagnosisSelectionWidget(
-        onChanged: (diagnosis) =>
-            BlocProvider.of<AddHistoryRecordBloc>(context).add(
-          UpdateDiagnosis(
-            diagnosis: diagnosis,
-            previousState: animalDetailState,
-          ),
-        ),
+        onChanged: (diagnosis) {
+          BlocProvider.of<AddHistoryRecordBloc>(context).add(
+            UpdateDiagnosis(
+              diagnosis: diagnosis,
+              previousState: animalDetailState,
+            ),
+          );
+          _treatmentsBloc.add(LoadTreatments(diagnosisId: diagnosis.id));
+        },
         selectedDiagnosis: animalDetailState.diagnosis,
       ),
     );
@@ -272,7 +282,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
         children: <Widget>[
           Text(
             recordState.treatmentEndDateDisplayValue,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18.0,
             ),
@@ -281,14 +291,14 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
             onPressed: () => showDatePicker(
               context: context,
               initialDate: recordState.treatmentEndDate ?? DateTime.now(),
-              firstDate: DateTime.now().subtract(Duration(days: 1)),
-              lastDate: DateTime.now().add(Duration(days: 31)),
+              firstDate: DateTime.now().subtract(const Duration(days: 1)),
+              lastDate: DateTime.now().add(const Duration(days: 31)),
             ).then(
               (selectedDate) => _addHistoryRecordBloc.add(
                 UpdateTreatmentEndDate(endDate: selectedDate),
               ),
             ),
-            icon: Icon(FontAwesomeIcons.calendar),
+            icon: const Icon(FontAwesomeIcons.calendar),
           ),
         ],
       ),
@@ -320,12 +330,12 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     @required Widget child,
   }) {
     return <Widget>[
-      Divider(),
+      const Divider(),
       Padding(
         padding: const EdgeInsets.only(top: 15.0, bottom: 8.0),
         child: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 15.0,
           ),
@@ -337,6 +347,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
 
   @override
   void dispose() {
+    _treatmentsBloc.close();
     _cageEditingController.dispose();
     super.dispose();
   }

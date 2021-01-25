@@ -1,41 +1,50 @@
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:livestock/app/animal_details/bloc/bloc.dart';
-import 'package:livestock/app/animal_details/widgets/animal_details_header.dart';
-import 'package:livestock/app/animal_details/widgets/history_card.dart';
-import 'package:livestock/app/animal_details/widgets/history_header.dart';
-import 'package:livestock/src/ui/widgets/livestock_number_box.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+
+import '../../src/factories/repository_factory.dart';
+import '../../src/ui/widgets/animalstat_number_box.dart';
+import '../add_history_record/add_history_record_dialog.dart';
+import '../add_history_record/bloc/bloc.dart';
+import '../authentication/bloc/authentication_bloc.dart';
+import '../authentication/bloc/authentication_state.dart';
+import 'bloc/bloc.dart';
+import 'models/animal_overview_item.dart';
+import 'widgets/history_card.dart';
 
 class AnimalDetailsScreen extends StatelessWidget {
-  static MaterialPageRoute route(int animalNumber) {
+  static MaterialPageRoute route(
+    AnimalRepository animalRepository,
+    int animalNumber,
+  ) {
     return MaterialPageRoute(
-      builder: (context) => MultiBlocProvider(
-        providers: [
-          BlocProvider<AnimalHistoryBloc>(
-            create: (_) => AnimalHistoryBloc(
-              animalNumber: animalNumber,
-              animalRepository:
-                  context.repository<AnimalRepository>(),
-            )..add(
-                LoadHistory(
-                  animalNumber: animalNumber,
+      builder: (context) => RepositoryProvider.value(
+        value: animalRepository,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<AnimalHistoryBloc>(
+              create: (context) => AnimalHistoryBloc(
+                animalNumber: animalNumber,
+                animalRepository: context.read<AnimalRepository>(),
+              )..add(
+                  LoadHistory(
+                    animalNumber: animalNumber,
+                  ),
                 ),
-              ),
-          ),
-          BlocProvider<AnimalDetailsBloc>(
-            create: (context) => AnimalDetailsBloc(
-              animalNumber: animalNumber,
-              animalRepository:
-                  context.repository<AnimalRepository>(),
-            )..add(
-                LoadAnimalDetails(
-                  animalNumber: animalNumber,
+            ),
+            BlocProvider<AnimalDetailsBloc>(
+              create: (context) => AnimalDetailsBloc(
+                animalNumber: animalNumber,
+                animalRepository: context.read<AnimalRepository>(),
+              )..add(
+                  LoadDetails(
+                    animalNumber: animalNumber,
+                  ),
                 ),
-              ),
-          ),
-        ],
-        child: AnimalDetailsScreen(),
+            ),
+          ],
+          child: AnimalDetailsScreen(),
+        ),
       ),
     );
   }
@@ -45,47 +54,164 @@ class AnimalDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: BlocBuilder<AnimalHistoryBloc, AnimalHistoryState>(
-          builder: (BuildContext context, AnimalHistoryState state) {
+          builder: (context, state) {
         return CustomScrollView(
           slivers: <Widget>[
-            SliverToBoxAdapter(
-              child: HistoryHeader(animalNumber: state.animalNumber),
+            BlocBuilder<AnimalDetailsBloc, AnimalDetailsState>(
+              builder: (context, state) {
+                if (state.isEmpty || state.isLoading) {
+                  return SliverToBoxAdapter(
+                    child: Container(),
+                  );
+                }
+
+                return _buildSliverList(
+                  state.overviewItems,
+                  titleIcon: Icons.cake,
+                );
+              },
             ),
-            if (state is HistoryUpdated)
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return HistoryCard(
-                      historyCardState: state.history[index],
-                    );
-                  },
-                  childCount: state.history.length,
-                ),
-              ),
+            BlocBuilder<AnimalHistoryBloc, AnimalHistoryState>(
+                builder: (context, state) {
+              if (state.isLoading) {
+                return const SliverToBoxAdapter(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
+              if (state.isEmpty) {
+                return SliverToBoxAdapter(
+                  child: Container(),
+                );
+              }
+
+              return _buildSliverList(state.overviewItems);
+            }),
           ],
         );
       }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _addDetailButtonPressed(context),
+        child: const Icon(Icons.add),
+      ),
     );
+  }
+
+  void _addDetailButtonPressed(BuildContext context) {
+    final animalRepository = context.read<AnimalRepository>();
+    //ignore: close_sinks
+    final animalDetailsBloc = context.read<AnimalDetailsBloc>();
+    final diagnosisRepository =
+        RepositoryFactory.createDiagnosisRepository(context);
+    final treatmentRepository =
+        RepositoryFactory.createTreatmentRepository(context);
+
+    showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (context) {
+          return RepositoryProvider.value(
+            value: animalRepository,
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(
+                  value: animalDetailsBloc,
+                ),
+                BlocProvider<AddHistoryRecordBloc>(
+                  create: (context) {
+                    final authenticatedState = context
+                        .read<AuthenticationBloc>()
+                        .state as Authenticated;
+
+                    return AddHistoryRecordBloc(
+                      animalNumber: animalDetailsBloc.state.animalNumber,
+                      user: authenticatedState.user,
+                      animalRepository: context.read<AnimalRepository>(),
+                    );
+                  },
+                ),
+                BlocProvider<DiagnosesBloc>(
+                  create: (context) {
+                    return DiagnosesBloc(
+                      diagnosisRepository: diagnosisRepository,
+                    )..add(
+                        const LoadDiagnoses(),
+                      );
+                  },
+                ),
+                BlocProvider<TreatmentsBloc>(
+                  create: (context) {
+                    return TreatmentsBloc(
+                      treatmentRepository: treatmentRepository,
+                    );
+                  },
+                ),
+              ],
+              child: AddHistoryRecordDialog(),
+            ),
+          );
+        });
   }
 
   static Widget _buildAppBar(BuildContext context) {
     return AppBar(
       brightness: Brightness.dark,
-      bottom: AnimalDetailsHeader(),
-      elevation: 0.0,
       leading: IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () => Navigator.of(context).pop(),
       ),
       titleSpacing: 0.0,
       title: BlocBuilder<AnimalDetailsBloc, AnimalDetailsState>(
-          builder: (BuildContext context, AnimalDetailsState state) {
+          builder: (context, state) {
         return (state is AnimalDetailsState)
-            ? LivestockNumberBox(
+            ? AnimalstatNumberBox(
                 animalNumber: state.animalNumber.toString(),
               )
-            : Text('Livestock');
+            : const Text('animalstat');
       }),
+    );
+  }
+
+  static SliverList _buildSliverList(List<AnimalOverviewItem> overviewItems,
+      {IconData titleIcon = Icons.home}) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          final overviewItem = overviewItems[index];
+
+          if (overviewItem is AnimalOverviewHeader) {
+            return Padding(
+              padding: EdgeInsets.only(
+                left: 15.0,
+                top: overviewItem.overviewItemType ==
+                        AnimalOverviewItemTypes.header
+                    ? 15
+                    : 10,
+                right: 15.0,
+                bottom: 10,
+              ),
+              child: Text(
+                overviewItem.title,
+                style: TextStyle(
+                  fontSize: overviewItem.overviewItemType ==
+                          AnimalOverviewItemTypes.header
+                      ? 20
+                      : 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          }
+
+          return HistoryCard(
+            data: overviewItem,
+            titleIcon: titleIcon,
+          );
+        },
+        childCount: overviewItems.length,
+      ),
     );
   }
 }

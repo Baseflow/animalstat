@@ -1,20 +1,24 @@
-import 'package:livestock/app/animal_details/bloc/bloc.dart';
-import 'package:livestock_repository/livestock_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
-import 'package:livestock/src/utilities/enum_converters.dart';
+
+import '../../../src/ui/widgets/animalstat_health_status_label.dart';
+import '../models/animal_overview_item.dart';
 
 class HistoryCard extends StatelessWidget {
-  final AnimalHistoryCardState _historyCardState;
+  final AnimalOverviewCard _data;
+  final IconData titleIcon;
+  final IconData subtitleIcon;
 
-  HistoryCard({@required AnimalHistoryCardState historyCardState})
-      : assert(historyCardState != null),
-        _historyCardState = historyCardState;
+  HistoryCard({
+    @required AnimalOverviewCard data,
+    this.titleIcon = Icons.home,
+    this.subtitleIcon = Icons.assignment,
+  })  : assert(data != null),
+        _data = data;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.fromLTRB(15.0, 0, 15, 10),
+      margin: const EdgeInsets.fromLTRB(15.0, 0, 15, 10),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -22,88 +26,59 @@ class HistoryCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Icon(titleIcon),
                 Expanded(
-                  child: _buildTitleColumn(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      '${_data.title}',
+                      style: const TextStyle(
+                        fontSize: 17.0,
+                      ),
+                    ),
+                  ),
                 ),
-                LivestockHealthStatusLabel(
-                  healthStatus: _historyCardState.healthStatus,
-                ),
+                if (_data.healthStatus != null)
+                  AnimalstatHealthStatusLabel(
+                    healthStatus: _data.healthStatus,
+                  ),
               ],
             ),
-            (_historyCardState.diagnosis != Diagnoses.none)
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 17.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(child: _buildDiagnosesColumn()),
-                        _buildTreatmentColumn(),
-                      ],
-                    ),
-                  )
-                : Container(),
+            if (_data.subtitle != null) _buildSubtitleRow(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTitleColumn() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          _historyCardState.seenOnDisplayValue,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18.0,
+  Widget _buildSubtitleRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Icon(subtitleIcon),
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                _data.subtitle,
+                style: const TextStyle(
+                  fontSize: 17.0,
+                ),
+              ),
+              if (_data.text != null)
+                Text(
+                  _data.text,
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                  ),
+                ),
+            ],
           ),
-        ),
-        Text(
-          _historyCardState.cageDisplayValue,
-          style: TextStyle(
-            fontSize: 17.0,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDiagnosesColumn() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Diagnose',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 17.0,
-          ),
-        ),
-        Text(
-          EnumConverters.toDiagnosesDisplayValue(_historyCardState.diagnosis),
-          style: TextStyle(
-            fontSize: 17.0,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTreatmentColumn() {
-    if (_historyCardState.treatment == Treatments.none) {
-      return Container();
-    }
-
-    return Column(
-      children: <Widget>[
-        Text(
-          EnumConverters.toTreatmentDisplayValue(_historyCardState.treatment),
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 17.0,
-          ),
-        ),
+        )),
       ],
     );
   }

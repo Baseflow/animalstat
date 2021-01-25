@@ -1,122 +1,52 @@
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:livestock/app/animal_details/animal_details_screen.dart';
-import 'package:livestock/app/search_animal/bloc/bloc.dart';
-import 'package:livestock/app/search_animal/bloc/search_animal_state.dart';
-import 'package:livestock/src/ui/theming.dart';
-import 'package:livestock/src/ui/widgets/livestock_appbar_bottom.dart';
-import 'package:livestock/src/ui/widgets/livestock_health_status_label.dart';
-import 'package:livestock/src/ui/widgets/livestock_number_box.dart';
-import 'package:livestock/src/ui/widgets/livestock_search_text_field.dart';
-import 'package:livestock_repository/livestock_repository.dart';
+
+import '../../src/ui/widgets/animalstat_card.dart';
+import '../../src/ui/widgets/animalstat_health_status_label.dart';
+import '../../src/ui/widgets/animalstat_number_box.dart';
+import '../animal_details/animal_details_screen.dart';
+import 'bloc/bloc.dart';
 
 class SearchAnimalScreen extends StatelessWidget {
-  static MaterialPageRoute route() {
-    return MaterialPageRoute(
-      builder: (context) => BlocProvider<SearchAnimalBloc>(
-        create: (context) => SearchAnimalBloc(
-          animalRepository: context.repository<AnimalRepository>(),
-        ),
-        child: SearchAnimalScreen(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.pop(context);
-              context.bloc<SearchAnimalBloc>().add(QueryChanged(query: ''));
-            },
-          ),
-        ],
-        brightness: Brightness.dark,
-        leading: Container(),
-        bottom: _buildAppBarBottom(context),
-        elevation: 0.0,
-        titleSpacing: 0.0,
-        title: Text('Livestock'),
-      ),
-      body: BlocBuilder<SearchAnimalBloc, SearchAnimalState>(
-        builder: (BuildContext context, SearchAnimalState state) {
-          if (state.isSearching) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (state.isNewAnimal) {
-            return _buildAddNewAnimal(context, state);
-          }
-
-          if (state.notFound) {
-            return _buildMessage(
-              context,
-              'Geen resultaten gevonden.',
-            );
-          }
-
-          if (state.isEmpty) {
-            return _buildMessage(
-              context,
-              'Vul een diernummer in om een dier te zoeken.',
-            );
-          }
-
-          if (state.isInvalidQuery) {
-            return _buildMessage(
-              context,
-              'Het ingevoerde nummer "${state.query}" bevat illegale characters.',
-            );
-          }
-
-          return ListView.builder(
-            itemBuilder: (context, index) =>
-                _buildResultRow(context, state.searchResults[index]),
-            itemCount: state.searchResults.length,
+    return BlocBuilder<SearchAnimalBloc, SearchAnimalState>(
+      builder: (context, state) {
+        if (state.isSearching) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        },
-      ),
-    );
-  }
+        }
 
-  Widget _buildAppBarBottom(BuildContext context) {
-    return LivestockAppBarBottom(
-      child: Padding(
-        padding: const EdgeInsets.all(9.0),
-        child: LivestockSearchTextField(
-          autofocus: true,
-          keyboardType: TextInputType.number,
-          onChanged: (value) =>
-              context.bloc<SearchAnimalBloc>().add(QueryChanged(query: value)),
-        ),
-      ),
-    );
-  }
+        if (state.notFound) {
+          return _buildMessage(
+            context,
+            'Geen resultaten gevonden.',
+          );
+        }
 
-  Widget _buildAddNewAnimal(BuildContext context, SearchAnimalState state,) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            _buildMessage(
-              context,
-              'Dier met nummer "${state.query}" niet gevonden. Klik op de knop om het dier aan te maken:',
-            ),
-            FloatingActionButton(
-              child: Icon(FontAwesomeIcons.plus),
-              onPressed: (){},
-            ),
-          ],
-        ),
-      ),
+        if (state.isEmpty) {
+          return _buildMessage(
+            context,
+            'Vul een diernummer in om een dier te zoeken.',
+          );
+        }
+
+        if (state.isInvalidQuery) {
+          return _buildMessage(
+            context,
+            'Het ingevoerde nummer "${state.query}" bevat illegale characters.',
+          );
+        }
+
+        return ListView.builder(
+          itemBuilder: (context, index) =>
+              _buildResultRow(context, state.searchResults[index]),
+          itemCount: state.searchResults.length,
+          padding: const EdgeInsets.all(8.0),
+        );
+      },
     );
   }
 
@@ -127,7 +57,7 @@ class SearchAnimalScreen extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Text(
           message,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.normal,
             fontSize: 16.0,
           ),
@@ -138,26 +68,20 @@ class SearchAnimalScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildResultRow(
-      BuildContext context, Animal searchResult) {
+  Widget _buildResultRow(BuildContext context, Animal searchResult) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
+        var animalRepository = context.read<AnimalRepository>();
         Navigator.of(context).push(
           AnimalDetailsScreen.route(
+            animalRepository,
             searchResult.animalNumber,
           ),
         );
       },
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: kBorderColor,
-            ),
-          ),
-          color: kWhite,
-        ),
+      child: AnimalStatCard(
+        margin: const EdgeInsets.symmetric(vertical: 4),
         child: Padding(
           padding: const EdgeInsets.only(
             left: 20.0,
@@ -170,7 +94,7 @@ class SearchAnimalScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              LivestockNumberBox(
+              AnimalstatNumberBox(
                 animalNumber: searchResult.animalNumber.toString(),
               ),
               Expanded(
@@ -178,13 +102,10 @@ class SearchAnimalScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
-                child: LivestockHealthStatusLabel(
+                child: AnimalstatHealthStatusLabel(
                   healthStatus: searchResult.currentHealthStatus,
                 ),
               ),
-              Icon(
-                Icons.chevron_right,
-              )
             ],
           ),
         ),

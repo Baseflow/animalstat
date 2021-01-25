@@ -1,9 +1,9 @@
-import 'package:livestock/app/login/bloc/bloc.dart';
-import 'package:livestock/app/login/bloc/login_event.dart';
-import 'package:livestock/app/login/bloc/login_state.dart';
-import 'package:livestock/src/utilities/validators.dart';
+import 'package:animalstat/app/login/bloc/bloc.dart';
+import 'package:animalstat/app/login/bloc/login_event.dart';
+import 'package:animalstat/app/login/bloc/login_state.dart';
+import 'package:animalstat/src/utilities/validators.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:livestock_repository/livestock_repository.dart';
 import 'package:mockito/mockito.dart';
 
 class MockUserRepository extends Mock implements UserRepository {}
@@ -35,7 +35,7 @@ void main() {
     reset(mockUserRepository);
     reset(mockValidators);
 
-    if(loginBloc != null) {
+    if (loginBloc != null) {
       loginBloc.close();
     }
 
@@ -46,6 +46,7 @@ void main() {
 
   group('when \'LoginBloc\' is constructed', () {
     test(
+        // ignore: lines_longer_than_80_chars
         'should assert when no intance of the UserRespository class is supplied',
         () {
       expect(
@@ -67,38 +68,38 @@ void main() {
     });
 
     test('initialState should be `empty`', () {
-      expect(loginBloc.initialState, LoginState.empty());
+      expect(loginBloc.state, LoginState.empty());
     });
   });
 
   group('when receiving an \'emailChanged\' event', () {
     test('should emit LoginState where isValidEmail is true.', () {
-      final email = '';
+      const email = '';
       final currentState = LoginState.empty();
       final event = EmailChanged(email: email);
-      final expected = [
-        currentState
-      ];
+      final expected = [currentState];
 
       when(mockValidators.isValidEmail(email)).thenAnswer((_) => true);
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
 
-    test('should emit an empty LoginState and updated state where isValidEmail is false.', () {
-      final email = '';
+    test(
+        // ignore: lines_longer_than_80_chars
+        'should emit an empty LoginState and updated state where isValidEmail is false.',
+        () {
+      const email = '';
       final currentState = LoginState.empty();
       final event = EmailChanged(email: email);
       final expected = [
-        currentState,
         currentState.update(isEmailValid: false),
       ];
 
       when(mockValidators.isValidEmail(email)).thenAnswer((_) => false);
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
@@ -106,32 +107,32 @@ void main() {
 
   group('when receiving an \'passwordChanged\' event', () {
     test('should emit LoginState where isValidPassword is true.', () {
-      final password = '';
+      const password = '';
       final currentState = LoginState.empty();
       final event = PasswordChanged(password: password);
-      final expected = [
-        currentState
-      ];
+      final expected = [currentState];
 
       when(mockValidators.isValidPassword(password)).thenAnswer((_) => true);
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
 
-    test('should emit an empty LoginState and updated state where isValidPassword is false.', () {
-      final password = '';
+    test(
+        // ignore: lines_longer_than_80_chars
+        'should emit an empty LoginState and updated state where isValidPassword is false.',
+        () {
+      const password = '';
       final currentState = LoginState.empty();
       final event = PasswordChanged(password: password);
       final expected = [
-        currentState,
         currentState.update(isPasswordValid: false),
       ];
 
       when(mockValidators.isValidPassword(password)).thenAnswer((_) => false);
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
@@ -140,63 +141,71 @@ void main() {
   group('when receiving an \'LoginWithCredentialsPressed\' event', () {
     test('should emit LoadingState.', () {
       final event = LoginWithCredentialsPressed(email: '', password: '');
-      final expected = [
-        LoginState.empty(),
-        LoginState.loading()
-      ];
+      final expected = [LoginState.loading()];
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
 
-    test('should emit \'LoginState.loading()\' state and call \'UserRepository.signInWithCredentials\' exactly once.', () {
-      final email = '';
-      final password = '';
-      final event = LoginWithCredentialsPressed(email: email, password: password);
-      final expected = [
-        LoginState.empty(),
-        LoginState.loading()
-      ];
+    test(
+        // ignore: lines_longer_than_80_chars
+        'should emit \'LoginState.loading()\' state and call \'UserRepository.signInWithCredentials\' exactly once.',
+        () {
+      const email = '';
+      const password = '';
+      final event =
+          LoginWithCredentialsPressed(email: email, password: password);
+      final expected = [LoginState.loading()];
 
-      when(mockUserRepository.signInWithCredentials(email, password)).thenAnswer((_) => Future.value());
+      when(mockUserRepository.signInWithCredentials(email, password))
+          .thenAnswer((_) => Future.value());
 
-      expectLater(loginBloc.state, emitsInOrder(expected))
-        .then((_) => verify(mockUserRepository.signInWithCredentials(email, password)).called(1));
+      expectLater(loginBloc, emitsInOrder(expected)).then((_) =>
+          verify(mockUserRepository.signInWithCredentials(email, password))
+              .called(1));
 
       loginBloc.add(event);
     });
 
-    test('with valid credentials, should emit an [LoginState.empty(), LoginState.loading(), LoginState.success()].', () {
-      final email = '';
-      final password = '';
-      final event = LoginWithCredentialsPressed(email: email, password: password);
+    test(
+        // ignore: lines_longer_than_80_chars
+        'with valid credentials, should emit an [LoginState.empty(), LoginState.loading(), LoginState.success()].',
+        () {
+      const email = '';
+      const password = '';
+      final event =
+          LoginWithCredentialsPressed(email: email, password: password);
       final expected = [
-        LoginState.empty(),
         LoginState.loading(),
         LoginState.success(),
       ];
 
-      when(mockUserRepository.signInWithCredentials(email, password)).thenAnswer((_) => Future.value());
+      when(mockUserRepository.signInWithCredentials(email, password))
+          .thenAnswer((_) => Future.value());
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });
 
-    test('with invalid credentials, should emit an [LoginState.empty(), LoginState.loading(), LoginState.failure()].', () {
-      final email = '';
-      final password = '';
-      final event = LoginWithCredentialsPressed(email: email, password: password);
+    test(
+        // ignore: lines_longer_than_80_chars
+        'with invalid credentials, should emit an [LoginState.empty(), LoginState.loading(), LoginState.failure()].',
+        () {
+      const email = '';
+      const password = '';
+      final event =
+          LoginWithCredentialsPressed(email: email, password: password);
       final expected = [
-        LoginState.empty(),
         LoginState.loading(),
         LoginState.failure(),
       ];
 
-      when(mockUserRepository.signInWithCredentials(email, password)).thenThrow(new Error());
+      when(mockUserRepository.signInWithCredentials(email, password))
+          .thenThrow(Error());
 
-      expectLater(loginBloc.state, emitsInOrder(expected));
+      expectLater(loginBloc, emitsInOrder(expected));
 
       loginBloc.add(event);
     });

@@ -1,6 +1,6 @@
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:livestock_repository/livestock_repository.dart';
 
 class SearchAnimalState extends Equatable {
   final bool isEmpty;
@@ -9,8 +9,7 @@ class SearchAnimalState extends Equatable {
   final String query;
   final List<Animal> searchResults;
 
-  bool get notFound => !isEmpty && !isInvalidQuery && searchResults.length == 0;
-  bool get isNewAnimal => notFound && query.length == 5;
+  bool get notFound => !isEmpty && !isInvalidQuery && searchResults.isEmpty;
 
   SearchAnimalState({
     @required this.isEmpty,
@@ -47,7 +46,7 @@ class SearchAnimalState extends Equatable {
     List<Animal> searchResults,
   }) {
     return copyWith(
-      isEmpty: query?.length == 0 ?? true,
+      isEmpty: query.isEmpty ?? true,
       query: query,
       searchResults: searchResults,
     );
@@ -62,7 +61,7 @@ class SearchAnimalState extends Equatable {
   }) {
     return SearchAnimalState(
       isEmpty: isEmpty ?? this.isEmpty,
-      isInvalidQuery: isQueryValid ?? this.isInvalidQuery,
+      isInvalidQuery: isQueryValid ?? isInvalidQuery,
       isSearching: isSearching ?? this.isSearching,
       query: query ?? this.query,
       searchResults: searchResults ?? this.searchResults,

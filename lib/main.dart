@@ -1,39 +1,32 @@
-import 'package:flutter/services.dart';
-import 'package:livestock/app/login/login_screen.dart';
-import 'package:livestock/app/recurring_treatments/recurring_treatments_screen.dart';
-import 'package:livestock/app/splash/splash_screen.dart';
-import 'package:livestock/src/ui/theming.dart';
-import 'package:livestock/src/bloc_providers.dart';
-import 'package:livestock/src/providers/multi_utility_provider.dart';
-import 'package:livestock/src/repository_providers.dart';
-import 'package:livestock/src/utility_providers.dart';
-import 'package:livestock/app/authentication/bloc/bloc.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'src/livestock_bloc_delegate.dart';
+import './app/authentication/bloc/bloc.dart';
+import './app/login/login_screen.dart';
+import './app/splash/splash_screen.dart';
+import './src/animalstat_bloc_observer.dart';
+import './src/bloc_providers.dart';
+import './src/factories/repository_factory.dart';
+import './src/providers/multi_utility_provider.dart';
+import './src/ui/theming.dart';
+import './src/utility_providers.dart';
+import 'app/app_screen.dart';
 
-void main() {
-  BlocSupervisor.delegate = LivestockBlocDelegate();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  // Set `enableInDevMode` to true to see reports while in debug mode
-  // This is only to be used for confirming that reports are being
-  // submitted as expected. It is not intended to be used for everyday
-  // development.
-  Crashlytics.instance.enableInDevMode = false;
-
-  // Pass all uncaught errors from the framework to Crashlytics.
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  Bloc.observer = AnimalstatBlocObserver();
 
   runApp(
     MultiUtilityProvider(
-      providers: UtilityProviders.providers,
-      child: MultiRepositoryProvider(
-        providers: RepositoryProviders.providers,
+      providers: utilityProviders,
+      child: RepositoryProvider<UserRepository>(
+        create: (context) => FirestoreUserRepository(),
         child: MultiBlocProvider(
-          providers: BlocProviders.providers,
+          providers: blocProviders,
           child: App(),
         ),
       ),
@@ -42,40 +35,51 @@ void main() {
 }
 
 class App extends StatelessWidget {
+  // Create the initialization Future outside of `build`:
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      // Initialize FlutterFire:
+      future: _initialization,
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text(
+              'Error initializing Firebase.',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+          );
+        }
+
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          return _buildMainApp(context);
+        }
+
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+
+  Widget _buildMainApp(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
+        final currentFocus = FocusScope.of(context);
 
         if (!currentFocus.hasPrimaryFocus) {
           currentFocus.unfocus();
         }
       },
       child: MaterialApp(
-        theme: ThemeData(
-          brightness: Brightness.light,
-          fontFamily: 'SF Pro Text',
-          primaryColor: kPrimaryColor,
-          accentColor: kAccentColor,
-          backgroundColor: kBackgroundColor,
-          scaffoldBackgroundColor: kBackgroundColor,
-          dialogBackgroundColor: kWhite,
-          primaryTextTheme: TextTheme(
-            title: TextStyle(color: kWhite),
-          ),
-          textTheme: TextTheme(
-            body1: TextStyle(
-              color: kDefaultTextColor,
-            ),
-          ),
-          primaryIconTheme: const IconThemeData.fallback().copyWith(
-            color: Colors.white,
-          ),
-        ),
+        theme: getTheme(context),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-            builder: (BuildContext context, AuthenticationState state) {
+            builder: (context, state) {
           if (state is Uninitialized) {
             return SplashScreen();
           }
@@ -85,7 +89,23 @@ class App extends StatelessWidget {
           }
 
           if (state is Authenticated) {
-            return RecurringTreatmentsScreen();
+            return MultiRepositoryProvider(
+              providers: [
+                RepositoryProvider(
+                  create: RepositoryFactory.createAnimalRepository,
+                ),
+                RepositoryProvider(
+                  create: RepositoryFactory.createDiagnosisRepository,
+                ),
+                RepositoryProvider(
+                  create: RepositoryFactory.createRecurringTreatmentsRepository,
+                ),
+                RepositoryProvider(
+                  create: RepositoryFactory.createTreatmentRepository,
+                ),
+              ],
+              child: AppScreen(),
+            );
           }
 
           return Container();

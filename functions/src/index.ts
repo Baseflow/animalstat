@@ -25,17 +25,19 @@ export const createRecurringTreatments = functions
             return;
         }
 
-        const currentItem = {
-            animal_number: animalId,
-            administration_date: new Date(Date.now()),
-            cage_number: healthRecord.cage,
-            diagnosis: healthRecord.diagnosis,
-            health_status: healthRecord.health_status,
-            treatment: healthRecord.treatment,
-            treatment_status: 1
+        if (healthRecord.health_status == 2) {
+            const currentItem = {
+                animal_number: animalId,
+                administration_date: new Date(Date.now()),
+                cage_number: healthRecord.cage,
+                diagnosis: healthRecord.diagnosis,
+                health_status: healthRecord.health_status,
+                treatment: healthRecord.treatment,
+                treatment_status: 1
+            }
+            
+            await atomicFunctions.createRecurringTreatment(companyId, currentItem);
         }
-
-        await atomicFunctions.createRecurringTreatment(companyId, currentItem);
 
         if (healthRecord.treatment_enddate) {
             const endDate = healthRecord.treatment_enddate.toDate().valueOf() + oneDayInMiliseconds;

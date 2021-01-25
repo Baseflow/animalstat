@@ -52,7 +52,7 @@ class RecurringTreatmentCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        (recurringTreatment.diagnosis != null)
+        (recurringTreatment.treatment != null)
             ? Text(
                 recurringTreatment.treatment.name,
                 style: const TextStyle(

@@ -54,14 +54,14 @@ class RecurringTreatmentCard extends StatelessWidget {
       children: <Widget>[
         (recurringTreatment.treatment != null)
             ? Text(
-                recurringTreatment.treatment.name,
+                recurringTreatment.treatment,
                 style: const TextStyle(
                   fontSize: 17.0,
                 ),
               )
             : Container(),
         Text(
-          recurringTreatment.diagnosis.name,
+          recurringTreatment.diagnosis,
           style: const TextStyle(
             fontSize: 14.0,
           ),

@@ -60,10 +60,9 @@ class FirestoreAnimalRepository implements AnimalRepository {
   @override
   Stream<List<Animal>> findSuspectAnimals() {
     return _animalCollection
-        .where('current_health_status',
-            isEqualTo: HealthStates.suspicious.index)
+        .where('health_info.status', isEqualTo: HealthStates.suspicious.index)
         .orderBy('current_cage_number')
-        .orderBy('health_status_updated_on')
+        .orderBy('health_info.updated_on')
         .snapshots()
         .map((snap) => snap.docs.map((doc) => doc.toAnimal()).toList());
   }

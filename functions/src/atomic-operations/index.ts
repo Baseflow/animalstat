@@ -17,13 +17,16 @@ export function updateCurrentCageNumber(companyId: string, animalId: string, cag
         });
 }
 
-export function updateCurrentHealthStatus(companyId: string, animalId: string, health_status: any): Promise<any> {
+export function updateCurrentHealthStatus(companyId: string, animalId: string, health_status: any, diagnosis: string | null): Promise<any> {
     return firestoreInstance
         .collection(`companies/${companyId}/animals`)
         .doc(animalId)
         .set({
-            current_health_status: health_status,
-            health_status_updated_on: new Date(Date.now())
+            health_info: {
+                status: health_status,
+                diagnosis: diagnosis,
+                updated_on: new Date(Date.now())
+            }
         }, {
             merge: true
         });

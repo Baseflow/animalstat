@@ -18,7 +18,7 @@ class AnimalDetailsViewModel {
   AnimalDetailsViewModel.fromModel(Animal animal)
       : animalNumber = animal.animalNumber,
         cage = animal.currentCageNumber,
-        currentHealthStatus = animal.currentHealthStatus,
+        currentHealthStatus = animal.healthInfo?.healthStatus,
         dateOfBirth = DateFormat('dd-MM-yyyy').format(animal.dateOfBirth);
 
   AnimalDetailsViewModel copyWith({

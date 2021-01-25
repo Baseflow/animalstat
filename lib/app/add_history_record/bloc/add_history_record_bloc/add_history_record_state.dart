@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
-import '../../../src/extensions/date_time_extensions.dart';
-import 'bloc.dart';
+import '../../../../src/extensions/date_time_extensions.dart';
+import '../bloc.dart';
 
 class AddHistoryRecordState extends Equatable {
   AddHistoryRecordState({

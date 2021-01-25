@@ -22,7 +22,8 @@ export function updateCurrentHealthStatus(companyId: string, animalId: string, h
         .collection(`companies/${companyId}/animals`)
         .doc(animalId)
         .set({
-            current_health_status: health_status
+            current_health_status: health_status,
+            health_status_updated_on: new Date(Date.now())
         }, {
             merge: true
         });

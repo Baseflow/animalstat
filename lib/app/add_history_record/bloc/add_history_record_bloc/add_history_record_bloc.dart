@@ -4,7 +4,7 @@ import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import './bloc.dart';
+import '../bloc.dart';
 
 class AddHistoryRecordBloc
     extends Bloc<AddHistoryRecordEvent, AddHistoryRecordState> {

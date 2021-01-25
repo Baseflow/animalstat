@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../src/ui/widgets/animalstat_health_status_label.dart';
 import '../../../src/ui/widgets/animalstat_number_box.dart';
-import '../bloc/recurring_treatments_bloc.dart';
+import '../bloc/models/models.dart';
 
 class RecurringTreatmentCard extends StatelessWidget {
-  final RecurringTreatmentCardState recurringTreatment;
+  final TreatmentCard recurringTreatment;
 
   RecurringTreatmentCard({@required this.recurringTreatment})
       : assert(recurringTreatment != null);

@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../src/ui/widgets/animalstat_search_text_field.dart';
 import 'bottom_navigation/bloc/bottom_navigation_bloc.dart';
-import 'recurring_treatments/bloc/recurring_treatments_bloc.dart';
+import 'recurring_treatments/bloc/recurring_treatment_bloc/recurring_treatments_bloc.dart';
+import 'recurring_treatments/bloc/suspect_animal_overview_bloc/suspect_animal_overview_bloc.dart';
 import 'recurring_treatments/recurring_treatments_screen.dart';
 import 'search_animal/bloc/bloc.dart';
 import 'search_animal/search_animals_screen.dart';
@@ -24,6 +25,11 @@ class AppScreen extends StatelessWidget {
           create: (context) => RecurringTreatmentsBloc(
             recurringTreatmentsRepository:
                 context.read<RecurringTreatmentsRepository>(),
+          ),
+        ),
+        BlocProvider<SuspectAnimalOverviewBloc>(
+          create: (context) => SuspectAnimalOverviewBloc(
+            animalRepository: context.read<AnimalRepository>(),
           ),
         ),
       ],

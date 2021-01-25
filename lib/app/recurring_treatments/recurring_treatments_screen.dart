@@ -6,49 +6,170 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../src/ui/theming.dart';
 import '../../src/ui/widgets/animalstat_appbar_bottom.dart';
-import 'bloc/recurring_treatment_list_item.dart';
-import 'bloc/recurring_treatments_bloc.dart';
+import 'bloc/bloc.dart';
+import 'bloc/models/models.dart';
 import 'widgets/recurring_treatment_card.dart';
 import 'widgets/recurring_treatment_header.dart';
 
-class RecurringTreatmentsScreen extends StatelessWidget {
+class RecurringTreatmentsScreen extends StatefulWidget {
+  @override
+  _RecurringTreatmentsScreenState createState() =>
+      _RecurringTreatmentsScreenState();
+}
+
+class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen>
+    with SingleTickerProviderStateMixin {
   final List<Tab> _tabs = <Tab>[
     const Tab(text: 'TE DOEN'),
     const Tab(text: 'GEDAAN'),
     const Tab(text: 'GESTOPT'),
+    const Tab(text: 'VERDACHT'),
   ];
+
+  TabController _tabController;
+  Tab _selectedTab;
+
+  @override
+  void initState() {
+    _selectedTab = _tabs[0];
+
+    _tabController = TabController(
+      length: _tabs.length,
+      vsync: this,
+    );
+
+    _tabController.addListener(() {
+      final index = _tabController.index;
+
+      setState(() {
+        _selectedTab = _tabs[index];
+      });
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: _tabs.length,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildTabBar(),
+        _buildTabView(),
+      ],
+    );
+  }
+
+  Widget _buildTabView() {
+    return Expanded(
       child: Column(
         children: [
-          _buildTabBar(),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0, top: 16.0),
-            child: _buildDatePicker(context),
-          ),
+          if (_selectedTab != _tabs[3])
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0, top: 16.0),
+              child: _buildDatePicker(context),
+            ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: BlocBuilder<RecurringTreatmentsBloc,
-                  RecurringTreatmentsState>(
-                builder: (context, state) {
-                  if (state.isLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+              child: TabBarView(
+                controller: _tabController,
+                children: _tabs.map((tab) {
+                  if (tab == _tabs[3]) {
+                    return _buildSuspectOverview();
                   }
 
-                  return _buildTabBarView(state);
-                },
+                  return _buildRecurringTreatment(context, tab);
+                }).toList(),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  Widget _buildRecurringTreatment(BuildContext context, Tab tab) {
+    return BlocBuilder<RecurringTreatmentsBloc, RecurringTreatmentsState>(
+        builder: (context, state) {
+      if (state.isLoading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+
+      var listItems = <TreatmentListItem>[];
+
+      if (tab == _tabs[0]) {
+        listItems = state.openTreatments;
+      } else if (tab == _tabs[1]) {
+        listItems = state.appliedTreatments;
+      } else if (tab == _tabs[2]) {
+        listItems = state.cancelledTreatments;
+      }
+
+      if (listItems.isEmpty) {
+        return Center(
+          child: Text(
+            // ignore: lines_longer_than_80_chars
+            'Er zijn ${state.selectedDateDisplayValue.toLowerCase()} geen behandelingen met de status "${tab.text.toLowerCase()}".',
+          ),
+        );
+      }
+
+      return ListView.builder(
+        itemCount: listItems.length,
+        itemBuilder: (context, index) {
+          final listItem = listItems[index];
+          if (listItem.type == TreatmentListItemTypes.header) {
+            return RecurringTreatmentHeader(title: 'Hok ${listItem.cageId}');
+          }
+
+          final card = _buildTreatmentCard(listItem.treatmentCard);
+
+          if (tab.text.toUpperCase() == 'TE DOEN') {
+            return _buildDismissibleTreatmentCard(
+              context,
+              card,
+              listItem.treatmentCard,
+            );
+          }
+
+          return card;
+        },
+      );
+    });
+  }
+
+  Widget _buildSuspectOverview() {
+    return BlocBuilder<SuspectAnimalOverviewBloc, SuspectAnimalOverviewState>(
+        builder: (context, state) {
+      if (state.isLoading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+
+      if (state.isEmpty) {
+        return const Center(
+          child: Text(
+            'Er zijn momenteel geen dieren verdacht.',
+          ),
+        );
+      }
+
+      return ListView.builder(
+        itemCount: state.treatmentListItems.length,
+        itemBuilder: (context, index) {
+          final listItem = state.treatmentListItems[index];
+          if (listItem.type == TreatmentListItemTypes.header) {
+            return RecurringTreatmentHeader(title: 'Hok ${listItem.cageId}');
+          }
+
+          return _buildTreatmentCard(listItem.treatmentCard);
+        },
+      );
+    });
   }
 
   Widget _buildDatePicker(BuildContext context) {
@@ -98,56 +219,10 @@ class RecurringTreatmentsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTabBarView(RecurringTreatmentsState state) {
-    return TabBarView(
-      children: _tabs.map((tab) {
-        var listItems = <RecurringTreatmentListItem>[];
-
-        if (tab.text.toUpperCase() == 'TE DOEN') {
-          listItems = state.openTreatments;
-        } else if (tab.text.toUpperCase() == 'GEDAAN') {
-          listItems = state.appliedTreatments;
-        } else if (tab.text.toUpperCase() == 'GESTOPT') {
-          listItems = state.cancelledTreatments;
-        }
-
-        if (listItems.isEmpty) {
-          return Center(
-            child: Text(
-              // ignore: lines_longer_than_80_chars
-              'Er zijn ${state.selectedDateDisplayValue.toLowerCase()} geen behandelingen met de status "${tab.text.toLowerCase()}".',
-            ),
-          );
-        }
-
-        return ListView.builder(
-          itemCount: listItems.length,
-          itemBuilder: (context, index) {
-            final listItem = listItems[index];
-            if (listItem.type == RecurringTreatmentListItemTypes.header) {
-              return RecurringTreatmentHeader(title: 'Hok ${listItem.cageId}');
-            }
-
-            final card = _buildTreatmentCard(listItem.recurringTreatment);
-
-            if (tab.text.toUpperCase() == 'TE DOEN') {
-              return _buildDismissibleTreatmentCard(
-                context,
-                card,
-                listItem.recurringTreatment,
-              );
-            }
-
-            return card;
-          },
-        );
-      }).toList(),
-    );
-  }
-
   Widget _buildTabBar() {
     return AnimalstatAppBarBottom(
       child: TabBar(
+        controller: _tabController,
         tabs: _tabs,
       ),
     );
@@ -156,7 +231,7 @@ class RecurringTreatmentsScreen extends StatelessWidget {
   Widget _buildDismissibleTreatmentCard(
     BuildContext context,
     Widget child,
-    RecurringTreatmentCardState treatmentCardState,
+    TreatmentCard treatmentCardState,
   ) {
     return Dismissible(
       key: const Key("dismissible_widget"),
@@ -182,7 +257,7 @@ class RecurringTreatmentsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTreatmentCard(RecurringTreatmentCardState treatmentCardState) {
+  Widget _buildTreatmentCard(TreatmentCard treatmentCardState) {
     return RecurringTreatmentCard(recurringTreatment: treatmentCardState);
   }
 }

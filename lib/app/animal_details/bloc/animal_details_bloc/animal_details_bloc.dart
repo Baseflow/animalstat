@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:animalstat/app/animal_details/models/animal_overview_item.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/animal_overview_item.dart';
 import '../bloc.dart';
 
 class AnimalDetailsBloc extends Bloc<AnimalDetailsEvent, AnimalDetailsState> {

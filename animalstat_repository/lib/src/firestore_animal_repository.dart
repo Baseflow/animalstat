@@ -49,14 +49,23 @@ class FirestoreAnimalRepository implements AnimalRepository {
 
   @override
   Stream<Animal> findAnimalByNumber(int animalNumber) {
-    if (animalNumber == null) {
-      throw ArgumentError.notNull('animalNumber');
-    }
+    assert(animalNumber != null);
 
     return _animalCollection
         .doc(animalNumber.toString())
         .snapshots()
         .map((snap) => snap.toAnimal());
+  }
+
+  @override
+  Stream<List<Animal>> findSuspectAnimals() {
+    return _animalCollection
+        .where('current_health_status',
+            isEqualTo: HealthStates.suspicious.index)
+        .orderBy('current_cage_number')
+        .orderBy('health_status_updated_on')
+        .snapshots()
+        .map((snap) => snap.docs.map((doc) => doc.toAnimal()).toList());
   }
 
   @override

@@ -1,13 +1,11 @@
-import 'package:animalstat/src/factories/repository_factory.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../src/factories/repository_factory.dart';
 import '../../src/ui/widgets/animalstat_number_box.dart';
 import '../add_history_record/add_history_record_dialog.dart';
-import '../add_history_record/bloc/add_history_record_bloc.dart';
-import '../add_history_record/bloc/diagnoses_bloc.dart';
-import '../add_history_record/bloc/treatments_bloc.dart';
+import '../add_history_record/bloc/bloc.dart';
 import '../authentication/bloc/authentication_bloc.dart';
 import '../authentication/bloc/authentication_state.dart';
 import 'bloc/bloc.dart';

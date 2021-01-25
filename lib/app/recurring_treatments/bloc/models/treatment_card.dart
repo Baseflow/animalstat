@@ -1,7 +1,8 @@
-part of 'recurring_treatments_bloc.dart';
+import 'package:animalstat_repository/animalstat_repository.dart';
+import 'package:equatable/equatable.dart';
 
-class RecurringTreatmentCardState extends Equatable {
-  RecurringTreatmentCardState({
+class TreatmentCard extends Equatable {
+  TreatmentCard({
     this.recurringTreatmentId,
     this.animalNumber,
     this.cage,
@@ -19,13 +20,13 @@ class RecurringTreatmentCardState extends Equatable {
 
   String get cageDisplayValue => 'hok: $cage';
 
-  RecurringTreatmentCardState copyWith(
+  TreatmentCard copyWith(
       {int animalNumber,
       int cage,
       Diagnosis diagnosis,
       HealthStates healthStatus,
       Treatment treatment}) {
-    return RecurringTreatmentCardState(
+    return TreatmentCard(
       recurringTreatmentId: recurringTreatmentId,
       animalNumber: animalNumber ?? this.animalNumber,
       cage: cage ?? this.cage,

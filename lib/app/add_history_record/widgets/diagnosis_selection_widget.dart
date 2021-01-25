@@ -1,10 +1,10 @@
-import 'package:animalstat/app/add_history_record/bloc/diagnoses_bloc.dart';
 import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../src/ui/widgets/animalstat_segmented_button.dart';
 import '../../../src/ui/widgets/animalstat_toggle_button.dart';
+import '../bloc/diagnoses_bloc/diagnoses_bloc.dart';
 
 class DiagnosisSelectionWidget extends StatelessWidget {
   DiagnosisSelectionWidget({this.onChanged, this.selectedDiagnosis});

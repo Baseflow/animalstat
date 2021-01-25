@@ -1,6 +1,7 @@
-import 'package:animalstat/app/animal_details/models/animal_overview_item.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+import '../../models/animal_overview_item.dart';
 
 class AnimalDetailsState extends Equatable {
   const AnimalDetailsState({

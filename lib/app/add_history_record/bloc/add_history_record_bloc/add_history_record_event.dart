@@ -2,7 +2,7 @@ import 'package:animalstat_repository/animalstat_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import 'bloc.dart';
+import '../bloc.dart';
 
 abstract class AddHistoryRecordEvent extends Equatable {
   const AddHistoryRecordEvent();

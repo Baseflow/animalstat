@@ -103,7 +103,8 @@ class SearchAnimalScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: AnimalstatHealthStatusLabel(
-                  healthStatus: searchResult.currentHealthStatus,
+                  healthStatus: searchResult.healthInfo?.healthStatus ??
+                      HealthStates.unknown,
                 ),
               ),
             ],

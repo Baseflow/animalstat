@@ -1,4 +1,5 @@
 import '../models/animal.dart';
+import 'extensions.dart';
 
 extension AnimalExtensions on Animal {
   Map<String, dynamic> toJson() {
@@ -6,7 +7,7 @@ extension AnimalExtensions on Animal {
       'id': animalNumber,
       'date_of_birth': dateOfBirth,
       'current_cage_number': currentCageNumber,
-      'current_health_status': currentHealthStatus.index,
+      'health_info': healthInfo.toJson(),
     };
   }
 }

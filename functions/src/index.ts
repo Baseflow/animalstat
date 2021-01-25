@@ -73,7 +73,11 @@ export const updateCurrentHealthStatus = functions
         if(!newValue) return;
 
         const healthStatus = newValue.health_status;
-        return atomicFunctions.updateCurrentHealthStatus(companyId, animalId, healthStatus);
+        var diagnosis: string | null = null;
+        if (newValue.diagnosis) {
+            diagnosis = newValue.diagnosis.name;
+        }
+        return atomicFunctions.updateCurrentHealthStatus(companyId, animalId, healthStatus, diagnosis);
     });
 
 export const updateCurrentCageNumber = functions

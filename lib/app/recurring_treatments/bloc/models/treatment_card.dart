@@ -14,18 +14,18 @@ class TreatmentCard extends Equatable {
   final String recurringTreatmentId;
   final int animalNumber;
   final int cage;
-  final Diagnosis diagnosis;
+  final String diagnosis;
   final HealthStates healthStatus;
-  final Treatment treatment;
+  final String treatment;
 
   String get cageDisplayValue => 'hok: $cage';
 
   TreatmentCard copyWith(
       {int animalNumber,
       int cage,
-      Diagnosis diagnosis,
+      String diagnosis,
       HealthStates healthStatus,
-      Treatment treatment}) {
+      String treatment}) {
     return TreatmentCard(
       recurringTreatmentId: recurringTreatmentId,
       animalNumber: animalNumber ?? this.animalNumber,

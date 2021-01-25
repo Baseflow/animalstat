@@ -1,3 +1,4 @@
+import 'package:animalstat_repository/src/models/animal_health_info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../converters/firestore_health_states_converter.dart';
@@ -43,7 +44,21 @@ extension DocumentSnapshotExtension on DocumentSnapshot {
       animalNumber,
       dateOfBirth.toDate(),
       dataMap['current_cage_number'],
-      FirestoreHealthStatesConverter.toEnum(dataMap['current_health_status']),
+      _toAnimalHealthInfo(dataMap['health_info']),
+    );
+  }
+
+  AnimalHealthInfo _toAnimalHealthInfo(Map<String, dynamic> dataMap) {
+    if (dataMap == null) {
+      return null;
+    }
+
+    final updatedOn = dataMap['updated_on'] as Timestamp;
+
+    return AnimalHealthInfo(
+      diagnosis: dataMap['diagnosis'],
+      healthStatus: FirestoreHealthStatesConverter.toEnum(dataMap['status']),
+      updatedOn: updatedOn.toDate(),
     );
   }
 

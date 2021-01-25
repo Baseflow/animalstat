@@ -1,41 +1,30 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import 'health_states.dart';
+import 'animal_health_info.dart';
 
 @immutable
-class Animal {
+class Animal extends Equatable {
   final int animalNumber;
   final DateTime dateOfBirth;
   final int currentCageNumber;
-  final HealthStates currentHealthStatus;
+  final AnimalHealthInfo healthInfo;
 
   Animal(
     this.animalNumber,
     this.dateOfBirth,
     this.currentCageNumber,
-    this.currentHealthStatus,
+    this.healthInfo,
   );
 
   @override
-  int get hashCode =>
-      animalNumber.hashCode ^
-      dateOfBirth.hashCode ^
-      currentCageNumber.hashCode ^
-      currentHealthStatus.hashCode;
+  List<Object> get props => [
+        animalNumber,
+        dateOfBirth,
+        currentCageNumber,
+        healthInfo,
+      ];
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Animal &&
-          runtimeType == other.runtimeType &&
-          animalNumber == other.animalNumber &&
-          dateOfBirth == other.dateOfBirth &&
-          currentCageNumber == other.currentCageNumber &&
-          currentHealthStatus == other.currentHealthStatus;
-
-  @override
-  String toString() {
-    // ignore: lines_longer_than_80_chars
-    return 'Animal{animalNumber: $animalNumber, dateOfBirth: $dateOfBirth, currentCageNumber: $currentCageNumber, currentHealthStatus: $currentHealthStatus}';
-  }
+  bool get stringify => true;
 }

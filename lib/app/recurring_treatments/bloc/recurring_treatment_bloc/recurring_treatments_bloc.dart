@@ -98,20 +98,19 @@ class RecurringTreatmentsBloc
         recurringTreatmentId: t.id,
         animalNumber: t.animalNumber,
         cage: t.cageNumber,
-        diagnosis: t.diagnosis,
+        diagnosis: t.diagnosis?.name,
         healthStatus: t.healthStatus,
-        treatment: t.treatment,
+        treatment: t.treatment?.name,
       );
     }).toList();
 
     final groupedTreatments = filteredTreatments.groupBy((item) => item.cage);
     final recurringTreatmentList = <TreatmentListItem>[];
     for (final key in groupedTreatments.keys) {
-      recurringTreatmentList.add(TreatmentListItem(
-          TreatmentListItemTypes.header, key, null));
-      recurringTreatmentList.addAll(groupedTreatments[key].map((card) =>
-          TreatmentListItem(
-              TreatmentListItemTypes.card, key, card)));
+      recurringTreatmentList
+          .add(TreatmentListItem(TreatmentListItemTypes.header, key, null));
+      recurringTreatmentList.addAll(groupedTreatments[key].map(
+          (card) => TreatmentListItem(TreatmentListItemTypes.card, key, card)));
     }
 
     return recurringTreatmentList;

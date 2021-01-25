@@ -46,10 +46,10 @@ class SuspectAnimalOverviewBloc
       final treatmentCards = animals
           .map(
             (animal) => TreatmentCard(
-              animalNumber: animal.animalNumber,
-              cage: animal.currentCageNumber,
-              healthStatus: animal.currentHealthStatus,
-            ),
+                animalNumber: animal.animalNumber,
+                cage: animal.currentCageNumber,
+                healthStatus: animal.healthInfo?.healthStatus,
+                diagnosis: animal.healthInfo?.diagnosis),
           )
           .toList();
       final groupedItems = _groupTreatmentCards(treatmentCards);

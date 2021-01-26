@@ -167,7 +167,29 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen>
             return RecurringTreatmentHeader(title: 'Hok ${listItem.cageId}');
           }
 
-          return _buildTreatmentCard(listItem.treatmentCard);
+          return Dismissible(
+            key: const Key("dismissible_widget"),
+            background: Container(
+              child: const Center(
+                child: Text(
+                  'Gezond',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              color: const Color.fromRGBO(165, 214, 167, 1),
+            ),
+            child: _buildTreatmentCard(listItem.treatmentCard),
+            onDismissed: (_) {
+              context.read<SuspectAnimalOverviewBloc>().add(
+                    SaveAnimal(
+                        animalNumber: listItem.treatmentCard.animalNumber,
+                        cage: listItem.cageId),
+                  );
+            },
+          );
         },
       );
     });

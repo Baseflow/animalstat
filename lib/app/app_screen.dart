@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../src/ui/widgets/animalstat_search_text_field.dart';
+import 'authentication/bloc/bloc.dart';
 import 'bottom_navigation/bloc/bottom_navigation_bloc.dart';
 import 'recurring_treatments/bloc/recurring_treatment_bloc/recurring_treatments_bloc.dart';
 import 'recurring_treatments/bloc/suspect_animal_overview_bloc/suspect_animal_overview_bloc.dart';
@@ -28,9 +29,15 @@ class AppScreen extends StatelessWidget {
           ),
         ),
         BlocProvider<SuspectAnimalOverviewBloc>(
-          create: (context) => SuspectAnimalOverviewBloc(
-            animalRepository: context.read<AnimalRepository>(),
-          ),
+          create: (context) {
+            final authenticatedState =
+                context.read<AuthenticationBloc>().state as Authenticated;
+
+            return SuspectAnimalOverviewBloc(
+              animalRepository: context.read<AnimalRepository>(),
+              user: authenticatedState.user,
+            );
+          },
         ),
       ],
       child: GestureDetector(

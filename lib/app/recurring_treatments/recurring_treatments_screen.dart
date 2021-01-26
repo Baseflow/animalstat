@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../src/ui/theming.dart';
 import '../../src/ui/widgets/animalstat_appbar_bottom.dart';
+import '../animal_details/animal_details_screen.dart';
 import 'bloc/bloc.dart';
 import 'bloc/models/models.dart';
 import 'widgets/recurring_treatment_card.dart';
@@ -166,7 +167,29 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen>
             return RecurringTreatmentHeader(title: 'Hok ${listItem.cageId}');
           }
 
-          return _buildTreatmentCard(listItem.treatmentCard);
+          return Dismissible(
+            key: const Key("dismissible_widget"),
+            background: Container(
+              child: const Center(
+                child: Text(
+                  'Gezond',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              color: const Color.fromRGBO(165, 214, 167, 1),
+            ),
+            child: _buildTreatmentCard(listItem.treatmentCard),
+            onDismissed: (_) {
+              context.read<SuspectAnimalOverviewBloc>().add(
+                    SaveAnimal(
+                        animalNumber: listItem.treatmentCard.animalNumber,
+                        cage: listItem.cageId),
+                  );
+            },
+          );
         },
       );
     });
@@ -258,6 +281,18 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen>
   }
 
   Widget _buildTreatmentCard(TreatmentCard treatmentCardState) {
-    return RecurringTreatmentCard(recurringTreatment: treatmentCardState);
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        var animalRepository = context.read<AnimalRepository>();
+        Navigator.of(context).push(
+          AnimalDetailsScreen.route(
+            animalRepository,
+            treatmentCardState.animalNumber,
+          ),
+        );
+      },
+      child: RecurringTreatmentCard(recurringTreatment: treatmentCardState),
+    );
   }
 }

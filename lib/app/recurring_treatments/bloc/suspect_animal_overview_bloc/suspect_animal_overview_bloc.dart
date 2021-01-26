@@ -14,15 +14,28 @@ part 'suspect_animal_overview_state.dart';
 class SuspectAnimalOverviewBloc
     extends Bloc<SuspectAnimalOverviewEvent, SuspectAnimalOverviewState> {
   final AnimalRepository _animalRepositoy;
+  final User _user;
 
   StreamSubscription _diagnosesSubscription;
 
   SuspectAnimalOverviewBloc({
     @required AnimalRepository animalRepository,
+    @required User user,
   })  : assert(animalRepository != null),
+        assert(user != null),
         _animalRepositoy = animalRepository,
+        _user = user,
         super(SuspectAnimalOverviewState.initial()) {
     add(const LoadAnimals());
+  }
+
+  @override
+  void onEvent(SuspectAnimalOverviewEvent event) {
+    super.onEvent(event);
+
+    if (event is SaveAnimal) {
+      _saveAnimalHealthRecord(event);
+    }
   }
 
   @override
@@ -87,6 +100,26 @@ class SuspectAnimalOverviewBloc
     }
 
     return overviewItems;
+  }
+
+  Future<void> _saveAnimalHealthRecord(SaveAnimal event) async {
+    final userInfo = UserInfo(
+      _user.id,
+      _user.email,
+    );
+
+    final historyRecord = AnimalHistoryRecord(
+      event.cage,
+      null,
+      HealthStates.healthy,
+      userInfo,
+      DateTime.now(),
+      null,
+      DateTime.now(),
+    );
+
+    await _animalRepositoy.insertHistoryRecord(
+        event.animalNumber, historyRecord);
   }
 
   @override

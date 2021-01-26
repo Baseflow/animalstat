@@ -10,6 +10,9 @@ class LoadAnimals extends SuspectAnimalOverviewEvent {
 
   @override
   List<Object> get props => [];
+
+  @override
+  bool get stringify => true;
 }
 
 class AnimalsUpdated extends SuspectAnimalOverviewEvent {
@@ -21,4 +24,24 @@ class AnimalsUpdated extends SuspectAnimalOverviewEvent {
 
   @override
   List<Object> get props => [treatmentListItems];
+
+  @override
+  bool get stringify => true;
+}
+
+class SaveAnimal extends SuspectAnimalOverviewEvent {
+  const SaveAnimal({
+    @required this.animalNumber,
+    @required this.cage,
+  })  : assert(animalNumber != null),
+        assert(cage != null);
+
+  final int animalNumber;
+  final int cage;
+
+  @override
+  List<Object> get props => [animalNumber, cage];
+
+  @override
+  bool get stringify => true;
 }

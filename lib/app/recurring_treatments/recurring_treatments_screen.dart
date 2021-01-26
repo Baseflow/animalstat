@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../src/ui/theming.dart';
 import '../../src/ui/widgets/animalstat_appbar_bottom.dart';
+import '../animal_details/animal_details_screen.dart';
 import 'bloc/bloc.dart';
 import 'bloc/models/models.dart';
 import 'widgets/recurring_treatment_card.dart';
@@ -258,6 +259,18 @@ class _RecurringTreatmentsScreenState extends State<RecurringTreatmentsScreen>
   }
 
   Widget _buildTreatmentCard(TreatmentCard treatmentCardState) {
-    return RecurringTreatmentCard(recurringTreatment: treatmentCardState);
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        var animalRepository = context.read<AnimalRepository>();
+        Navigator.of(context).push(
+          AnimalDetailsScreen.route(
+            animalRepository,
+            treatmentCardState.animalNumber,
+          ),
+        );
+      },
+      child: RecurringTreatmentCard(recurringTreatment: treatmentCardState),
+    );
   }
 }

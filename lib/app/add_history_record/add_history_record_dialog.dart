@@ -63,45 +63,38 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
             ),
             child: Padding(
               padding: const EdgeInsets.all(30.0),
-              child: BlocListener<AddHistoryRecordBloc, AddHistoryRecordState>(
-                listener: (context, state) {
+              child: BlocBuilder<AddHistoryRecordBloc, AddHistoryRecordState>(
+                builder: (context, state) {
                   if (state.isSaved) {
-                    Navigator.of(context).pop();
+                    return Container();
                   }
-                },
-                child: BlocBuilder<AddHistoryRecordBloc, AddHistoryRecordState>(
-                  builder: (context, state) {
-                    if (state.isSaved) {
-                      return Container();
-                    }
 
-                    return Column(
-                      children: <Widget>[
-                        Expanded(
-                          child: Form(
-                            key: _formKey,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  AddAnimalDetailHeader(
-                                    onClose: () => Navigator.of(context).pop(),
-                                  ),
-                                  ..._buildDateRow(state),
-                                  ..._buildHealthStatusSelectionRow(state),
-                                  ..._buildDiagnosisSelectionRow(state),
-                                  ..._buildTreatmentSelectionRow(state),
-                                  ..._buildTreatmentEndDateRow(state),
-                                ],
-                              ),
+                  return Column(
+                    children: <Widget>[
+                      Expanded(
+                        child: Form(
+                          key: _formKey,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                AddAnimalDetailHeader(
+                                  onClose: () => Navigator.of(context).pop(),
+                                ),
+                                ..._buildDateRow(state),
+                                ..._buildHealthStatusSelectionRow(state),
+                                ..._buildDiagnosisSelectionRow(state),
+                                ..._buildTreatmentSelectionRow(state),
+                                ..._buildTreatmentEndDateRow(state),
+                              ],
                             ),
                           ),
                         ),
-                        _buildBottomBar(state),
-                      ],
-                    );
-                  },
-                ),
+                      ),
+                      _buildBottomBar(state),
+                    ],
+                  );
+                },
               ),
             ),
           ),

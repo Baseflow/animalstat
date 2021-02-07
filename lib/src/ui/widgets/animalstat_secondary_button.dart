@@ -21,13 +21,17 @@ class AnimalstatSecondaryButton extends StatelessWidget {
       _text.toUpperCase(),
     );
 
+    const padding = EdgeInsets.all(5);
+
     final button = (_icon != null)
         ? FlatButton.icon(
+            padding: padding,
             onPressed: _onPressed,
             label: label,
             icon: _icon,
           )
         : FlatButton(
+            padding: padding,
             onPressed: _onPressed,
             child: label,
           );

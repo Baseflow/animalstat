@@ -121,20 +121,16 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
         Padding(
           padding: const EdgeInsets.only(top: 15.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Flexible(
-                child: AnimalstatSecondaryButton(
-                  text: 'Annuleren',
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
+              AnimalstatSecondaryButton(
+                text: 'Annuleren',
+                onPressed: () => Navigator.of(context).pop(),
               ),
-              const SizedBox(width: 5.0),
-              Flexible(
-                child: AnimalstatPrimaryButton(
-                  text: 'Opslaan',
-                  onPressed: saveAction,
-                ),
+              AnimalstatPrimaryButton(
+                text: 'Opslaan',
+                onPressed: saveAction,
               ),
             ],
           ),

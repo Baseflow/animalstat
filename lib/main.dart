@@ -47,11 +47,13 @@ class App extends StatelessWidget {
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
-          return const Center(
-            child: Text(
-              'Error initializing Firebase.',
-              style: TextStyle(
-                color: Colors.red,
+          return const MaterialApp(
+            home: Center(
+              child: Text(
+                'Error initializing Firebase.',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
               ),
             ),
           );

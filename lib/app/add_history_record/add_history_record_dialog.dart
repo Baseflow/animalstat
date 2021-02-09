@@ -46,55 +46,64 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 20.0,
-          right: 20,
-        ),
-        child: Material(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: BlocBuilder<AddHistoryRecordBloc, AddHistoryRecordState>(
-                builder: (context, state) {
-                  if (state.isSaved) {
-                    return Container();
-                  }
+    return GestureDetector(
+      onTap: () {
+        final currentFocus = FocusScope.of(context);
 
-                  return Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: Form(
-                          key: _formKey,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                AddAnimalDetailHeader(
-                                  onClose: () => Navigator.of(context).pop(),
-                                ),
-                                ..._buildDateRow(state),
-                                ..._buildHealthStatusSelectionRow(state),
-                                ..._buildDiagnosisSelectionRow(state),
-                                ..._buildTreatmentSelectionRow(state),
-                                ..._buildTreatmentEndDateRow(state),
-                              ],
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 20.0,
+            right: 20,
+          ),
+          child: Material(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: BlocBuilder<AddHistoryRecordBloc, AddHistoryRecordState>(
+                  builder: (context, state) {
+                    if (state.isSaved) {
+                      return Container();
+                    }
+
+                    return Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: Form(
+                            key: _formKey,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  AddAnimalDetailHeader(
+                                    onClose: () => Navigator.of(context).pop(),
+                                  ),
+                                  ..._buildDateRow(state),
+                                  ..._buildHealthStatusSelectionRow(state),
+                                  ..._buildDiagnosisSelectionRow(state),
+                                  ..._buildTreatmentSelectionRow(state),
+                                  ..._buildTreatmentEndDateRow(state),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      _buildBottomBar(state),
-                    ],
-                  );
-                },
+                        _buildBottomBar(state),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ),

@@ -17,6 +17,17 @@ export function updateCurrentCageNumber(companyId: string, animalId: string, cag
         });
 }
 
+export function updateCurrentNote(companyId: string, animalId: string, note: string): Promise<any> {
+    return firestoreInstance
+        .collection(`companies/${companyId}/animals`)
+        .doc(animalId)
+        .set({
+            note: note
+        }, {
+            merge: true
+        });
+}
+
 export function updateCurrentHealthStatus(companyId: string, animalId: string, health_status: any, diagnosis: string | null): Promise<any> {
     return firestoreInstance
         .collection(`companies/${companyId}/animals`)

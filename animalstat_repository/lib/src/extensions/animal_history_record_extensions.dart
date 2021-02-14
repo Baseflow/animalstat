@@ -11,6 +11,7 @@ extension AnimalHistoryRecordExtension on AnimalHistoryRecord {
             }
           : null,
       'health_status': healthStatus.index,
+      'note': note,
       'seen_by': <String, String>{
         'user_id': seenBy.userId,
         'user_name': seenBy.userName,

@@ -100,6 +100,7 @@ class RecurringTreatmentsBloc
         cage: t.cageNumber,
         diagnosis: t.diagnosis?.name,
         healthStatus: t.healthStatus,
+        note: t.note,
         treatment: t.treatment?.name,
       );
     }).toList();

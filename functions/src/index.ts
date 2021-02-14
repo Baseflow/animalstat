@@ -32,6 +32,8 @@ export const createRecurringTreatments = functions
                 cage_number: healthRecord.cage,
                 diagnosis: healthRecord.diagnosis,
                 health_status: healthRecord.health_status,
+                history_record_id: snapshot.id,
+                note: healthRecord.note,
                 treatment: healthRecord.treatment,
                 treatment_status: 1
             }
@@ -52,6 +54,8 @@ export const createRecurringTreatments = functions
                     cage_number: healthRecord.cage,
                     diagnosis: healthRecord.diagnosis,
                     health_status: healthRecord.health_status,
+                    history_record_id: snapshot.id,
+                    note: healthRecord.note,
                     treatment: healthRecord.treatment,
                     treatment_status: 0
                 };
@@ -93,4 +97,19 @@ export const updateCurrentCageNumber = functions
 
         const cageNumber = newValue.cage;
         return atomicFunctions.updateCurrentCageNumber(companyId, animalId, cageNumber);
+    });
+
+export const updateCurrentNote = functions
+    .region(REGION)
+    .firestore
+    .document('companies/{companyId}/animals/{animalId}/history/{timestamp}')
+    .onCreate((snapshot, context) => {
+        const animalId : string = context.params.animalId;
+        const companyId: string = context.params.companyId;
+        const newValue = snapshot.data();
+
+        if(!newValue) return;
+
+        const note = newValue.note;
+        return atomicFunctions.updateCurrentNote(companyId, animalId, note);
     });

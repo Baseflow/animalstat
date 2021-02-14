@@ -36,23 +36,26 @@ class AnimalOverviewHeader extends AnimalOverviewItem {
 
 class AnimalOverviewCard extends AnimalOverviewItem {
   const AnimalOverviewCard({
+    this.healthStatus,
+    this.note,
+    this.text,
     this.title,
     this.subtitle,
-    this.text,
-    this.healthStatus,
   }) : super(overviewItemType: AnimalOverviewItemTypes.card);
 
+  final HealthStates healthStatus;
+  final String note;
+  final String text;
   final String title;
   final String subtitle;
-  final String text;
-  final HealthStates healthStatus;
 
   @override
   List<Object> get props => super.props
     ..addAll([
+      healthStatus,
+      note,
+      text,
       title,
       subtitle,
-      text,
-      healthStatus,
     ]);
 }

@@ -67,10 +67,11 @@ class AnimalHistoryBloc extends Bloc<AnimalHistoryEvent, AnimalHistoryState> {
 
       overviewItems
           .addAll(groupedRecords[key].map((record) => AnimalOverviewCard(
+                healthStatus: record.healthStatus,
+                note: record.note,
                 title: 'Hok: ${record.cage}',
                 subtitle: record.diagnosis?.name ?? null,
                 text: record.treatment?.name ?? null,
-                healthStatus: record.healthStatus,
               )));
     }
 

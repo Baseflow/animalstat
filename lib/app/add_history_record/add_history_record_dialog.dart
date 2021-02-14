@@ -24,6 +24,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
   TreatmentsBloc _treatmentsBloc;
   AnimalDetailsBloc _animalDetailsBloc;
   TextEditingController _cageEditingController;
+  TextEditingController _noteEditingController;
 
   @override
   void initState() {
@@ -42,6 +43,8 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
         ),
       ),
     );
+    _noteEditingController = TextEditingController();
+    _noteEditingController.addListener(_onNoteChanged);
   }
 
   @override
@@ -93,6 +96,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
                                   ..._buildHealthStatusSelectionRow(state),
                                   ..._buildDiagnosisSelectionRow(state),
                                   ..._buildTreatmentSelectionRow(state),
+                                  ..._buildDescriptionRow(),
                                   ..._buildTreatmentEndDateRow(state),
                                 ],
                               ),
@@ -207,7 +211,6 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
                       counter: Container(),
                     ),
                     maxLength: 3,
-                    maxLengthEnforced: true,
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
@@ -265,6 +268,47 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     );
   }
 
+  List<Widget> _buildTreatmentSelectionRow(AddHistoryRecordState recordState) {
+    if (!recordState.allowTreatmentSelection) {
+      return <Widget>[];
+    }
+
+    return _buildDialogRow(
+      title: 'Behandeling',
+      child: TreatmentSelectionWidget(
+        onChanged: (treatment) =>
+            BlocProvider.of<AddHistoryRecordBloc>(context).add(
+          UpdateTreatment(
+            treatment: treatment,
+            previousState: recordState,
+          ),
+        ),
+        selectedTreatment: recordState.treatment,
+      ),
+    );
+  }
+
+  List<Widget> _buildDescriptionRow() {
+    return _buildDialogRow(
+      title: 'Notities',
+      child: TextField(
+        controller: _noteEditingController,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: const BorderSide(
+              style: BorderStyle.solid,
+            ),
+          ),
+          contentPadding: const EdgeInsets.all(5),
+        ),
+        keyboardType: TextInputType.multiline,
+        minLines: 3,
+        maxLines: null,
+      ),
+    );
+  }
+
   List<Widget> _buildTreatmentEndDateRow(
     AddHistoryRecordState recordState,
   ) {
@@ -303,26 +347,6 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     );
   }
 
-  List<Widget> _buildTreatmentSelectionRow(AddHistoryRecordState recordState) {
-    if (!recordState.allowTreatmentSelection) {
-      return <Widget>[];
-    }
-
-    return _buildDialogRow(
-      title: 'Behandeling',
-      child: TreatmentSelectionWidget(
-        onChanged: (treatment) =>
-            BlocProvider.of<AddHistoryRecordBloc>(context).add(
-          UpdateTreatment(
-            treatment: treatment,
-            previousState: recordState,
-          ),
-        ),
-        selectedTreatment: recordState.treatment,
-      ),
-    );
-  }
-
   List<Widget> _buildDialogRow({
     @required String title,
     @required Widget child,
@@ -354,6 +378,14 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     _addHistoryRecordBloc.add(
       UpdateCageNumber(
         cage: _cageEditingController.text,
+      ),
+    );
+  }
+
+  void _onNoteChanged() {
+    _addHistoryRecordBloc.add(
+      UpdateNote(
+        note: _noteEditingController.text,
       ),
     );
   }

@@ -30,6 +30,8 @@ class AddHistoryRecordBloc
       yield* _updateDiagnoses(event);
     } else if (event is UpdateHealthStatus) {
       yield* _updateHealthStatus(event);
+    } else if (event is UpdateNote) {
+      yield* _updateNote(event);
     } else if (event is UpdateTreatment) {
       yield* _updateTreatment(event);
     } else if (event is UpdateTreatmentEndDate) {
@@ -101,6 +103,16 @@ class AddHistoryRecordBloc
       diagnosis,
       treatment,
       healthStatus: healthStatus,
+    );
+  }
+
+  Stream<AddHistoryRecordState> _updateNote(
+    UpdateNote event,
+  ) async* {
+    yield state.copyWith(
+      state.diagnosis,
+      state.treatment,
+      note: event.note,
     );
   }
 

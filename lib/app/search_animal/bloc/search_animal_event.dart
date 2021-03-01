@@ -20,12 +20,17 @@ class QueryChanged extends SearchAnimalEvent {
 
 class ResultsChanged extends SearchAnimalEvent {
   final String query;
+  final int totalAnimalCount;
   final List<Animal> results;
 
-  const ResultsChanged({@required this.query, @required this.results});
+  const ResultsChanged({
+    @required this.query,
+    @required this.results,
+    @required this.totalAnimalCount,
+  });
 
   @override
-  List<Object> get props => [results];
+  List<Object> get props => [query, results, totalAnimalCount];
 
   String toString() => 'ResultsUpdated { results: $results }';
 }

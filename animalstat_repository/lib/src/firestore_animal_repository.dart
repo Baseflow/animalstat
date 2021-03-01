@@ -8,9 +8,11 @@ import 'models/models.dart';
 
 class FirestoreAnimalRepository implements AnimalRepository {
   final CollectionReference _animalCollection;
+  final User _user;
 
   FirestoreAnimalRepository(User user)
       : assert(user != null),
+        _user = user,
         _animalCollection = FirebaseFirestore.instance
             .collection('companies/${user.companyId}/animals');
 
@@ -65,6 +67,17 @@ class FirestoreAnimalRepository implements AnimalRepository {
         .orderBy('health_info.updated_on')
         .snapshots()
         .map((snap) => snap.docs.map((doc) => doc.toAnimal()).toList());
+  }
+
+  @override
+  Stream<int> getAnimalCount() {
+    return FirebaseFirestore.instance
+        .doc('companies/${_user.companyId}')
+        .snapshots()
+        .map((snap) {
+      final data = snap.data();
+      return data['animal_count'];
+    });
   }
 
   @override

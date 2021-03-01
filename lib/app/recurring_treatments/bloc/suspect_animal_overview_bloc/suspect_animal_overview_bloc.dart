@@ -84,6 +84,7 @@ class SuspectAnimalOverviewBloc
   List<TreatmentListItem> _groupTreatmentCards(
     List<TreatmentCard> treatmentCards,
   ) {
+    treatmentCards.sort((a, b) => a.cage.compareTo(b.cage));
     final groupedRecords = treatmentCards.groupBy((item) => item.cage);
     final overviewItems = <TreatmentListItem>[];
 

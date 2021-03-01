@@ -40,11 +40,24 @@ class SearchAnimalScreen extends StatelessWidget {
           );
         }
 
-        return ListView.builder(
-          itemBuilder: (context, index) =>
-              _buildResultRow(context, state.searchResults[index]),
-          itemCount: state.searchResults.length,
-          padding: const EdgeInsets.all(8.0),
+        return Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) =>
+                    _buildResultRow(context, state.searchResults[index]),
+                itemCount: state.searchResults.length,
+                padding: const EdgeInsets.all(8.0),
+              ),
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    'Resultaten: ${state.searchResults.length} van ${state.totalAnimalCount}'),
+              ),
+            ),
+          ],
         );
       },
     );

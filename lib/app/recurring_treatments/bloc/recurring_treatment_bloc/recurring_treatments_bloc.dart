@@ -105,6 +105,8 @@ class RecurringTreatmentsBloc
       );
     }).toList();
 
+    //filteredTreatments.sort((a, b) => a.cage.compareTo(b.cage));
+
     final groupedTreatments = filteredTreatments.groupBy((item) => item.cage);
     final recurringTreatmentList = <TreatmentListItem>[];
     for (final key in groupedTreatments.keys) {

@@ -43,7 +43,7 @@ extension DocumentSnapshotExtension on DocumentSnapshot {
 
     return Animal(
       animalNumber,
-      dateOfBirth.toDate(),
+      dateOfBirth?.toDate(),
       dataMap['current_cage_number'],
       _toAnimalHealthInfo(dataMap['health_info']),
       dataMap['note'],

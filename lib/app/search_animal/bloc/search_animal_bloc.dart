@@ -39,6 +39,8 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
       yield SearchAnimalState.invalidQuery(event.query);
     }
 
+    final animalCount = await _animalRepository.getAnimalCount().first;
+
     _animalSearchResultSubscription?.cancel();
     _animalSearchResultSubscription =
         _animalRepository.findAnimals(animalNumber).listen(
@@ -46,6 +48,7 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
                 ResultsChanged(
                   query: event.query,
                   results: searchResult,
+                  totalAnimalCount: animalCount,
                 ),
               ),
             );
@@ -56,6 +59,7 @@ class SearchAnimalBloc extends Bloc<SearchAnimalEvent, SearchAnimalState> {
     yield state.update(
       query: event.query,
       searchResults: event.results,
+      totalAnimalCount: event.totalAnimalCount,
     );
   }
 

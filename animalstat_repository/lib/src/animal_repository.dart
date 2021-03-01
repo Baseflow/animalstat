@@ -5,6 +5,7 @@ abstract class AnimalRepository {
   Stream<List<AnimalHistoryRecord>> findAnimalHistory(int animalNumber);
   Stream<Animal> findAnimalByNumber(int animalNumber);
   Stream<List<Animal>> findSuspectAnimals();
+  Stream<int> getAnimalCount();
 
   Future insertHistoryRecord(
     int animalNumber,

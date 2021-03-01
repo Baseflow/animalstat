@@ -77,7 +77,7 @@ export const updateCurrentHealthStatus = functions
         if(!newValue) return;
 
         const healthStatus = newValue.health_status;
-        var diagnosis: string | null = null;
+        let diagnosis: string | null = null;
         if (newValue.diagnosis) {
             diagnosis = newValue.diagnosis.name;
         }
@@ -112,4 +112,29 @@ export const updateCurrentNote = functions
 
         const note = newValue.note;
         return atomicFunctions.updateCurrentNote(companyId, animalId, note);
+    });
+
+export const updateAnimalCount = functions
+    .region(REGION)
+    .https
+    .onRequest((request, response) => {
+        const companyId = request.query.company_id;
+        const animalCollectionRef = firestoreInstance.collection(`companies/${companyId}/animals`);
+        const counterDocumentRef = firestoreInstance.doc(`companies/${companyId}`);
+    
+        animalCollectionRef
+            .listDocuments().then(
+                async (value) => {
+                const animalCount = value.length;
+    
+                await counterDocumentRef.update({
+                    "animal_count": animalCount
+                });
+        
+                console.log(`Total animal count: ${animalCount}`);
+                response.sendStatus(200);
+                },
+                (reason) => {
+                    response.sendStatus(500);
+                });
     });

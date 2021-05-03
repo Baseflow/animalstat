@@ -8,6 +8,7 @@ class TreatmentCard extends Equatable {
     this.cage,
     this.diagnosis,
     this.healthStatus,
+    this.note,
     this.treatment,
   });
 
@@ -16,6 +17,7 @@ class TreatmentCard extends Equatable {
   final int cage;
   final String diagnosis;
   final HealthStates healthStatus;
+  final String note;
   final String treatment;
 
   String get cageDisplayValue => 'hok: $cage';
@@ -25,6 +27,7 @@ class TreatmentCard extends Equatable {
       int cage,
       String diagnosis,
       HealthStates healthStatus,
+      String note,
       String treatment}) {
     return TreatmentCard(
       recurringTreatmentId: recurringTreatmentId,
@@ -32,6 +35,7 @@ class TreatmentCard extends Equatable {
       cage: cage ?? this.cage,
       diagnosis: diagnosis ?? this.diagnosis,
       healthStatus: healthStatus ?? this.healthStatus,
+      note: note ?? this.note,
       treatment: treatment ?? this.treatment,
     );
   }
@@ -43,6 +47,7 @@ class TreatmentCard extends Equatable {
         cage,
         diagnosis,
         healthStatus,
+        note,
         treatment,
       ];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../src/ui/widgets/animalstat_health_status_label.dart';
+import '../../../src/ui/widgets/note_widget.dart';
 import '../models/animal_overview_item.dart';
 
 class HistoryCard extends StatelessWidget {
@@ -45,6 +46,7 @@ class HistoryCard extends StatelessWidget {
               ],
             ),
             if (_data.subtitle != null) _buildSubtitleRow(),
+            if (_data.note != null && _data.note.isNotEmpty) _buildNoteWidget(),
           ],
         ),
       ),
@@ -80,6 +82,17 @@ class HistoryCard extends StatelessWidget {
           ),
         )),
       ],
+    );
+  }
+
+  Widget _buildNoteWidget() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: NoteWidget(
+          child: Text(
+        _data.note,
+        textAlign: TextAlign.left,
+      )),
     );
   }
 }

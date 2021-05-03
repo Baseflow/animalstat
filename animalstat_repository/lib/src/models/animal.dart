@@ -9,12 +9,14 @@ class Animal extends Equatable {
   final DateTime dateOfBirth;
   final int currentCageNumber;
   final AnimalHealthInfo healthInfo;
+  final String note;
 
   Animal(
     this.animalNumber,
     this.dateOfBirth,
     this.currentCageNumber,
     this.healthInfo,
+    this.note,
   );
 
   @override
@@ -23,6 +25,7 @@ class Animal extends Equatable {
         dateOfBirth,
         currentCageNumber,
         healthInfo,
+        note,
       ];
 
   @override

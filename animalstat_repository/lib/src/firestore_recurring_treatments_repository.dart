@@ -20,6 +20,7 @@ class FirestoreRecurringTreatmentsRepository
         .where('administration_date', isGreaterThanOrEqualTo: date)
         .where('administration_date',
             isLessThan: date.add(const Duration(days: 1)))
+        .orderBy('administration_date')
         .snapshots()
         .map((snap) =>
             snap.docs.map((doc) => doc.toRecurringTreatment()).toList());

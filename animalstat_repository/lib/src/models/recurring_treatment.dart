@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../animalstat_repository.dart';
 
@@ -11,6 +12,8 @@ class RecurringTreatment extends Equatable {
   final int cageNumber;
   final Diagnosis diagnosis;
   final HealthStates healthStatus;
+  final String historyRecordId;
+  final String note;
   final Treatment treatment;
   final TreatmentStates treatmentStatus;
 
@@ -21,6 +24,8 @@ class RecurringTreatment extends Equatable {
     this.cageNumber,
     this.diagnosis,
     this.healthStatus,
+    this.historyRecordId,
+    this.note,
     this.treatment,
     this.treatmentStatus,
   });
@@ -33,6 +38,8 @@ class RecurringTreatment extends Equatable {
         cageNumber,
         diagnosis,
         healthStatus,
+        historyRecordId,
+        note,
         treatment,
         treatmentStatus,
       ];

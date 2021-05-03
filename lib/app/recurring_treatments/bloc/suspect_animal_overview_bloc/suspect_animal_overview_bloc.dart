@@ -57,13 +57,13 @@ class SuspectAnimalOverviewBloc
     _diagnosesSubscription =
         _animalRepositoy.findSuspectAnimals().listen((animals) {
       final treatmentCards = animals
-          .map(
-            (animal) => TreatmentCard(
+          .map((animal) => TreatmentCard(
                 animalNumber: animal.animalNumber,
                 cage: animal.currentCageNumber,
+                diagnosis: animal.healthInfo?.diagnosis,
                 healthStatus: animal.healthInfo?.healthStatus,
-                diagnosis: animal.healthInfo?.diagnosis),
-          )
+                note: animal.note,
+              ))
           .toList();
       final groupedItems = _groupTreatmentCards(treatmentCards);
 
@@ -84,6 +84,7 @@ class SuspectAnimalOverviewBloc
   List<TreatmentListItem> _groupTreatmentCards(
     List<TreatmentCard> treatmentCards,
   ) {
+    treatmentCards.sort((a, b) => a.cage.compareTo(b.cage));
     final groupedRecords = treatmentCards.groupBy((item) => item.cage);
     final overviewItems = <TreatmentListItem>[];
 
@@ -112,6 +113,7 @@ class SuspectAnimalOverviewBloc
       event.cage,
       null,
       HealthStates.healthy,
+      null,
       userInfo,
       DateTime.now(),
       null,

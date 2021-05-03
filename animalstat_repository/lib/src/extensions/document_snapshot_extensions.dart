@@ -27,6 +27,7 @@ extension DocumentSnapshotExtension on DocumentSnapshot {
       dataMap['cage'],
       dataMap.toDiagnosis(),
       FirestoreHealthStatesConverter.toEnum(dataMap['health_status']),
+      dataMap['note'],
       userInfo,
       seenOn.toDate(),
       dataMap.toTreatment(),
@@ -42,9 +43,10 @@ extension DocumentSnapshotExtension on DocumentSnapshot {
 
     return Animal(
       animalNumber,
-      dateOfBirth.toDate(),
+      dateOfBirth?.toDate(),
       dataMap['current_cage_number'],
       _toAnimalHealthInfo(dataMap['health_info']),
+      dataMap['note'],
     );
   }
 
@@ -85,6 +87,8 @@ extension DocumentSnapshotExtension on DocumentSnapshot {
       diagnosis: dataMap.toDiagnosis(),
       healthStatus:
           FirestoreHealthStatesConverter.toEnum(dataMap['health_status']),
+      historyRecordId: dataMap['history_record_id'],
+      note: dataMap['note'],
       treatment: dataMap.toTreatment(),
       treatmentStatus:
           FirestoreTreatmentStatesConverter.toEnum(dataMap['treatment_status']),

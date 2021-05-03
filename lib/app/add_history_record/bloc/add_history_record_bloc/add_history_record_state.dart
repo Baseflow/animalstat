@@ -15,6 +15,7 @@ class AddHistoryRecordState extends Equatable {
     this.cage,
     this.diagnosis,
     this.healthStatus,
+    this.note,
     this.treatment,
     this.treatmentEndDate,
   });
@@ -23,6 +24,7 @@ class AddHistoryRecordState extends Equatable {
   final int cage;
   final Diagnosis diagnosis;
   final HealthStates healthStatus;
+  final String note;
   final bool isSaved;
   final User user;
   final DateTime seenOn;
@@ -46,6 +48,7 @@ class AddHistoryRecordState extends Equatable {
         cage,
         diagnosis,
         healthStatus,
+        note,
         isSaved,
         user,
         seenOn,
@@ -72,6 +75,7 @@ class AddHistoryRecordState extends Equatable {
     int animalNumber,
     int cage,
     HealthStates healthStatus,
+    String note,
     bool isSaved,
     User user,
     DateTime seenOn,
@@ -83,6 +87,7 @@ class AddHistoryRecordState extends Equatable {
       diagnosis: diagnosis,
       healthStatus: healthStatus ?? this.healthStatus,
       isSaved: isSaved ?? this.isSaved,
+      note: note ?? this.note,
       user: user ?? this.user,
       seenOn: seenOn ?? this.seenOn,
       treatment: treatment,
@@ -100,6 +105,7 @@ class AddHistoryRecordState extends Equatable {
       cage,
       diagnosis,
       healthStatus,
+      note,
       userInfo,
       seenOn,
       treatment,

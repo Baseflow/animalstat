@@ -55,6 +55,17 @@ class UpdateHealthStatus extends AddHistoryRecordEvent {
   List<Object> get props => [previousState, healthStatus];
 }
 
+class UpdateNote extends AddHistoryRecordEvent {
+  UpdateNote({
+    @required this.note,
+  });
+
+  final String note;
+
+  @override
+  List<Object> get props => [note];
+}
+
 class UpdateTreatment extends AddHistoryRecordEvent {
   UpdateTreatment({
     @required this.previousState,

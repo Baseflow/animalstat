@@ -1,3 +1,4 @@
+import 'package:animalstat/src/ui/widgets/note_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../src/ui/widgets/animalstat_health_status_label.dart';
@@ -30,18 +31,20 @@ class RecurringTreatmentCard extends StatelessWidget {
                 ),
               ],
             ),
-            (recurringTreatment.diagnosis != null)
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 17.0),
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.assignment, color: Colors.grey[700]),
-                        const SizedBox(width: 15),
-                        Expanded(child: _buildHealthDetailsColumn())
-                      ],
-                    ),
-                  )
-                : Container(),
+            if (recurringTreatment.diagnosis != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 17.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.assignment, color: Colors.grey[700]),
+                    const SizedBox(width: 8),
+                    Expanded(child: _buildHealthDetailsColumn())
+                  ],
+                ),
+              ),
+            if (recurringTreatment.note != null &&
+                recurringTreatment.note.isNotEmpty)
+              _buildNoteWidget(recurringTreatment.note),
           ],
         ),
       ),
@@ -67,6 +70,17 @@ class RecurringTreatmentCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildNoteWidget(String note) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: NoteWidget(
+          child: Text(
+        note,
+        textAlign: TextAlign.left,
+      )),
     );
   }
 }

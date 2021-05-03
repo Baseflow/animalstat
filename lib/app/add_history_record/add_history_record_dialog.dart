@@ -24,6 +24,7 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
   TreatmentsBloc _treatmentsBloc;
   AnimalDetailsBloc _animalDetailsBloc;
   TextEditingController _cageEditingController;
+  TextEditingController _noteEditingController;
 
   @override
   void initState() {
@@ -42,59 +43,71 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
         ),
       ),
     );
+    _noteEditingController = TextEditingController();
+    _noteEditingController.addListener(_onNoteChanged);
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 20.0,
-          right: 20,
-        ),
-        child: Material(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: BlocBuilder<AddHistoryRecordBloc, AddHistoryRecordState>(
-                builder: (context, state) {
-                  if (state.isSaved) {
-                    return Container();
-                  }
+    return GestureDetector(
+      onTap: () {
+        final currentFocus = FocusScope.of(context);
 
-                  return Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: Form(
-                          key: _formKey,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                AddAnimalDetailHeader(
-                                  onClose: () => Navigator.of(context).pop(),
-                                ),
-                                ..._buildDateRow(state),
-                                ..._buildHealthStatusSelectionRow(state),
-                                ..._buildDiagnosisSelectionRow(state),
-                                ..._buildTreatmentSelectionRow(state),
-                                ..._buildTreatmentEndDateRow(state),
-                              ],
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 20.0,
+            right: 20,
+          ),
+          child: Material(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: BlocBuilder<AddHistoryRecordBloc, AddHistoryRecordState>(
+                  builder: (context, state) {
+                    if (state.isSaved) {
+                      return Container();
+                    }
+
+                    return Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: Form(
+                            key: _formKey,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  AddAnimalDetailHeader(
+                                    onClose: () => Navigator.of(context).pop(),
+                                  ),
+                                  ..._buildDateRow(state),
+                                  ..._buildHealthStatusSelectionRow(state),
+                                  ..._buildDiagnosisSelectionRow(state),
+                                  ..._buildTreatmentSelectionRow(state),
+                                  ..._buildDescriptionRow(),
+                                  ..._buildTreatmentEndDateRow(state),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      _buildBottomBar(state),
-                    ],
-                  );
-                },
+                        _buildBottomBar(state),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -198,7 +211,6 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
                       counter: Container(),
                     ),
                     maxLength: 3,
-                    maxLengthEnforced: true,
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
@@ -256,6 +268,47 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     );
   }
 
+  List<Widget> _buildTreatmentSelectionRow(AddHistoryRecordState recordState) {
+    if (!recordState.allowTreatmentSelection) {
+      return <Widget>[];
+    }
+
+    return _buildDialogRow(
+      title: 'Behandeling',
+      child: TreatmentSelectionWidget(
+        onChanged: (treatment) =>
+            BlocProvider.of<AddHistoryRecordBloc>(context).add(
+          UpdateTreatment(
+            treatment: treatment,
+            previousState: recordState,
+          ),
+        ),
+        selectedTreatment: recordState.treatment,
+      ),
+    );
+  }
+
+  List<Widget> _buildDescriptionRow() {
+    return _buildDialogRow(
+      title: 'Notities',
+      child: TextField(
+        controller: _noteEditingController,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: const BorderSide(
+              style: BorderStyle.solid,
+            ),
+          ),
+          contentPadding: const EdgeInsets.all(5),
+        ),
+        keyboardType: TextInputType.multiline,
+        minLines: 3,
+        maxLines: null,
+      ),
+    );
+  }
+
   List<Widget> _buildTreatmentEndDateRow(
     AddHistoryRecordState recordState,
   ) {
@@ -294,26 +347,6 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     );
   }
 
-  List<Widget> _buildTreatmentSelectionRow(AddHistoryRecordState recordState) {
-    if (!recordState.allowTreatmentSelection) {
-      return <Widget>[];
-    }
-
-    return _buildDialogRow(
-      title: 'Behandeling',
-      child: TreatmentSelectionWidget(
-        onChanged: (treatment) =>
-            BlocProvider.of<AddHistoryRecordBloc>(context).add(
-          UpdateTreatment(
-            treatment: treatment,
-            previousState: recordState,
-          ),
-        ),
-        selectedTreatment: recordState.treatment,
-      ),
-    );
-  }
-
   List<Widget> _buildDialogRow({
     @required String title,
     @required Widget child,
@@ -345,6 +378,14 @@ class _AddHistoryRecordDialogState extends State<AddHistoryRecordDialog> {
     _addHistoryRecordBloc.add(
       UpdateCageNumber(
         cage: _cageEditingController.text,
+      ),
+    );
+  }
+
+  void _onNoteChanged() {
+    _addHistoryRecordBloc.add(
+      UpdateNote(
+        note: _noteEditingController.text,
       ),
     );
   }

@@ -9,10 +9,11 @@ import 'treatment.dart';
 @immutable
 class AnimalHistoryRecord extends Equatable {
   final int cage;
-  final UserInfo seenBy;
-  final DateTime seenOn;
   final Diagnosis diagnosis;
   final HealthStates healthStatus;
+  final String note;
+  final UserInfo seenBy;
+  final DateTime seenOn;
   final Treatment treatment;
   final DateTime treatmentEndDate;
 
@@ -20,6 +21,7 @@ class AnimalHistoryRecord extends Equatable {
     this.cage,
     this.diagnosis,
     this.healthStatus,
+    this.note,
     this.seenBy,
     this.seenOn,
     this.treatment,
@@ -31,6 +33,7 @@ class AnimalHistoryRecord extends Equatable {
         cage,
         diagnosis,
         healthStatus,
+        note,
         seenBy,
         seenOn,
         treatment,

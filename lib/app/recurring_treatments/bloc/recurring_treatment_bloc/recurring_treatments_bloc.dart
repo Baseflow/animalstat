@@ -105,13 +105,15 @@ class RecurringTreatmentsBloc
       );
     }).toList();
 
-    //filteredTreatments.sort((a, b) => a.cage.compareTo(b.cage));
+    filteredTreatments.sort((a, b) => a.cage.compareTo(b.cage));
 
     final groupedTreatments = filteredTreatments.groupBy((item) => item.cage);
     final recurringTreatmentList = <TreatmentListItem>[];
     for (final key in groupedTreatments.keys) {
       recurringTreatmentList
           .add(TreatmentListItem(TreatmentListItemTypes.header, key, null));
+      groupedTreatments[key]
+          .sort((a, b) => a.animalNumber.compareTo(b.animalNumber));
       recurringTreatmentList.addAll(groupedTreatments[key].map(
           (card) => TreatmentListItem(TreatmentListItemTypes.card, key, card)));
     }
